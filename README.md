@@ -1,3 +1,4 @@
 # pokeGramBot
-ToDO:
-make it work for the group
+# ToDO:
+# Make it spawn at a determined time
+# Make a cute readme that also explains the functionalities of the bot

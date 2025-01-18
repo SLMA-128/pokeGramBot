@@ -1,5 +1,7 @@
 import telebot
 from config import TELEGRAM_TOKEN
+from config import CHANNEL_ID
+from config import TOPIC_ID
 import userEvents
 import pokemonEvents
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -7,6 +9,8 @@ import os
 import threading
 
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
+group_id = CHANNEL_ID
+topic_id = TOPIC_ID
 #capture_timers should save the timers of all spawned pokemons
 capture_timers = {}
 #commands
@@ -17,7 +21,6 @@ commands=[
     {"command": "spawn", "description": "Spawn a random Pokemon"},
     {"command": "mypokemons", "description": "Show your captured Pokemon"},
 ]
-
 
 #General functions
 # Generate an inline keyboard with a "Capture!" button
@@ -32,8 +35,9 @@ def pokemon_escape(pokemonId, chat_id, message_id):
     pokemonName = pokemonEvents.getPokemonNameById(pokemonId)
     bot.edit_message_text(
         f"The wild {pokemonName} has escaped!",
-        chat_id,
-        message_id
+        group_id,
+        message_id,
+        message_thread_id=topic_id
     )
 
 #Functions for the bot
@@ -73,15 +77,17 @@ def spawn_pokemon_handler(message):
         if os.path.exists(pokemon_image):
             with open(pokemon_image, 'rb') as photo:
                 bot.send_sticker(
-                    message.chat.id,
-                    photo
+                    group_id,
+                    photo,
+                    message_thread_id=topic_id
                 )
         msg = bot.send_message(
-            message.chat.id,
+            group_id,
             f"A wild {pokemonName} appeared! What will you do?",
-            reply_markup=generate_capture_button(pokemonId)
+            reply_markup=generate_capture_button(pokemonId),
+            message_thread_id=topic_id
         )
-        timer = threading.Timer(60.0, pokemon_escape, args=[pokemonId, message.chat.id, msg.message_id])
+        timer = threading.Timer(60.0, pokemon_escape, args=[pokemonId, group_id, topic_id, msg.message_id])
         capture_timers[msg.message_id] = timer
         timer.start()
     else:
@@ -108,7 +114,7 @@ def capture_pokemon_handler(call):
             call.message.message_id
         )
     else:
-        bot.answer_callback_query(call.id, "You already captured this Pokémon or something went wrong.")
+        bot.answer_callback_query(call.id, "You already captured this Pokémon.")
 
 # Callback query handler for /mypokemons
 @bot.message_handler(commands=['mypokemons'])
@@ -122,7 +128,7 @@ def get_pokemons_by_user(message):
     if pokemons:
         pokemon_names = [pokemonEvents.getPokemonNameById(pokemon_id) for pokemon_id in pokemons]
         pokemons_list = "\n".join(pokemon_names)
-        bot.send_message(message.chat.id, f"Your captured Pokémon:\n{pokemons_list}")
+        bot.send_message(group_id, f"Your captured Pokémon:\n{pokemons_list}")
     else:
         bot.reply_to(message, "You don't have any Pokémon captured.")
 
