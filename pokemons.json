@@ -1,606 +1,757 @@
 [
     {
         "id": 1,
-        "name": "Bulbasaur"
+        "name": "Bulbasaur",
+        "isLegendary": false
     },
     {
         "id": 2,
-        "name": "Ivysaur"
+        "name": "Ivysaur",
+        "isLegendary": false
     },
     {
         "id": 3,
-        "name": "Venusaur"
+        "name": "Venusaur",
+        "isLegendary": false
     },
     {
         "id": 4,
-        "name": "Charmander"
+        "name": "Charmander",
+        "isLegendary": false
     },
     {
         "id": 5,
-        "name": "Charmeleon"
+        "name": "Charmeleon",
+        "isLegendary": false
     },
     {
         "id": 6,
-        "name": "Charizard"
+        "name": "Charizard",
+        "isLegendary": false
     },
     {
         "id": 7,
-        "name": "Squirtle"
+        "name": "Squirtle",
+        "isLegendary": false
     },
     {
         "id": 8,
-        "name": "Wartortle"
+        "name": "Wartortle",
+        "isLegendary": false
     },
     {
         "id": 9,
-        "name": "Blastoise"
+        "name": "Blastoise",
+        "isLegendary": false
     },
     {
         "id": 10,
-        "name": "Caterpie"
+        "name": "Caterpie",
+        "isLegendary": false
     },
     {
         "id": 11,
-        "name": "Metapod"
+        "name": "Metapod",
+        "isLegendary": false
     },
     {
         "id": 12,
-        "name": "Butterfree"
+        "name": "Butterfree",
+        "isLegendary": false
     },
     {
         "id": 13,
-        "name": "Weedle"
+        "name": "Weedle",
+        "isLegendary": false
     },
     {
         "id": 14,
-        "name": "Kakuna"
+        "name": "Kakuna",
+        "isLegendary": false
     },
     {
         "id": 15,
-        "name": "Beedrill"
+        "name": "Beedrill",
+        "isLegendary": false
     },
     {
         "id": 16,
-        "name": "Pidgey"
+        "name": "Pidgey",
+        "isLegendary": false
     },
     {
         "id": 17,
-        "name": "Pidgeotto"
+        "name": "Pidgeotto",
+        "isLegendary": false
     },
     {
         "id": 18,
-        "name": "Pidgeot"
+        "name": "Pidgeot",
+        "isLegendary": false
     },
     {
         "id": 19,
-        "name": "Rattata"
+        "name": "Rattata",
+        "isLegendary": false
     },
     {
         "id": 20,
-        "name": "Raticate"
+        "name": "Raticate",
+        "isLegendary": false
     },
     {
         "id": 21,
-        "name": "Spearow"
+        "name": "Spearow",
+        "isLegendary": false
     },
     {
         "id": 22,
-        "name": "Fearow"
+        "name": "Fearow",
+        "isLegendary": false
     },
     {
         "id": 23,
-        "name": "Ekans"
+        "name": "Ekans",
+        "isLegendary": false
     },
     {
         "id": 24,
-        "name": "Arbok"
+        "name": "Arbok",
+        "isLegendary": false
     },
     {
         "id": 25,
-        "name": "Pikachu"
+        "name": "Pikachu",
+        "isLegendary": false
     },
     {
         "id": 26,
-        "name": "Raichu"
+        "name": "Raichu",
+        "isLegendary": false
     },
     {
         "id": 27,
-        "name": "Sandshrew"
+        "name": "Sandshrew",
+        "isLegendary": false
     },
     {
         "id": 28,
-        "name": "Sandslash"
+        "name": "Sandslash",
+        "isLegendary": false
     },
     {
         "id": 29,
-        "name": "Nidoran♀"
+        "name": "Nidoran (Female)",
+        "isLegendary": false
     },
     {
         "id": 30,
-        "name": "Nidorina"
+        "name": "Nidorina",
+        "isLegendary": false
     },
     {
         "id": 31,
-        "name": "Nidoqueen"
+        "name": "Nidoqueen",
+        "isLegendary": false
     },
     {
         "id": 32,
-        "name": "Nidoran♂"
+        "name": "Nidoran (Male)",
+        "isLegendary": false
     },
     {
         "id": 33,
-        "name": "Nidorino"
+        "name": "Nidorino",
+        "isLegendary": false
     },
     {
         "id": 34,
-        "name": "Nidoking"
+        "name": "Nidoking",
+        "isLegendary": false
     },
     {
         "id": 35,
-        "name": "Clefairy"
+        "name": "Clefairy",
+        "isLegendary": false
     },
     {
         "id": 36,
-        "name": "Clefable"
+        "name": "Clefable",
+        "isLegendary": false
     },
     {
         "id": 37,
-        "name": "Vulpix"
+        "name": "Vulpix",
+        "isLegendary": false
     },
     {
         "id": 38,
-        "name": "Ninetales"
+        "name": "Ninetales",
+        "isLegendary": false
     },
     {
         "id": 39,
-        "name": "Jigglypuff"
+        "name": "Jigglypuff",
+        "isLegendary": false
     },
     {
         "id": 40,
-        "name": "Wigglytuff"
+        "name": "Wigglytuff",
+        "isLegendary": false
     },
     {
         "id": 41,
-        "name": "Zubat"
+        "name": "Zubat",
+        "isLegendary": false
     },
     {
         "id": 42,
-        "name": "Golbat"
+        "name": "Golbat",
+        "isLegendary": false
     },
     {
         "id": 43,
-        "name": "Oddish"
+        "name": "Oddish",
+        "isLegendary": false
     },
     {
         "id": 44,
-        "name": "Gloom"
+        "name": "Gloom",
+        "isLegendary": false
     },
     {
         "id": 45,
-        "name": "Vileplume"
+        "name": "Vileplume",
+        "isLegendary": false
     },
     {
         "id": 46,
-        "name": "Paras"
+        "name": "Paras",
+        "isLegendary": false
     },
     {
         "id": 47,
-        "name": "Parasect"
+        "name": "Parasect",
+        "isLegendary": false
     },
     {
         "id": 48,
-        "name": "Venonat"
+        "name": "Venonat",
+        "isLegendary": false
     },
     {
         "id": 49,
-        "name": "Venomoth"
+        "name": "Venomoth",
+        "isLegendary": false
     },
     {
         "id": 50,
-        "name": "Diglett"
+        "name": "Diglett",
+        "isLegendary": false
     },
     {
         "id": 51,
-        "name": "Dugtrio"
+        "name": "Dugtrio",
+        "isLegendary": false
     },
     {
         "id": 52,
-        "name": "Meowth"
+        "name": "Meowth",
+        "isLegendary": false
     },
     {
         "id": 53,
-        "name": "Persian"
+        "name": "Persian",
+        "isLegendary": false
     },
     {
         "id": 54,
-        "name": "Psyduck"
+        "name": "Psyduck",
+        "isLegendary": false
     },
     {
         "id": 55,
-        "name": "Golduck"
+        "name": "Golduck",
+        "isLegendary": false
     },
     {
         "id": 56,
-        "name": "Mankey"
+        "name": "Mankey",
+        "isLegendary": false
     },
     {
         "id": 57,
-        "name": "Primeape"
+        "name": "Primeape",
+        "isLegendary": false
     },
     {
         "id": 58,
-        "name": "Growlithe"
+        "name": "Growlithe",
+        "isLegendary": false
     },
     {
         "id": 59,
-        "name": "Arcanine"
+        "name": "Arcanine",
+        "isLegendary": true
     },
     {
         "id": 60,
-        "name": "Poliwag"
+        "name": "Poliwag",
+        "isLegendary": false
     },
     {
         "id": 61,
-        "name": "Poliwhirl"
+        "name": "Poliwhirl",
+        "isLegendary": false
     },
     {
         "id": 62,
-        "name": "Poliwrath"
+        "name": "Poliwrath",
+        "isLegendary": false
     },
     {
         "id": 63,
-        "name": "Abra"
+        "name": "Abra",
+        "isLegendary": false
     },
     {
         "id": 64,
-        "name": "Kadabra"
+        "name": "Kadabra",
+        "isLegendary": false
     },
     {
         "id": 65,
-        "name": "Alakazam"
+        "name": "Alakazam",
+        "isLegendary": false
     },
     {
         "id": 66,
-        "name": "Machop"
+        "name": "Machop",
+        "isLegendary": false
     },
     {
         "id": 67,
-        "name": "Machoke"
+        "name": "Machoke",
+        "isLegendary": false
     },
     {
         "id": 68,
-        "name": "Machamp"
+        "name": "Machamp",
+        "isLegendary": false
     },
     {
         "id": 69,
-        "name": "Bellsprout"
+        "name": "Bellsprout",
+        "isLegendary": false
     },
     {
         "id": 70,
-        "name": "Weepinbell"
+        "name": "Weepinbell",
+        "isLegendary": false
     },
     {
         "id": 71,
-        "name": "Victreebel"
+        "name": "Victreebel",
+        "isLegendary": false
     },
     {
         "id": 72,
-        "name": "Tentacool"
+        "name": "Tentacool",
+        "isLegendary": false
     },
     {
         "id": 73,
-        "name": "Tentacruel"
+        "name": "Tentacruel",
+        "isLegendary": false
     },
     {
         "id": 74,
-        "name": "Geodude"
+        "name": "Geodude",
+        "isLegendary": false
     },
     {
         "id": 75,
-        "name": "Graveler"
+        "name": "Graveler",
+        "isLegendary": false
     },
     {
         "id": 76,
-        "name": "Golem"
+        "name": "Golem",
+        "isLegendary": false
     },
     {
         "id": 77,
-        "name": "Ponyta"
+        "name": "Ponyta",
+        "isLegendary": false
     },
     {
         "id": 78,
-        "name": "Rapidash"
+        "name": "Rapidash",
+        "isLegendary": false
     },
     {
         "id": 79,
-        "name": "Slowpoke"
+        "name": "Slowpoke",
+        "isLegendary": false
     },
     {
         "id": 80,
-        "name": "Slowbro"
+        "name": "Slowbro",
+        "isLegendary": false
     },
     {
         "id": 81,
-        "name": "Magnemite"
+        "name": "Magnemite",
+        "isLegendary": false
     },
     {
         "id": 82,
-        "name": "Magneton"
+        "name": "Magneton",
+        "isLegendary": false
     },
     {
         "id": 83,
-        "name": "Farfetchd"
+        "name": "Farfetch'd",
+        "isLegendary": false
     },
     {
         "id": 84,
-        "name": "Doduo"
+        "name": "Doduo",
+        "isLegendary": false
     },
     {
         "id": 85,
-        "name": "Dodrio"
+        "name": "Dodrio",
+        "isLegendary": false
     },
     {
         "id": 86,
-        "name": "Seel"
+        "name": "Seel",
+        "isLegendary": false
     },
     {
         "id": 87,
-        "name": "Dewgong"
+        "name": "Dewgong",
+        "isLegendary": false
     },
     {
         "id": 88,
-        "name": "Grimer"
+        "name": "Grimer",
+        "isLegendary": false
     },
     {
         "id": 89,
-        "name": "Muk"
+        "name": "Muk",
+        "isLegendary": false
     },
     {
         "id": 90,
-        "name": "Shellder"
+        "name": "Shellder",
+        "isLegendary": false
     },
     {
         "id": 91,
-        "name": "Cloyster"
+        "name": "Cloyster",
+        "isLegendary": false
     },
     {
         "id": 92,
-        "name": "Gastly"
+        "name": "Gastly",
+        "isLegendary": false
     },
     {
         "id": 93,
-        "name": "Haunter"
+        "name": "Haunter",
+        "isLegendary": false
     },
     {
         "id": 94,
-        "name": "Gengar"
+        "name": "Gengar",
+        "isLegendary": false
     },
     {
         "id": 95,
-        "name": "Onix"
+        "name": "Onix",
+        "isLegendary": false
     },
     {
         "id": 96,
-        "name": "Drowzee"
+        "name": "Drowzee",
+        "isLegendary": false
     },
     {
         "id": 97,
-        "name": "Hypno"
+        "name": "Hypno",
+        "isLegendary": false
     },
     {
         "id": 98,
-        "name": "Krabby"
+        "name": "Krabby",
+        "isLegendary": false
     },
     {
         "id": 99,
-        "name": "Kingler"
+        "name": "Kingler",
+        "isLegendary": false
     },
     {
         "id": 100,
-        "name": "Voltorb"
+        "name": "Voltorb",
+        "isLegendary": false
     },
     {
         "id": 101,
-        "name": "Electrode"
+        "name": "Electrode",
+        "isLegendary": false
     },
     {
         "id": 102,
-        "name": "Exeggcute"
+        "name": "Exeggcute",
+        "isLegendary": false
     },
     {
         "id": 103,
-        "name": "Exeggutor"
+        "name": "Exeggutor",
+        "isLegendary": false
     },
     {
         "id": 104,
-        "name": "Cubone"
+        "name": "Cubone",
+        "isLegendary": false
     },
     {
         "id": 105,
-        "name": "Marowak"
+        "name": "Marowak",
+        "isLegendary": false
     },
     {
         "id": 106,
-        "name": "Hitmonlee"
+        "name": "Hitmonlee",
+        "isLegendary": false
     },
     {
         "id": 107,
-        "name": "Hitmonchan"
+        "name": "Hitmonchan",
+        "isLegendary": false
     },
     {
         "id": 108,
-        "name": "Lickitung"
+        "name": "Lickitung",
+        "isLegendary": false
     },
     {
         "id": 109,
-        "name": "Koffing"
+        "name": "Koffing",
+        "isLegendary": false
     },
     {
         "id": 110,
-        "name": "Weezing"
+        "name": "Weezing",
+        "isLegendary": false
     },
     {
         "id": 111,
-        "name": "Rhyhorn"
+        "name": "Rhyhorn",
+        "isLegendary": false
     },
     {
         "id": 112,
-        "name": "Rhydon"
+        "name": "Rhydon",
+        "isLegendary": false
     },
     {
         "id": 113,
-        "name": "Chansey"
+        "name": "Chansey",
+        "isLegendary": false
     },
     {
         "id": 114,
-        "name": "Tangela"
+        "name": "Tangela",
+        "isLegendary": false
     },
     {
         "id": 115,
-        "name": "Kangaskhan"
+        "name": "Kangaskhan",
+        "isLegendary": false
     },
     {
         "id": 116,
-        "name": "Horsea"
+        "name": "Horsea",
+        "isLegendary": false
     },
     {
         "id": 117,
-        "name": "Seadra"
+        "name": "Seadra",
+        "isLegendary": false
     },
     {
         "id": 118,
-        "name": "Goldeen"
+        "name": "Goldeen",
+        "isLegendary": false
     },
     {
         "id": 119,
-        "name": "Seaking"
+        "name": "Seaking",
+        "isLegendary": false
     },
     {
         "id": 120,
-        "name": "Staryu"
+        "name": "Staryu",
+        "isLegendary": false
     },
     {
         "id": 121,
-        "name": "Starmie"
+        "name": "Starmie",
+        "isLegendary": false
     },
     {
         "id": 122,
-        "name": "Mr. Mime"
+        "name": "Mr. Mime",
+        "isLegendary": false
     },
     {
         "id": 123,
-        "name": "Scyther"
+        "name": "Scyther",
+        "isLegendary": false
     },
     {
         "id": 124,
-        "name": "Jynx"
+        "name": "Jynx",
+        "isLegendary": false
     },
     {
         "id": 125,
-        "name": "Electabuzz"
+        "name": "Electabuzz",
+        "isLegendary": false
     },
     {
         "id": 126,
-        "name": "Magmar"
+        "name": "Magmar",
+        "isLegendary": false
     },
     {
         "id": 127,
-        "name": "Pinsir"
+        "name": "Pinsir",
+        "isLegendary": false
     },
     {
         "id": 128,
-        "name": "Tauros"
+        "name": "Tauros",
+        "isLegendary": false
     },
     {
         "id": 129,
-        "name": "Magikarp"
+        "name": "Magikarp",
+        "isLegendary": false
     },
     {
         "id": 130,
-        "name": "Gyarados"
+        "name": "Gyarados",
+        "isLegendary": false
     },
     {
         "id": 131,
-        "name": "Lapras"
+        "name": "Lapras",
+        "isLegendary": false
     },
     {
         "id": 132,
-        "name": "Ditto"
+        "name": "Ditto",
+        "isLegendary": false
     },
     {
         "id": 133,
-        "name": "Eevee"
+        "name": "Eevee",
+        "isLegendary": false
     },
     {
         "id": 134,
-        "name": "Vaporeon"
+        "name": "Vaporeon",
+        "isLegendary": false
     },
     {
         "id": 135,
-        "name": "Jolteon"
+        "name": "Jolteon",
+        "isLegendary": false
     },
     {
         "id": 136,
-        "name": "Flareon"
+        "name": "Flareon",
+        "isLegendary": false
     },
     {
         "id": 137,
-        "name": "Porygon"
+        "name": "Porygon",
+        "isLegendary": false
     },
     {
         "id": 138,
-        "name": "Omanyte"
+        "name": "Omanyte",
+        "isLegendary": false
     },
     {
         "id": 139,
-        "name": "Omastar"
+        "name": "Omastar",
+        "isLegendary": false
     },
     {
         "id": 140,
-        "name": "Kabuto"
+        "name": "Kabuto",
+        "isLegendary": false
     },
     {
         "id": 141,
-        "name": "Kabutops"
+        "name": "Kabutops",
+        "isLegendary": false
     },
     {
         "id": 142,
-        "name": "Aerodactyl"
+        "name": "Aerodactyl",
+        "isLegendary": false
     },
     {
         "id": 143,
-        "name": "Snorlax"
+        "name": "Snorlax",
+        "isLegendary": false
     },
     {
         "id": 144,
-        "name": "Articuno"
+        "name": "Articuno",
+        "isLegendary": true
     },
     {
         "id": 145,
-        "name": "Zapdos"
+        "name": "Zapdos",
+        "isLegendary": true
     },
     {
         "id": 146,
-        "name": "Moltres"
+        "name": "Moltres",
+        "isLegendary": true
     },
     {
         "id": 147,
-        "name": "Dratini"
+        "name": "Dratini",
+        "isLegendary": false
     },
     {
         "id": 148,
-        "name": "Dragonair"
+        "name": "Dragonair",
+        "isLegendary": false
     },
     {
         "id": 149,
-        "name": "Dragonite"
+        "name": "Dragonite",
+        "isLegendary": false
     },
     {
         "id": 150,
-        "name": "Mewtwo"
+        "name": "Mewtwo",
+        "isLegendary": true
     },
     {
         "id": 151,
-        "name": "Mew"
+        "name": "Mew",
+        "isLegendary": true
     }
 ]

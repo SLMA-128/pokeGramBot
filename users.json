@@ -147,6 +147,13 @@
                 "isShiny": true,
                 "level": 76,
                 "gender": "female"
+            },
+            {
+                "id": 96,
+                "name": "Drowzee",
+                "isShiny": false,
+                "level": 90,
+                "gender": "female"
             }
         ]
     },
@@ -248,6 +255,27 @@
                 "name": "Snorlax",
                 "isShiny": false,
                 "level": 50,
+                "gender": "male"
+            },
+            {
+                "id": 8,
+                "name": "Wartortle",
+                "isShiny": false,
+                "level": 64,
+                "gender": "male"
+            },
+            {
+                "id": 74,
+                "name": "Geodude",
+                "isShiny": false,
+                "level": 41,
+                "gender": "male"
+            },
+            {
+                "id": 60,
+                "name": "Poliwag",
+                "isShiny": false,
+                "level": 6,
                 "gender": "male"
             }
         ]
@@ -514,6 +542,111 @@
                 "isShiny": false,
                 "level": 56,
                 "gender": "female"
+            },
+            {
+                "id": 81,
+                "name": "Magnemite",
+                "isShiny": false,
+                "level": 79,
+                "gender": "female"
+            },
+            {
+                "id": 36,
+                "name": "Clefable",
+                "isShiny": false,
+                "level": 93,
+                "gender": "male"
+            },
+            {
+                "id": 77,
+                "name": "Ponyta",
+                "isShiny": false,
+                "level": 50,
+                "gender": "male"
+            },
+            {
+                "id": 9,
+                "name": "Blastoise",
+                "isShiny": false,
+                "level": 9,
+                "gender": "female"
+            },
+            {
+                "id": 114,
+                "name": "Tangela",
+                "isShiny": false,
+                "level": 65,
+                "gender": "male"
+            },
+            {
+                "id": 134,
+                "name": "Vaporeon",
+                "isShiny": false,
+                "level": 12,
+                "gender": "female"
+            },
+            {
+                "id": 100,
+                "name": "Voltorb",
+                "isShiny": false,
+                "level": 10,
+                "gender": "male"
+            },
+            {
+                "id": 1,
+                "name": "Bulbasaur",
+                "isShiny": false,
+                "level": 54,
+                "gender": "female"
+            },
+            {
+                "id": 11,
+                "name": "Metapod",
+                "isShiny": false,
+                "level": 36,
+                "gender": "female"
+            },
+            {
+                "id": 19,
+                "name": "Rattata",
+                "isShiny": false,
+                "level": 67,
+                "gender": "female"
+            },
+            {
+                "id": 101,
+                "name": "Electrode",
+                "isShiny": false,
+                "level": 45,
+                "gender": "male"
+            },
+            {
+                "id": 105,
+                "name": "Marowak",
+                "isShiny": false,
+                "level": 40,
+                "gender": "male"
+            },
+            {
+                "id": 93,
+                "name": "Haunter",
+                "isShiny": false,
+                "level": 68,
+                "gender": "female"
+            },
+            {
+                "id": 96,
+                "name": "Drowzee",
+                "isShiny": false,
+                "level": 55,
+                "gender": "female"
+            },
+            {
+                "id": 14,
+                "name": "Kakuna",
+                "isShiny": false,
+                "level": 38,
+                "gender": "male"
             }
         ]
     }
