@@ -16,3 +16,14 @@ def getPokemonNameById(pokemonId):
     for pokemon in pokemons:
         if pokemon["id"]==pokemonId:
             return pokemon["name"]
+
+def generatePokemon(pokemonId):
+    isShiny_check = random.randint(1,100)
+    pokemon = {
+        "id": pokemonId,
+        "name": getPokemonNameById(pokemonId),
+        "isShiny": isShiny_check <= 5,
+        "level": random.randint(1, 100),
+        "gender": random.choice(["male", "female"])
+    }
+    return pokemon

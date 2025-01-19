@@ -24,6 +24,15 @@ def registerUser(username):
         json.dump(users, file, indent=4)
         return True
 
+def checkUserisRegistered(username):
+    checkUsersExists()
+    with open("./users.json", 'r') as file:
+        users = json.load(file)
+    for user in users:
+        if user["name"] == username:
+            return True
+    return False
+
 def getUserByName(username):
     checkUsersExists()
     #user: id, name, listOfNumbers
@@ -44,16 +53,15 @@ def getListOfPokemonCapturedByName(username):
             return user["pokemonsOwned"]
     return None
 
-def addPokemonCaptured(pokemonId,username):
+def addPokemonCaptured(pokemon,username):
     checkUsersExists()
     #user: id, name, listOfNumbers [1,2,3]
     with open("./users.json", 'r') as file:
         users = json.load(file)
     for user in users:
         if user["name"] == username:
-            if pokemonId not in user["pokemonsOwned"]:
-                user["pokemonsOwned"].append(pokemonId)
-                with open("./users.json", 'w') as file:
-                    json.dump(users, file, indent=4)
-                return True
+            user["pokemonsOwned"].append(pokemon)
+            with open("./users.json", 'w') as file:
+                json.dump(users, file, indent=4)
+            return True
     return False
