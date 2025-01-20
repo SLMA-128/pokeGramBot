@@ -22,8 +22,9 @@ commands=[
     {"command": "help", "description": "Get the list of commands."},
     {"command": "start", "description": "The bot starts and says hi."},
     {"command": "register", "description": "Register your username."},
-    {"command": "spawn", "description": "Spawn a random Pokemon"},
-    {"command": "mypokemons", "description": "Show your captured Pokemon"},
+    {"command": "spawn", "description": "Spawn a random Pokemon."},
+    {"command": "mypokemons", "description": "Show your captured Pokemon."},
+    {"command": "mypokemonsall", "description": "Show your captured Pokemon with deatails."},
 ]
 
 #General functions
@@ -45,6 +46,8 @@ def pokemon_escape(pokemon, group_id, topic_id, message_id):
             f"The wild Lv.{pokemon["level"]} {pokemon["gender"]}{" ✨shiny"if pokemon["isShiny"] else ""} {pokemon["name"]} has escaped!",
             message_thread_id=topic_id
         )
+        if message_id in spawned_pokemons:
+            del spawned_pokemons[message_id]
     except Exception as e:
         print(f"Error during escape notification: {e}")
 
@@ -78,6 +81,10 @@ def register_command(message):
 # Bot command handler for /spawn
 @bot.message_handler(commands=['spawn'])
 def spawn_pokemon_handler(message):
+    total_pokemons = len(spawned_pokemons)
+    if total_pokemons >= 5:
+        bot.reply_to(message, "No puedes spawnear más Pokémones. Se alcanzado el límite (5).")
+        return
     spawn_check = random.randint(1,100)
     if spawn_check <= 20:
         bot.reply_to(message, "El Pokémon escapó mientras intentaste spawnearlo...")
@@ -136,6 +143,7 @@ def capture_pokemon_handler(call):
             call.message.chat.id,
             call.message.message_id
             )
+            del spawned_pokemons[call.message.message_id]
         else:
             bot.answer_callback_query(call.id, "You already captured this Pokémon.")
     else:
@@ -194,7 +202,7 @@ def get_pokemons_by_user(message):
             shiny_count = shiny_counts[pokemon_name]
             max_level = max_levels[pokemon_name]
             pokemon_id = pokemon_ids[pokemon_name]
-            response += f"-|{pokemon_name}: {count} (Shiny: {shiny_count}) (Max Lv.: {max_level}) #{pokemon_id}|\n"
+            response += f"-|#{pokemon_id} {pokemon_name}: {count} (Shiny: {shiny_count}) (Max Lv.: {max_level})|\n"
         bot.send_message(user_id, response)
     else:
         bot.send_message(user_id, "You don't have any Pokémon captured.")

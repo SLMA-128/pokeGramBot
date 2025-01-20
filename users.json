@@ -154,6 +154,22 @@
                 "isShiny": false,
                 "level": 90,
                 "gender": "female"
+            },
+            {
+                "id": 38,
+                "name": "Ninetales",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 4,
+                "gender": "female"
+            },
+            {
+                "id": 151,
+                "name": "Mew",
+                "isShiny": false,
+                "isLegendary": true,
+                "level": 9,
+                "gender": "female"
             }
         ]
     },
@@ -646,6 +662,110 @@
                 "name": "Kakuna",
                 "isShiny": false,
                 "level": 38,
+                "gender": "male"
+            },
+            {
+                "id": 122,
+                "name": "Mr. Mime",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 84,
+                "gender": "male"
+            },
+            {
+                "id": 73,
+                "name": "Tentacruel",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 34,
+                "gender": "female"
+            },
+            {
+                "id": 103,
+                "name": "Exeggutor",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 94,
+                "gender": "female"
+            },
+            {
+                "id": 143,
+                "name": "Snorlax",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 9,
+                "gender": "female"
+            },
+            {
+                "id": 52,
+                "name": "Meowth",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 37,
+                "gender": "female"
+            },
+            {
+                "id": 104,
+                "name": "Cubone",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 68,
+                "gender": "female"
+            },
+            {
+                "id": 70,
+                "name": "Weepinbell",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 86,
+                "gender": "male"
+            },
+            {
+                "id": 144,
+                "name": "Articuno",
+                "isShiny": false,
+                "isLegendary": true,
+                "level": 16,
+                "gender": "male"
+            },
+            {
+                "id": 131,
+                "name": "Lapras",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 28,
+                "gender": "male"
+            },
+            {
+                "id": 13,
+                "name": "Weedle",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 45,
+                "gender": "female"
+            },
+            {
+                "id": 139,
+                "name": "Omastar",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 68,
+                "gender": "female"
+            },
+            {
+                "id": 26,
+                "name": "Raichu",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 39,
+                "gender": "female"
+            },
+            {
+                "id": 85,
+                "name": "Dodrio",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 21,
                 "gender": "male"
             }
         ]
