@@ -170,6 +170,38 @@
                 "isLegendary": true,
                 "level": 9,
                 "gender": "female"
+            },
+            {
+                "id": 42,
+                "name": "Golbat",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 49,
+                "gender": "male"
+            },
+            {
+                "id": 76,
+                "name": "Golem",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 62,
+                "gender": "male"
+            },
+            {
+                "id": 54,
+                "name": "Psyduck",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 7,
+                "gender": "male"
+            },
+            {
+                "id": 137,
+                "name": "Porygon",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 43,
+                "gender": "female"
             }
         ]
     },
@@ -301,472 +333,336 @@
         "name": "Demikhov",
         "pokemonsOwned": [
             {
-                "id": 81,
-                "name": "Magnemite",
-                "isShiny": true,
-                "level": 35,
-                "gender": "male"
-            },
-            {
-                "id": 4,
-                "name": "Charmander",
-                "isShiny": true,
-                "level": 59,
-                "gender": "male"
-            },
-            {
-                "id": 22,
-                "name": "Fearow",
-                "isShiny": true,
-                "level": 92,
-                "gender": "male"
-            },
-            {
-                "id": 32,
-                "name": "Nidoran\u00e2\u2122\u201a",
+                "id": 20,
+                "name": "Raticate",
                 "isShiny": false,
-                "level": 2,
-                "gender": "female"
+                "isLegendary": false,
+                "level": 78,
+                "gender": "male"
             },
             {
-                "id": 9,
-                "name": "Blastoise",
+                "id": 15,
+                "name": "Beedrill",
                 "isShiny": false,
+                "isLegendary": false,
+                "level": 23,
+                "gender": "male"
+            },
+            {
+                "id": 118,
+                "name": "Goldeen",
+                "isShiny": false,
+                "isLegendary": false,
                 "level": 26,
-                "gender": "female"
-            },
-            {
-                "id": 60,
-                "name": "Poliwag",
-                "isShiny": false,
-                "level": 53,
-                "gender": "female"
-            },
-            {
-                "id": 119,
-                "name": "Seaking",
-                "isShiny": true,
-                "level": 83,
-                "gender": "female"
-            },
-            {
-                "id": 14,
-                "name": "Kakuna",
-                "isShiny": true,
-                "level": 21,
                 "gender": "male"
             },
             {
-                "id": 127,
-                "name": "Pinsir",
+                "id": 114,
+                "name": "Tangela",
                 "isShiny": false,
-                "level": 44,
-                "gender": "female"
-            },
-            {
-                "id": 70,
-                "name": "Weepinbell",
-                "isShiny": false,
-                "level": 36,
-                "gender": "male"
-            },
-            {
-                "id": 122,
-                "name": "Mr. Mime",
-                "isShiny": false,
-                "level": 14,
-                "gender": "male"
-            },
-            {
-                "id": 94,
-                "name": "Gengar",
-                "isShiny": true,
-                "level": 4,
-                "gender": "female"
-            },
-            {
-                "id": 128,
-                "name": "Tauros",
-                "isShiny": false,
-                "level": 72,
-                "gender": "male"
-            },
-            {
-                "id": 61,
-                "name": "Poliwhirl",
-                "isShiny": false,
-                "level": 11,
-                "gender": "male"
-            },
-            {
-                "id": 73,
-                "name": "Tentacruel",
-                "isShiny": false,
-                "level": 54,
-                "gender": "male"
-            },
-            {
-                "id": 89,
-                "name": "Muk",
-                "isShiny": false,
-                "level": 71,
-                "gender": "male"
-            },
-            {
-                "id": 145,
-                "name": "Zapdos",
-                "isShiny": false,
-                "level": 85,
+                "isLegendary": false,
+                "level": 42,
                 "gender": "female"
             },
             {
                 "id": 26,
                 "name": "Raichu",
                 "isShiny": false,
-                "level": 62,
+                "isLegendary": false,
+                "level": 85,
+                "gender": "female"
+            },
+            {
+                "id": 29,
+                "name": "Nidoran (Female)",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 41,
                 "gender": "male"
             },
             {
-                "id": 58,
-                "name": "Growlithe",
+                "id": 48,
+                "name": "Venonat",
                 "isShiny": false,
-                "level": 93,
+                "isLegendary": false,
+                "level": 7,
+                "gender": "female"
+            },
+            {
+                "id": 45,
+                "name": "Vileplume",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 88,
+                "gender": "female"
+            },
+            {
+                "id": 133,
+                "name": "Eevee",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 57,
                 "gender": "male"
             },
             {
-                "id": 2,
-                "name": "Ivysaur",
+                "id": 137,
+                "name": "Porygon",
                 "isShiny": false,
-                "level": 31,
-                "gender": "male"
+                "isLegendary": false,
+                "level": 43,
+                "gender": "female"
             },
             {
-                "id": 36,
-                "name": "Clefable",
+                "id": 135,
+                "name": "Jolteon",
                 "isShiny": false,
-                "level": 40,
+                "isLegendary": false,
+                "level": 69,
                 "gender": "male"
             },
             {
                 "id": 117,
                 "name": "Seadra",
                 "isShiny": false,
-                "level": 41,
+                "isLegendary": false,
+                "level": 18,
                 "gender": "male"
             },
             {
-                "id": 122,
-                "name": "Mr. Mime",
+                "id": 136,
+                "name": "Flareon",
                 "isShiny": false,
-                "level": 23,
+                "isLegendary": false,
+                "level": 14,
                 "gender": "male"
             },
             {
-                "id": 9,
-                "name": "Blastoise",
+                "id": 92,
+                "name": "Gastly",
                 "isShiny": false,
-                "level": 37,
-                "gender": "male"
-            },
-            {
-                "id": 110,
-                "name": "Weezing",
-                "isShiny": false,
-                "level": 63,
+                "isLegendary": false,
+                "level": 16,
                 "gender": "female"
             },
             {
-                "id": 81,
-                "name": "Magnemite",
+                "id": 45,
+                "name": "Vileplume",
                 "isShiny": false,
-                "level": 51,
-                "gender": "female"
-            },
-            {
-                "id": 75,
-                "name": "Graveler",
-                "isShiny": false,
-                "level": 30,
-                "gender": "male"
-            },
-            {
-                "id": 132,
-                "name": "Ditto",
-                "isShiny": false,
-                "level": 95,
-                "gender": "female"
-            },
-            {
-                "id": 6,
-                "name": "Charizard",
-                "isShiny": false,
-                "level": 61,
-                "gender": "male"
-            },
-            {
-                "id": 33,
-                "name": "Nidorino",
-                "isShiny": true,
-                "level": 41,
-                "gender": "female"
-            },
-            {
-                "id": 81,
-                "name": "Magnemite",
-                "isShiny": true,
-                "level": 39,
-                "gender": "male"
-            },
-            {
-                "id": 16,
-                "name": "Pidgey",
-                "isShiny": true,
-                "level": 4,
-                "gender": "female"
-            },
-            {
-                "id": 12,
-                "name": "Butterfree",
-                "isShiny": true,
-                "level": 73,
-                "gender": "female"
-            },
-            {
-                "id": 106,
-                "name": "Hitmonlee",
-                "isShiny": true,
-                "level": 100,
-                "gender": "male"
-            },
-            {
-                "id": 57,
-                "name": "Primeape",
-                "isShiny": true,
-                "level": 66,
-                "gender": "male"
-            },
-            {
-                "id": 131,
-                "name": "Lapras",
-                "isShiny": true,
-                "level": 67,
-                "gender": "male"
-            },
-            {
-                "id": 79,
-                "name": "Slowpoke",
-                "isShiny": false,
-                "level": 56,
-                "gender": "female"
-            },
-            {
-                "id": 81,
-                "name": "Magnemite",
-                "isShiny": false,
-                "level": 79,
-                "gender": "female"
-            },
-            {
-                "id": 36,
-                "name": "Clefable",
-                "isShiny": false,
-                "level": 93,
+                "isLegendary": false,
+                "level": 24,
                 "gender": "male"
             },
             {
                 "id": 77,
                 "name": "Ponyta",
                 "isShiny": false,
-                "level": 50,
+                "isLegendary": false,
+                "level": 30,
+                "gender": "female"
+            },
+            {
+                "id": 61,
+                "name": "Poliwhirl",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 52,
                 "gender": "male"
             },
             {
-                "id": 9,
-                "name": "Blastoise",
+                "id": 119,
+                "name": "Seaking",
                 "isShiny": false,
-                "level": 9,
+                "isLegendary": false,
+                "level": 22,
                 "gender": "female"
             },
             {
-                "id": 114,
-                "name": "Tangela",
+                "id": 75,
+                "name": "Graveler",
                 "isShiny": false,
-                "level": 65,
-                "gender": "male"
-            },
-            {
-                "id": 134,
-                "name": "Vaporeon",
-                "isShiny": false,
-                "level": 12,
+                "isLegendary": false,
+                "level": 35,
                 "gender": "female"
             },
             {
-                "id": 100,
-                "name": "Voltorb",
+                "id": 66,
+                "name": "Machop",
                 "isShiny": false,
-                "level": 10,
-                "gender": "male"
-            },
-            {
-                "id": 1,
-                "name": "Bulbasaur",
-                "isShiny": false,
-                "level": 54,
+                "isLegendary": false,
+                "level": 59,
                 "gender": "female"
-            },
-            {
-                "id": 11,
-                "name": "Metapod",
-                "isShiny": false,
-                "level": 36,
-                "gender": "female"
-            },
-            {
-                "id": 19,
-                "name": "Rattata",
-                "isShiny": false,
-                "level": 67,
-                "gender": "female"
-            },
-            {
-                "id": 101,
-                "name": "Electrode",
-                "isShiny": false,
-                "level": 45,
-                "gender": "male"
-            },
-            {
-                "id": 105,
-                "name": "Marowak",
-                "isShiny": false,
-                "level": 40,
-                "gender": "male"
-            },
-            {
-                "id": 93,
-                "name": "Haunter",
-                "isShiny": false,
-                "level": 68,
-                "gender": "female"
-            },
-            {
-                "id": 96,
-                "name": "Drowzee",
-                "isShiny": false,
-                "level": 55,
-                "gender": "female"
-            },
-            {
-                "id": 14,
-                "name": "Kakuna",
-                "isShiny": false,
-                "level": 38,
-                "gender": "male"
             },
             {
                 "id": 122,
                 "name": "Mr. Mime",
                 "isShiny": false,
                 "isLegendary": false,
-                "level": 84,
+                "level": 66,
                 "gender": "male"
             },
             {
-                "id": 73,
-                "name": "Tentacruel",
+                "id": 44,
+                "name": "Gloom",
                 "isShiny": false,
                 "isLegendary": false,
-                "level": 34,
+                "level": 3,
                 "gender": "female"
             },
             {
-                "id": 103,
-                "name": "Exeggutor",
+                "id": 76,
+                "name": "Golem",
                 "isShiny": false,
                 "isLegendary": false,
                 "level": 94,
                 "gender": "female"
             },
             {
-                "id": 143,
-                "name": "Snorlax",
+                "id": 93,
+                "name": "Haunter",
                 "isShiny": false,
                 "isLegendary": false,
-                "level": 9,
-                "gender": "female"
-            },
-            {
-                "id": 52,
-                "name": "Meowth",
-                "isShiny": false,
-                "isLegendary": false,
-                "level": 37,
-                "gender": "female"
-            },
-            {
-                "id": 104,
-                "name": "Cubone",
-                "isShiny": false,
-                "isLegendary": false,
-                "level": 68,
-                "gender": "female"
-            },
-            {
-                "id": 70,
-                "name": "Weepinbell",
-                "isShiny": false,
-                "isLegendary": false,
-                "level": 86,
+                "level": 23,
                 "gender": "male"
             },
             {
-                "id": 144,
-                "name": "Articuno",
+                "id": 67,
+                "name": "Machoke",
                 "isShiny": false,
-                "isLegendary": true,
-                "level": 16,
+                "isLegendary": false,
+                "level": 26,
                 "gender": "male"
             },
             {
-                "id": 131,
-                "name": "Lapras",
+                "id": 36,
+                "name": "Clefable",
                 "isShiny": false,
                 "isLegendary": false,
-                "level": 28,
+                "level": 47,
                 "gender": "male"
             },
             {
-                "id": 13,
-                "name": "Weedle",
+                "id": 115,
+                "name": "Kangaskhan",
                 "isShiny": false,
                 "isLegendary": false,
-                "level": 45,
+                "level": 42,
                 "gender": "female"
             },
             {
-                "id": 139,
-                "name": "Omastar",
+                "id": 130,
+                "name": "Gyarados",
                 "isShiny": false,
                 "isLegendary": false,
-                "level": 68,
-                "gender": "female"
-            },
-            {
-                "id": 26,
-                "name": "Raichu",
-                "isShiny": false,
-                "isLegendary": false,
-                "level": 39,
-                "gender": "female"
-            },
-            {
-                "id": 85,
-                "name": "Dodrio",
-                "isShiny": false,
-                "isLegendary": false,
-                "level": 21,
+                "level": 81,
                 "gender": "male"
+            },
+            {
+                "id": 71,
+                "name": "Victreebel",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 27,
+                "gender": "female"
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "name": "paulaa_cx",
+        "pokemonsOwned": [
+            {
+                "id": 107,
+                "name": "Hitmonchan",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 43,
+                "gender": "male"
+            },
+            {
+                "id": 58,
+                "name": "Growlithe",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 10,
+                "gender": "female"
+            },
+            {
+                "id": 133,
+                "name": "Eevee",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 1,
+                "gender": "male"
+            },
+            {
+                "id": 67,
+                "name": "Machoke",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 74,
+                "gender": "male"
+            },
+            {
+                "id": 42,
+                "name": "Golbat",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 49,
+                "gender": "male"
+            },
+            {
+                "id": 25,
+                "name": "Pikachu",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 95,
+                "gender": "male"
+            },
+            {
+                "id": 107,
+                "name": "Hitmonchan",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 34,
+                "gender": "male"
+            },
+            {
+                "id": 89,
+                "name": "Muk",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 57,
+                "gender": "male"
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "name": "AgustinDelgado",
+        "pokemonsOwned": [
+            {
+                "id": 21,
+                "name": "Spearow",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 4,
+                "gender": "male"
+            },
+            {
+                "id": 57,
+                "name": "Primeape",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 33,
+                "gender": "female"
+            },
+            {
+                "id": 96,
+                "name": "Drowzee",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 97,
+                "gender": "female"
             }
         ]
     }

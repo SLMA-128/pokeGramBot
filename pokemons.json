@@ -2,756 +2,907 @@
     {
         "id": 1,
         "name": "Bulbasaur",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 2,
         "name": "Ivysaur",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 3,
         "name": "Venusaur",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 4,
         "name": "Charmander",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 5,
         "name": "Charmeleon",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 6,
         "name": "Charizard",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 7,
         "name": "Squirtle",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 8,
         "name": "Wartortle",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 9,
         "name": "Blastoise",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 10,
         "name": "Caterpie",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 11,
         "name": "Metapod",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 12,
         "name": "Butterfree",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 13,
         "name": "Weedle",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 14,
         "name": "Kakuna",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 15,
         "name": "Beedrill",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 16,
         "name": "Pidgey",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 17,
         "name": "Pidgeotto",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 18,
         "name": "Pidgeot",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 19,
         "name": "Rattata",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 20,
         "name": "Raticate",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 21,
         "name": "Spearow",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 22,
         "name": "Fearow",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 23,
         "name": "Ekans",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 24,
         "name": "Arbok",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 25,
         "name": "Pikachu",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 26,
         "name": "Raichu",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 27,
         "name": "Sandshrew",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 28,
         "name": "Sandslash",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 29,
-        "name": "Nidoran (Female)",
-        "isLegendary": false
+        "name": "Nidoran",
+        "isLegendary": false,
+        "gender": ["female"]
     },
     {
         "id": 30,
         "name": "Nidorina",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["female"]
     },
     {
         "id": 31,
         "name": "Nidoqueen",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["female"]
     },
     {
         "id": 32,
-        "name": "Nidoran (Male)",
-        "isLegendary": false
+        "name": "Nidoran",
+        "isLegendary": false,
+        "gender": ["male"]
     },
     {
         "id": 33,
         "name": "Nidorino",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male"]
     },
     {
         "id": 34,
         "name": "Nidoking",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male"]
     },
     {
         "id": 35,
         "name": "Clefairy",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 36,
         "name": "Clefable",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 37,
         "name": "Vulpix",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 38,
         "name": "Ninetales",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 39,
         "name": "Jigglypuff",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 40,
         "name": "Wigglytuff",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 41,
         "name": "Zubat",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 42,
         "name": "Golbat",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 43,
         "name": "Oddish",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 44,
         "name": "Gloom",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 45,
         "name": "Vileplume",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 46,
         "name": "Paras",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 47,
         "name": "Parasect",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 48,
         "name": "Venonat",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 49,
         "name": "Venomoth",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 50,
         "name": "Diglett",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 51,
         "name": "Dugtrio",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 52,
         "name": "Meowth",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 53,
         "name": "Persian",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 54,
         "name": "Psyduck",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 55,
         "name": "Golduck",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 56,
         "name": "Mankey",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 57,
         "name": "Primeape",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 58,
         "name": "Growlithe",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 59,
         "name": "Arcanine",
-        "isLegendary": true
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 60,
         "name": "Poliwag",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 61,
         "name": "Poliwhirl",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 62,
         "name": "Poliwrath",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 63,
         "name": "Abra",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 64,
         "name": "Kadabra",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 65,
         "name": "Alakazam",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 66,
         "name": "Machop",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 67,
         "name": "Machoke",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 68,
         "name": "Machamp",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 69,
         "name": "Bellsprout",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 70,
         "name": "Weepinbell",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 71,
         "name": "Victreebel",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 72,
         "name": "Tentacool",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 73,
         "name": "Tentacruel",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 74,
         "name": "Geodude",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 75,
         "name": "Graveler",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 76,
         "name": "Golem",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 77,
         "name": "Ponyta",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 78,
         "name": "Rapidash",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 79,
         "name": "Slowpoke",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 80,
         "name": "Slowbro",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 81,
         "name": "Magnemite",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["genderless"]
     },
     {
         "id": 82,
         "name": "Magneton",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["genderless"]
     },
     {
         "id": 83,
-        "name": "Farfetch'd",
-        "isLegendary": false
+        "name": "Farfetch’d",
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 84,
         "name": "Doduo",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 85,
         "name": "Dodrio",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 86,
         "name": "Seel",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 87,
         "name": "Dewgong",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 88,
         "name": "Grimer",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 89,
         "name": "Muk",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 90,
         "name": "Shellder",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 91,
         "name": "Cloyster",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 92,
         "name": "Gastly",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 93,
         "name": "Haunter",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 94,
         "name": "Gengar",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 95,
         "name": "Onix",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 96,
         "name": "Drowzee",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 97,
         "name": "Hypno",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 98,
         "name": "Krabby",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 99,
         "name": "Kingler",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 100,
         "name": "Voltorb",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["genderless"]
     },
     {
         "id": 101,
         "name": "Electrode",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["genderless"]
     },
     {
         "id": 102,
         "name": "Exeggcute",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 103,
         "name": "Exeggutor",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 104,
         "name": "Cubone",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 105,
         "name": "Marowak",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 106,
         "name": "Hitmonlee",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male"]
     },
     {
         "id": 107,
         "name": "Hitmonchan",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male"]
     },
     {
         "id": 108,
         "name": "Lickitung",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 109,
         "name": "Koffing",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 110,
         "name": "Weezing",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 111,
         "name": "Rhyhorn",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 112,
         "name": "Rhydon",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 113,
         "name": "Chansey",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["female"]
     },
     {
         "id": 114,
         "name": "Tangela",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 115,
         "name": "Kangaskhan",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["female"]
     },
     {
         "id": 116,
         "name": "Horsea",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 117,
         "name": "Seadra",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 118,
         "name": "Goldeen",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 119,
         "name": "Seaking",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 120,
         "name": "Staryu",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 121,
         "name": "Starmie",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 122,
         "name": "Mr. Mime",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male"]
     },
     {
         "id": 123,
         "name": "Scyther",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 124,
         "name": "Jynx",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["female"]
     },
     {
         "id": 125,
         "name": "Electabuzz",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 126,
         "name": "Magmar",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 127,
         "name": "Pinsir",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 128,
         "name": "Tauros",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male"]
     },
     {
         "id": 129,
         "name": "Magikarp",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 130,
         "name": "Gyarados",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 131,
         "name": "Lapras",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 132,
         "name": "Ditto",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 133,
         "name": "Eevee",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 134,
         "name": "Vaporeon",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["female"]
     },
     {
         "id": 135,
         "name": "Jolteon",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 136,
         "name": "Flareon",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 137,
         "name": "Porygon",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 138,
         "name": "Omanyte",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 139,
         "name": "Omastar",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 140,
         "name": "Kabuto",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 141,
         "name": "Kabutops",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 142,
         "name": "Aerodactyl",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 143,
         "name": "Snorlax",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 144,
         "name": "Articuno",
-        "isLegendary": true
+        "isLegendary": true,
+        "gender": ["genderless"]
     },
     {
         "id": 145,
         "name": "Zapdos",
-        "isLegendary": true
+        "isLegendary": true,
+        "gender": ["genderless"]
     },
     {
         "id": 146,
         "name": "Moltres",
-        "isLegendary": true
+        "isLegendary": true,
+        "gender": ["genderless"]
     },
     {
         "id": 147,
         "name": "Dratini",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 148,
         "name": "Dragonair",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 149,
         "name": "Dragonite",
-        "isLegendary": false
+        "isLegendary": false,
+        "gender": ["male", "female"]
     },
     {
         "id": 150,
         "name": "Mewtwo",
-        "isLegendary": true
+        "isLegendary": true,
+        "gender": ["genderless"]
     },
     {
         "id": 151,
         "name": "Mew",
-        "isLegendary": true
+        "isLegendary": true,
+        "gender": ["male", "female"]
     }
 ]
