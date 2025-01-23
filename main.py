@@ -9,6 +9,7 @@ import os
 import random
 import threading
 from collections import Counter
+import time
 
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
 group_id = CHANNEL_ID
@@ -17,17 +18,21 @@ topic_id = TOPIC_ID
 capture_timers = {}
 #capture spawned pokemons in the dictionary
 spawned_pokemons = {}
+# Dictionary to track last usage times for the spawn command
+last_spawn_times = {}
+spawn_cooldawn = 60  # Cooldown time in seconds
 #commands
 
 commands=[
     {"command": "help", "description": "Get the list of commands."},
     {"command": "start", "description": "The bot starts and says hi."},
     {"command": "register", "description": "Register your username."},
-    {"command": "spawn", "description": "Spawn a random Pokemon."},
-    {"command": "mypokemons", "description": "Show your captured Pokemon."},
-    {"command": "mypokemonsall", "description": "Show your captured Pokemon with deatails."},
+    {"command": "spawn", "description": "Spawn a random Pokemon. Each user can spawn once a minute."},
+    {"command": "mypokemons", "description": "Show how many Pokemons, normal and shiny, you captured."},
+    {"command": "capturedpokemons", "description": "Show your captured Pokemon with deatails."},
     {"command": "mycollection", "description": "Show how many type of Pokemons you have captured."},
-    {"command": "freemypokemons", "description": "Free all your Pokemons. (WARNING: It is irreversible!)"}
+    {"command": "freemypokemons", "description": "Free all your Pokemons. (WARNING: It is irreversible!)"},
+    {"command": "chance", "description": "Show the chance to capture pokemons.)"}
 ]
 
 #General functions
@@ -39,7 +44,7 @@ def generate_capture_button(pokemonId):
     return markup
 
 #Function for the escaping pokemon
-def pokemon_escape(pokemon, group_id, topic_id, message_id):
+def pokemon_escape(pokemon, group_id, message_id):
     try:
         # Notify the group that the Pokémon escaped
         bot.edit_message_text(
@@ -58,7 +63,7 @@ def captureCheck(pokemon):
     if pokemon["isShiny"]:
         capture_check *= 1.3
     if pokemon["isLegendary"]:
-        capture_check *= 1.3
+        capture_check *= 1.2
     return capture_check
 
 #Functions for the bot
@@ -83,6 +88,15 @@ def generate_help_message(message):
     except Exception as e:
         print(f"Error during help: {e}")
 
+#shows some functions
+@bot.message_handler(commands=['chance'])
+def generate_help_message(message):
+    try:
+        help_text = "Chance to Capture Pokemons (Used Lv.100 as reference):\nBase: 39%\nShiny:30%\nLegendary: 33%\nLegendary and Shiny: 25%\n\nIMPORTANT: This value can be used as reference but said chance is affected by a random value which lowers the rate!"
+        bot.reply_to(message, help_text)
+    except Exception as e:
+        print(f"Error during help: {e}")
+
 # Bot command handler for /register
 @bot.message_handler(commands=['register'])
 def register_command(message):
@@ -102,13 +116,30 @@ def register_command(message):
 @bot.message_handler(commands=['spawn'])
 def spawn_pokemon_handler(message):
     try:
+        user_id = message.from_user.id
+        current_time = time.time()
+        # Check if the user is on cooldown
+        if user_id in last_spawn_times:
+            elapsed_time = current_time - last_spawn_times[user_id]
+            if elapsed_time < spawn_cooldawn:
+                remaining_time = spawn_cooldawn - elapsed_time
+                msg_cd = bot.reply_to(
+                    message,
+                    f"You're on cooldown! Please wait {int(remaining_time)} seconds before spawning another Pokémon."
+                )
+                #auto delete function of msg_cd with a timer of 10 seconds
+                threading.Timer(5, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
+                return
+        last_spawn_times[user_id] = current_time
         total_pokemons = len(spawned_pokemons)
         if total_pokemons >= 2:
-            bot.reply_to(message, "No puedes spawnear más Pokémones. Se alcanzado el límite (2).")
+            msg = bot.reply_to(message, "No puedes spawnear más Pokémones. Se alcanzado el límite (2).")
+            threading.Timer(5, lambda: bot.delete_message(chat_id=group_id, message_id=msg.message_id)).start()
             return
         spawn_check = random.randint(1,100)
-        if spawn_check <= 20:
-            bot.reply_to(message, "El Pokémon escapó mientras intentaste spawnearlo...")
+        if spawn_check <= 10:
+            msg = bot.reply_to(message, "El Pokémon escapó mientras intentaste spawnearlo...")
+            threading.Timer(5, lambda: bot.delete_message(chat_id=group_id, message_id=msg.message_id)).start()
             return
         pokemon = pokemonEvents.generatePokemon()
         pokemon_image = f"./pokemon_sprites{"_shiny" if pokemon["isShiny"]==True else ""}/{pokemon["id"]}.webp"
@@ -129,7 +160,7 @@ def spawn_pokemon_handler(message):
                 parse_mode='Markdown'
             )
             spawned_pokemons[msg.message_id] = pokemon
-            timer = threading.Timer(60.0, pokemon_escape, args=[pokemon, group_id, topic_id, msg.message_id])
+            timer = threading.Timer(60.0, pokemon_escape, args=[pokemon, group_id, msg.message_id])
             capture_timers[msg.message_id] = timer
             timer.start()
         else:
@@ -146,7 +177,8 @@ def capture_pokemon_handler(call):
             bot.answer_callback_query(call.id, "You don't have a Telegram username. Please set one to capture Pokémon.")
             return
         if userEvents.checkUserisRegistered(username) == False:
-            bot.send_message(group_id, "You didn't registered.",message_thread_id=topic_id)
+            msg = bot.send_message(group_id, "You didn't registered.",message_thread_id=topic_id)
+            threading.Timer(5, lambda: bot.delete_message(chat_id=group_id, message_id=msg.message_id)).start()
             return
         pokemon = spawned_pokemons.get(call.message.message_id)
         if pokemon is None:
@@ -166,9 +198,12 @@ def capture_pokemon_handler(call):
             )
             del spawned_pokemons[call.message.message_id]
         else:
-            bot.answer_callback_query(call.id, f"The Pokémon escaped!")
-            pokemon_escape(pokemon, call.message.chat.id, topic_id, call.message.message_id)
+            bot.answer_callback_query(call.id, f"The Pokémon escaped from your hands!")
+            pokemon_escape(pokemon, call.message.chat.id, call.message.message_id)
     except Exception as e:
+        if "query is too old" in str(e):  # Handle expired callback queries gracefully
+            print("Expired callback query: ignoring outdated interaction.")
+        else:
             print(f"Error during capture: {e}")
 
 # Callback query handler for /mypokemons
@@ -196,7 +231,7 @@ def get_pokemons_by_user(message):
         print(f"Error during mypokemons: {e}")
 
 # Callback query handler for /mypokemons
-@bot.message_handler(commands=['mypokemonsall'])
+@bot.message_handler(commands=['capturedpokemons'])
 def get_pokemons_by_user(message):
     try:
         username = message.from_user.username
@@ -227,7 +262,7 @@ def get_pokemons_by_user(message):
                 shiny_count = shiny_counts[pokemon_name]
                 max_level = max_levels[pokemon_name]
                 pokemon_id = pokemon_ids[pokemon_name]
-                response += f"-|#{pokemon_id} {pokemon_name}: {count} (Shiny: {shiny_count}) (Max Lv.: {max_level})|\n"
+                response += f"-|#{pokemon_id} - {pokemon_name}: {count} (Shiny: {shiny_count}) (Max Lv.: {max_level})|\n"
             bot.send_message(user_id, response)
         else:
             bot.send_message(user_id, "You don't have any Pokémon captured.")
