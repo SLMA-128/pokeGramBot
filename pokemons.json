@@ -493,7 +493,7 @@
     },
     {
         "id": 83,
-        "name": "Farfetch’d",
+        "name": "Farfetchd",
         "isLegendary": false,
         "gender": ["male", "female"]
     },
@@ -903,6 +903,6 @@
         "id": 151,
         "name": "Mew",
         "isLegendary": true,
-        "gender": ["male", "female"]
+        "gender": ["genderless"]
     }
 ]

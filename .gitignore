@@ -7,6 +7,7 @@ __pycache__/
 *.so
 config.py
 imgDownload.py
+private_group.py
 users.json
 # Distribution / packaging
 .Python
