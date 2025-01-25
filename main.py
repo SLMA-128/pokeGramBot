@@ -7,6 +7,11 @@ import random
 import threading
 from collections import Counter
 import time
+from pymongo import MongoClient
+
+# Conexión a MongoDB Atlas (reemplaza el string con tu URI de Atlas)
+client = MongoClient("mongodb+srv://sarmientolma:w6Z4JaVFnMGrSV0I@cluster0.40gi2.mongodb.net/pokegrambot?retryWrites=true&w=majority")
+db = client.get_database()
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN", "")
 CHANNEL_ID = int(os.getenv("CHANNEL_ID", 0))
