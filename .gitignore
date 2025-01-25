@@ -8,6 +8,8 @@ __pycache__/
 config.py
 imgDownload.py
 private_group.py
+users.json
+import_json_db_mongodb.py
 # Distribution / packaging
 .Python
 build/

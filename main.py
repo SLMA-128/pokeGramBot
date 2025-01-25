@@ -1,7 +1,4 @@
 import telebot
-#from config import TELEGRAM_TOKEN
-#from config import CHANNEL_ID
-#from config import TOPIC_ID
 import userEvents
 import pokemonEvents
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -110,12 +107,12 @@ def register_command(message):
             msg_cd = bot.reply_to(message, "No tienes un nombre de usuario en Telegram. Configúralo primero.")
             threading.Timer(5, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
             return
-        if userEvents.registerUser(username)==True:
-            msg_cd = bot.reply_to(message, f"Usuario @{username} registrado con éxito.")
-            threading.Timer(5, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
-        else:
+        if userEvents.checkUserisRegistered(username):
             msg_cd = bot.reply_to(message, f"Usuario @{username} ya está registrado.")
             threading.Timer(10, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
+        else:
+            msg_cd = bot.reply_to(message, f"Usuario @{username} registrado con éxito.")
+            threading.Timer(5, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
     except Exception as e:
         print(f"Error during registration: {e}")
 
@@ -125,7 +122,6 @@ def spawn_pokemon_handler(message):
     try:
         user_id = message.from_user.id
         current_time = time.time()
-        # Check if the user is on cooldown
         if user_id in last_spawn_times:
             elapsed_time = current_time - last_spawn_times[user_id]
             if elapsed_time < spawn_cooldawn:
@@ -134,7 +130,6 @@ def spawn_pokemon_handler(message):
                     message,
                     f"You're on cooldown! Please wait {int(remaining_time)} seconds before spawning another Pokémon."
                 )
-                #auto delete function of msg_cd with a timer of 10 seconds
                 threading.Timer(2, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
                 return
         last_spawn_times[user_id] = current_time

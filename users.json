@@ -2,7 +2,24 @@
     {
         "id": 1,
         "name": "HelloWorld",
-        "pokemonsOwned": []
+        "pokemonsOwned": [
+            {
+                "id": 30,
+                "name": "Nidorina",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 65,
+                "gender": "female"
+            },
+            {
+                "id": 67,
+                "name": "Machoke",
+                "isShiny": false,
+                "isLegendary": false,
+                "level": 92,
+                "gender": "male"
+            }
+        ]
     },
     {
         "id": 2,
