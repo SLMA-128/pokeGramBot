@@ -48,7 +48,7 @@ def pokemon_escape(pokemon, group_id, message_id):
     try:
         # Notify the group that the Pokémon escaped
         bot.edit_message_text(
-            f"The wild Lv.{pokemon["level"]} {pokemon["gender"]}{" shiny" if pokemon["isShiny"] else ""} {pokemon["name"]} has escaped!",
+            "The wild Lv."+pokemon["level"]+" "+{pokemon["gender"]}+{(""," shiny")[pokemon["isShiny"]]}+pokemon["name"]+" has escaped!",
             chat_id=group_id,
             message_id=message_id
         )
