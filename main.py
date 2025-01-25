@@ -1,7 +1,7 @@
 import telebot
-from config import TELEGRAM_TOKEN
-from config import CHANNEL_ID
-from config import TOPIC_ID
+#from config import TELEGRAM_TOKEN
+#from config import CHANNEL_ID
+#from config import TOPIC_ID
 import userEvents
 import pokemonEvents
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -10,6 +10,10 @@ import random
 import threading
 from collections import Counter
 import time
+
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN", "")
+CHANNEL_ID = int(os.getenv("CHANNEL_ID", 0))
+TOPIC_ID = int(os.getenv("TOPIC_ID", 0))
 
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
 group_id = CHANNEL_ID
