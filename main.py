@@ -48,7 +48,7 @@ def pokemon_escape(pokemon, group_id, message_id):
     try:
         # Notify the group that the Pokémon escaped
         bot.edit_message_text(
-            f"The wild Lv.{pokemon["level"]} {pokemon["gender"]}{" ✨shiny" if pokemon["isShiny"] else ""} {pokemon["name"]} has escaped!",
+            f"The wild Lv.{pokemon["level"]} {pokemon["gender"]}{" shiny" if pokemon["isShiny"] else ""} {pokemon["name"]} has escaped!",
             chat_id=group_id,
             message_id=message_id
         )
@@ -157,7 +157,7 @@ def spawn_pokemon_handler(message):
             pokemon_name = f"***{pokemon['name']}***" if pokemon['isLegendary'] else pokemon['name']
             msg = bot.send_message(
                 group_id,
-                f"A wild {pokemon_name}{" ✨shiny" if pokemon["isShiny"] else ""} appeared! What will you do?\nGender: {"Genderless" if pokemon["gender"]=="genderless" else "Male" if pokemon["gender"]=="male" else "Female"}\nLevel: {pokemon["level"]}",
+                f"A wild {pokemon_name}{" shiny" if pokemon["isShiny"] else ""} appeared! What will you do?\nGender: {"Genderless" if pokemon["gender"]=="genderless" else "Male" if pokemon["gender"]=="male" else "Female"}\nLevel: {pokemon["level"]}",
                 reply_markup=generate_capture_button(pokemon["id"]),
                 message_thread_id=topic_id,
                 parse_mode='Markdown'
@@ -193,9 +193,9 @@ def capture_pokemon_handler(call):
             if call.message.message_id in capture_timers:
                 capture_timers[call.message.message_id].cancel()
                 del capture_timers[call.message.message_id]
-            bot.answer_callback_query(call.id, f"You captured a Lv.{pokemon["level"]} {pokemon["gender"]}{" ✨shiny"if pokemon["isShiny"] else ""} {pokemon["name"]}!")
+            bot.answer_callback_query(call.id, f"You captured a Lv.{pokemon["level"]} {pokemon["gender"]}{" shiny"if pokemon["isShiny"] else ""} {pokemon["name"]}!")
             bot.edit_message_text(
-            f"{call.from_user.first_name} captured a Lv.{pokemon["level"]} {pokemon["gender"]}{" ✨shiny"if pokemon["isShiny"] else ""} {pokemon["name"]}!",
+            f"{call.from_user.first_name} captured a Lv.{pokemon["level"]} {pokemon["gender"]}{" shiny"if pokemon["isShiny"] else ""} {pokemon["name"]}!",
             call.message.chat.id,
             call.message.message_id
             )
