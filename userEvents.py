@@ -62,10 +62,8 @@ def getUserByName(username):
         client = MongoClient(MONGO_URI)
         db = client['pokemon_bot']
         collection = db['users']
-
         # Buscar el usuario por nombre
         user = collection.find_one({"name": username})
-
         client.close()
         return user["name"] if user else None
     except Exception as e:
@@ -135,4 +133,18 @@ def getRandomPokemonCaptured(username):
         return None
     except Exception as e:
         print(f"Error getting user: {str(e)}")
+        return None
+    
+#Get a list with all usernames from the database
+def getListUsernames():
+    try:
+        client = MongoClient(MONGO_URI)
+        db = client['pokemon_bot']
+        collection = db['users']
+        # Obtener todos los nombres de usuario
+        users = collection.find({}, {"name": 1})
+        client.close()
+        return [user["name"] for user in users]
+    except Exception as e:
+        print(f"Error getting all usernames: {str(e)}")
         return None

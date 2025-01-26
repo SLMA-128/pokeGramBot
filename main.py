@@ -66,7 +66,8 @@ commands=[
     {"command": "mycollection", "description": "Show how many type of Pokemons you have captured."},
     {"command": "freemypokemons", "description": "Free all your Pokemons. (WARNING: It is irreversible!)"},
     {"command": "chance", "description": "Show the chance to capture pokemons.)"},
-    {"command": "chooseyou", "description": "Summon a random pokemon from the user.)"}
+    {"command": "chooseyou", "description": "Summon a random pokemon from the user.)"},
+    {"command": "players", "description": "Show the list of players."}
 ]
 
 #General functions
@@ -400,6 +401,23 @@ def summon_pokemon(message):
             threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg_st.message_id)).start()
     except Exception as e:
         print(f"Error during chooseyou: {e}")
+
+# Callback query handler for /players that return the list of players from the function userEvents.getAllPlayers().
+@bot.callback_query_handler(func=lambda call: call.data.startswith('players'))
+def get_players(call):
+    try:
+        players = userEvents.getListUsernames()
+        response = "Players:\n"
+        for player in players:
+            response += f"- {player}\n"
+        bot.send_message(
+            group_id,
+            response,
+            message_thread_id=topic_id
+        )
+    except Exception as e:
+        print(f"Error during get_players: {e}")
+
 
 class MockMessage:
     def __init__(self):
