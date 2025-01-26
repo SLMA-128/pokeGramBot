@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+import random
 
 #Check if the users database exists
 def checkUsersExists():
@@ -114,3 +115,18 @@ def addPokemonCaptured(pokemon, username):
     except Exception as e:
         print(f"Error adding pokemon: {str(e)}")
         return False
+    
+def getRandomPokemonCaptured(username):
+    try:
+        client = MongoClient('mongodb+srv://sarmientolma:w6Z4JaVFnMGrSV0I@cluster0.40gi2.mongodb.net/pokegrambot')
+        db = client['pokemon_bot']
+        collection = db['users']
+        # Buscar el usuario y obtener el pokemon
+        user = collection.find_one({"name": username})
+        if user:
+            return random.choice(user["pokemonsOwned"])
+        client.close()
+        return None
+    except Exception as e:
+        print(f"Error getting user: {str(e)}")
+        return None

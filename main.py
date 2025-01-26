@@ -10,17 +10,39 @@ import time
 from pymongo import MongoClient
 #import config
 
-# Conexión a MongoDB Atlas (reemplaza el string con tu URI de Atlas)
-client = MongoClient("mongodb+srv://sarmientolma:w6Z4JaVFnMGrSV0I@cluster0.40gi2.mongodb.net/pokegrambot?retryWrites=true&w=majority")
-db = client.get_database()
-
 #TELEGRAM_TOKEN = config.TELEGRAM_TOKEN
 #CHANNEL_ID = config.CHANNEL_ID
 #TOPIC_ID = config.TOPIC_ID
 
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN", "")
-CHANNEL_ID = int(os.getenv("CHANNEL_ID", 0))
-TOPIC_ID = int(os.getenv("TOPIC_ID", 0))
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+CHANNEL_ID = int(os.getenv("CHANNEL_ID", "0"))
+TOPIC_ID = int(os.getenv("TOPIC_ID", "0"))
+MONGO_URI = os.getenv("MONGO_URI")
+
+# Validar que las variables de entorno estén configuradas
+if not TELEGRAM_TOKEN:
+    raise ValueError("TELEGRAM_TOKEN no está configurado en las variables de entorno.")
+if not CHANNEL_ID:
+    raise ValueError("CHANNEL_ID no está configurado en las variables de entorno.")
+if not TOPIC_ID:
+    raise ValueError("TOPIC_ID no está configurado en las variables de entorno.")
+if not MONGO_URI:
+    raise ValueError("MONGO_URI no está configurada en las variables de entorno.")
+
+# Conexión a MongoDB Atlas (reemplaza el string con tu URI de Atlas)
+#client = MongoClient(config.MONGODB_URI)
+client = MongoClient(MONGO_URI)
+db = client.get_database()
+
+
+# Asegúrate de manejar errores si alguna variable no está configurada
+if not TELEGRAM_TOKEN:
+    raise ValueError("TELEGRAM_TOKEN no está configurado en las variables de entorno.")
+if not CHANNEL_ID:
+    raise ValueError("CHANNEL_ID no está configurado en las variables de entorno.")
+if not TOPIC_ID:
+    raise ValueError("TOPIC_ID no está configurado en las variables de entorno.")
+
 
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
 group_id = CHANNEL_ID
@@ -43,7 +65,8 @@ commands=[
     {"command": "capturedpokemons", "description": "Show your captured Pokemon with deatails."},
     {"command": "mycollection", "description": "Show how many type of Pokemons you have captured."},
     {"command": "freemypokemons", "description": "Free all your Pokemons. (WARNING: It is irreversible!)"},
-    {"command": "chance", "description": "Show the chance to capture pokemons.)"}
+    {"command": "chance", "description": "Show the chance to capture pokemons.)"},
+    {"command": "chooseyou", "description": "Summon a random pokemon from the user.)"}
 ]
 
 #General functions
@@ -57,9 +80,16 @@ def generate_capture_button(pokemonId):
 #Function for the escaping pokemon
 def pokemon_escape(pokemon, group_id, message_id):
     try:
+        escape_msgs = [f"The wild Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} has escaped!",
+                       f"Someone throw a rock and made the Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} escape!",
+                       f"The wild Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} saw a bad meme and escaped!",
+                       f"The wild Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} is a little scared and escaped!",
+                       f"The wild Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} saw someone taking down their pants and escaped!",
+                       f"The wild Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} dodged a pokeball and escaped!",
+                       f"The wild Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} was in reality a fake doll!"]
         # Notify the group that the Pokémon escaped
         bot.edit_message_text(
-            f"The wild Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny' if pokemon['isShiny'] else ''} {pokemon['name']} has escaped!",
+            random.choice(escape_msgs),
             chat_id=group_id,
             message_id=message_id
         )
@@ -181,7 +211,6 @@ def spawn_pokemon_handler(message):
         print(f"Error during spawn: {e}")
 
 # Callback query handler for "Capture!" button
-# Callback query handler for "Capture!" button
 @bot.callback_query_handler(func=lambda call: call.data.startswith("capture:"))
 def capture_pokemon_handler(call):
     try:
@@ -289,7 +318,6 @@ def get_pokemons_by_user(message):
         print(f"Error during capturedpokemons: {e}")
 
 # Callback query handler for /mycollection
-# Callback query handler for /mycollection
 @bot.message_handler(commands=['mycollection'])
 def get_pokemons_by_user(message):
     try:
@@ -321,7 +349,6 @@ def get_pokemons_by_user(message):
         print(f"Error during mycollection: {e}")
 
 # Bot command handler for /freemypokemons
-# Bot command handler for /freemypokemons
 @bot.message_handler(commands=['freemypokemons'])
 def register_command(message):
     try:
@@ -335,6 +362,44 @@ def register_command(message):
         threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
     except Exception as e:
         print(f"Error during freemypokemons: {e}")
+
+# Callback query handler for /chooseyou
+@bot.message_handler(commands=['chooseyou'])
+def summon_pokemon(message):
+    try:
+        username = message.from_user.username
+        if not username:
+            msg_cd = bot.reply_to(message, "No tienes un nombre de usuario en Telegram. Configúralo primero.")
+            threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg_cd.message_id)).start()
+            return
+        if not userEvents.checkUserisRegistered(username):
+            msg_cd = bot.reply_to(message, "No has registrado.")
+            threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg_cd.message_id)).start()
+            return
+        # Get a random pokemon id from the user's collection
+        random_pokemon = userEvents.getRandomPokemonCaptured(username)
+        if random_pokemon:
+            random_pkm_name = f"<b>{random_pokemon["name"]}</b>"
+            user_name = f"<b>{username}</b>"
+            random_pkm_img = f"./pokemon_sprites{'_shiny' if random_pokemon['isShiny']==True else ''}/{random_pokemon['id']}.webp"
+            # bot message with the image of the pokemon
+            if os.path.exists(random_pkm_img):
+                with open(random_pkm_img, 'rb') as photo:
+                    msg_st = bot.send_sticker(
+                        group_id,
+                        photo,
+                        message_thread_id=topic_id
+                    )
+            msg_rp = bot.send_message(
+                group_id,
+                f"{user_name} ha elegido a {random_pkm_name}!",
+                message_thread_id=topic_id,
+                parse_mode='HTML'
+                )
+            threading.Timer(30, lambda: bot.delete_message(chat_id=group_id, message_id=msg_rp.message_id)).start()
+            threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg_st.message_id)).start()
+    except Exception as e:
+        print(f"Error during chooseyou: {e}")
 
 class MockMessage:
     def __init__(self):
@@ -370,7 +435,12 @@ def monitor_messages(message):
 
 def replace_message(message):
     try:
-        modified_text = message.text.replace("(?", "? Por cierto, soy puto.")
+        mod_text_list = [
+            "? Por cierto, soy puto.",
+            "? Me encanta tragar sables",
+            "? Puto el que lee.",
+            "? Ojala que llueva para vergotas."]
+        modified_text = message.text.replace("(?", random.choice(mod_text_list))
         bot.delete_message(message.chat.id, message.message_id)
         user_name = message.from_user.username or message.from_user.first_name
         user_intro = f"<b>@{user_name}</b> dijo:"

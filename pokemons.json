@@ -717,13 +717,13 @@
         "id": 120,
         "name": "Staryu",
         "isLegendary": false,
-        "gender": ["male", "female"]
+        "gender": ["genderless"]
     },
     {
         "id": 121,
         "name": "Starmie",
         "isLegendary": false,
-        "gender": ["male", "female"]
+        "gender": ["genderless"]
     },
     {
         "id": 122,
