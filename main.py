@@ -8,6 +8,7 @@ import threading
 from collections import Counter
 import time
 from pymongo import MongoClient
+from flask import Flask
 #import config
 
 #TELEGRAM_TOKEN = config.TELEGRAM_TOKEN
@@ -30,18 +31,17 @@ if not MONGO_URI:
     raise ValueError("MONGO_URI no está configurada en las variables de entorno.")
 
 # Conexión a MongoDB Atlas (reemplaza el string con tu URI de Atlas)
-#client = MongoClient(config.MONGODB_URI)
+#client = MongoClient(config.MONGO_URI)
 client = MongoClient(MONGO_URI)
 db = client.get_database()
 
+# Inicializar Flask
+app = Flask(__name__)
 
-# Asegúrate de manejar errores si alguna variable no está configurada
-if not TELEGRAM_TOKEN:
-    raise ValueError("TELEGRAM_TOKEN no está configurado en las variables de entorno.")
-if not CHANNEL_ID:
-    raise ValueError("CHANNEL_ID no está configurado en las variables de entorno.")
-if not TOPIC_ID:
-    raise ValueError("TOPIC_ID no está configurado en las variables de entorno.")
+# Ruta básica para evitar el error de puerto
+@app.route('/')
+def home():
+    return "PokeGramBot is running!"
 
 
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
@@ -455,4 +455,12 @@ def replace_message(message):
         print(f"Error replacing message: {e}")
 
 # Initialization of the bot.
-bot.infinity_polling()
+# Hilo separado para el bot
+def start_bot():
+    bot.infinity_polling()
+
+if __name__ == "__main__":
+    # Ejecutar el bot en un hilo separado
+    threading.Thread(target=start_bot).start()
+    # Iniciar Flask en el puerto que Render necesita
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
