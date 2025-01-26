@@ -379,7 +379,7 @@ def summon_pokemon(message):
         # Get a random pokemon id from the user's collection
         random_pokemon = userEvents.getRandomPokemonCaptured(username)
         if random_pokemon:
-            random_pkm_name = f"<b>{random_pokemon["name"]}</b>"
+            random_pkm_name = f"<b>{random_pokemon['name']}</b>"
             user_name = f"<b>{username}</b>"
             random_pkm_img = f"./pokemon_sprites{'_shiny' if random_pokemon['isShiny']==True else ''}/{random_pokemon['id']}.webp"
             # bot message with the image of the pokemon
