@@ -1,10 +1,16 @@
 import random
 from pymongo import MongoClient
+import os
+
+MONGO_URI = os.getenv("MONGO_URI")
+
+if not MONGO_URI:
+    raise ValueError("MONGO_URI no está configurada en las variables de entorno.")
 
 #Check the existence of the pokemon database
 def checkPokemonsExists():
     try:
-        client = MongoClient('mongodb+srv://sarmientolma:w6Z4JaVFnMGrSV0I@cluster0.40gi2.mongodb.net/pokegrambot')
+        client = MongoClient(MONGO_URI)
         db = client['pokemon_bot']
         collection = db['pokemons']
         # Verificar si la colección de pokemons está vacía
@@ -18,7 +24,7 @@ def checkPokemonsExists():
 #Get a pokemon from the database using its ID
 def getPokemonNameById(pokemonId):
     try:
-        client = MongoClient('mongodb+srv://sarmientolma:w6Z4JaVFnMGrSV0I@cluster0.40gi2.mongodb.net/pokegrambot')
+        client = MongoClient(MONGO_URI)
         db = client['pokemon_bot']
         collection = db['pokemons']
         # Buscar el pokemon por ID
@@ -32,7 +38,7 @@ def getPokemonNameById(pokemonId):
 #Check if a pokemon is legendary by its ID
 def checkLegendary(pokemonId):
     try:
-        client = MongoClient('mongodb+srv://sarmientolma:w6Z4JaVFnMGrSV0I@cluster0.40gi2.mongodb.net/pokegrambot')
+        client = MongoClient(MONGO_URI)
         db = client['pokemon_bot']
         collection = db['pokemons']
         # Buscar el pokemon por ID y obtener si es legendario
@@ -46,7 +52,7 @@ def checkLegendary(pokemonId):
 #Get the gender of a pokemon by its ID
 def getGender(pokemonId):
     try:
-        client = MongoClient('mongodb+srv://sarmientolma:w6Z4JaVFnMGrSV0I@cluster0.40gi2.mongodb.net/pokegrambot')
+        client = MongoClient(MONGO_URI)
         db = client['pokemon_bot']
         collection = db['pokemons']
         # Buscar el pokemon por ID

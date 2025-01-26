@@ -1,10 +1,16 @@
 from pymongo import MongoClient
 import random
+import os
+
+MONGO_URI = os.getenv("MONGO_URI")
+
+if not MONGO_URI:
+    raise ValueError("MONGO_URI no está configurada en las variables de entorno.")
 
 #Check if the users database exists
 def checkUsersExists():
     try:
-        client = MongoClient('mongodb+srv://sarmientolma:w6Z4JaVFnMGrSV0I@cluster0.40gi2.mongodb.net/pokegrambot')  # Conectar a MongoDB
+        client = MongoClient(MONGO_URI)  # Conectar a MongoDB
         db = client['pokemon_bot']  # Nombre de la base de datos
         collection = db['users']  # Colección de usuarios
         # Verificar si la colección está vacía
@@ -18,7 +24,7 @@ def checkUsersExists():
 #Register a new user to the users database, checking if the username already exists.
 def registerUser(username):
     try:
-        client = MongoClient('mongodb+srv://sarmientolma:w6Z4JaVFnMGrSV0I@cluster0.40gi2.mongodb.net/pokegrambot')  # Conectar a MongoDB
+        client = MongoClient(MONGO_URI)  # Conectar a MongoDB
         db = client['pokemon_bot']  # Nombre de la base de datos
         collection = db['users']  # Colección de usuarios
         # Verificar si el nombre de usuario ya existe
@@ -39,7 +45,7 @@ def registerUser(username):
 #Check if the user exists in the database
 def checkUserisRegistered(username):
     try:
-        client = MongoClient('mongodb+srv://sarmientolma:w6Z4JaVFnMGrSV0I@cluster0.40gi2.mongodb.net/pokegrambot')
+        client = MongoClient(MONGO_URI)
         db = client['pokemon_bot']
         collection = db['users']
         # Consultar si el usuario existe
@@ -53,7 +59,7 @@ def checkUserisRegistered(username):
 #Get the user name by their username from the database
 def getUserByName(username):
     try:
-        client = MongoClient('mongodb+srv://sarmientolma:w6Z4JaVFnMGrSV0I@cluster0.40gi2.mongodb.net/pokegrambot')
+        client = MongoClient(MONGO_URI)
         db = client['pokemon_bot']
         collection = db['users']
 
@@ -69,7 +75,7 @@ def getUserByName(username):
 #Get the list of pokemons captured by a user using its username
 def getListOfPokemonCapturedByName(username):
     try:
-        client = MongoClient('mongodb+srv://sarmientolma:w6Z4JaVFnMGrSV0I@cluster0.40gi2.mongodb.net/pokegrambot')
+        client = MongoClient(MONGO_URI)
         db = client['pokemon_bot']
         collection = db['users']
         # Buscar el usuario y obtener su lista de pokemons
@@ -83,7 +89,7 @@ def getListOfPokemonCapturedByName(username):
 #Free all the pokemons captured by a user using their username
 def freeAllPokemons(username):
     try:
-        client = MongoClient('mongodb+srv://sarmientolma:w6Z4JaVFnMGrSV0I@cluster0.40gi2.mongodb.net/pokegrambot')
+        client = MongoClient(MONGO_URI)
         db = client['pokemon_bot']
         collection = db['users']
         # Buscar el usuario
@@ -102,7 +108,7 @@ def freeAllPokemons(username):
 #Add a new captured pokemon to a user
 def addPokemonCaptured(pokemon, username):
     try:
-        client = MongoClient('mongodb+srv://sarmientolma:w6Z4JaVFnMGrSV0I@cluster0.40gi2.mongodb.net/pokegrambot')
+        client = MongoClient(MONGO_URI)
         db = client['pokemon_bot']
         collection = db['users']
         # Buscar el usuario y agregar el pokemon
@@ -118,7 +124,7 @@ def addPokemonCaptured(pokemon, username):
     
 def getRandomPokemonCaptured(username):
     try:
-        client = MongoClient('mongodb+srv://sarmientolma:w6Z4JaVFnMGrSV0I@cluster0.40gi2.mongodb.net/pokegrambot')
+        client = MongoClient(MONGO_URI)
         db = client['pokemon_bot']
         collection = db['users']
         # Buscar el usuario y obtener el pokemon
