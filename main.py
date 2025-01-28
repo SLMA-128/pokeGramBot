@@ -6,7 +6,8 @@ import os
 import random
 import threading
 from collections import Counter
-from datetime import datetime, time
+from datetime import datetime, time as datetime_time
+import time
 from pymongo import MongoClient
 from flask import Flask, request
 #import config
@@ -411,8 +412,8 @@ class MockMessage:
 # Comprueba si la hora actual está dentro del rango permitido
 def is_within_time_range():
     now = datetime.now().time()
-    start_time = time(10, 0)  # 10:00 AM
-    end_time = time(23, 50)  # 11:50 PM
+    start_time = datetime_time(10, 0)  # 10:00 AM
+    end_time = datetime_time(23, 50)  # 11:50 PM
     return start_time <= now <= end_time
 
 # Automatically send the command /spawn with the bot every 10 minutes
@@ -423,8 +424,6 @@ def auto_spawn_event():
                 # Crea un mensaje simulado y llama al manejador de spawn
                 mock_message = MockMessage()
                 spawn_pokemon_handler(mock_message)
-            else:
-                print("Fuera del rango horario, no se spawneará Pokémon.")
             time.sleep(600)  # Espera 10 minutos
         except Exception as e:
             print(f"Error in auto-spawn: {e}")
