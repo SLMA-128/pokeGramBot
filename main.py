@@ -8,7 +8,7 @@ import threading
 from collections import Counter
 import time
 from pymongo import MongoClient
-from flask import Flask
+from flask import Flask, request
 #import config
 
 #TELEGRAM_TOKEN = config.TELEGRAM_TOKEN
@@ -39,9 +39,12 @@ db = client.get_database()
 app = Flask(__name__)
 
 # Ruta básica para evitar el error de puerto
-@app.route('/')
-def home():
-    return "PokeGramBot is running!"
+@app.route("/", methods=['POST'])
+def webhook():
+    json_string = request.get_data().decode('utf-8')
+    update = telebot.types.Update.de_json(json_string)
+    bot.process_new_updates([update])
+    return "¡OK!", 200
 
 
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
@@ -250,7 +253,6 @@ def capture_pokemon_handler(call):
             print(f"Error during capture: {e}")
 
 # Callback query handler for /mypokemons
-# Callback query handler for /mypokemons
 @bot.message_handler(commands=['mypokemons'])
 def get_pokemons_by_user(message):
     try:
@@ -276,7 +278,6 @@ def get_pokemons_by_user(message):
     except Exception as e:
         print(f"Error during mypokemons: {e}")
 
-# Callback query handler for /mypokemons
 # Callback query handler for /capturedpokemons
 @bot.message_handler(commands=['capturedpokemons'])
 def get_pokemons_by_user(message):
@@ -474,11 +475,10 @@ def replace_message(message):
 
 # Initialization of the bot.
 # Hilo separado para el bot
-def start_bot():
-    bot.infinity_polling()
+#def start_bot():
+#    bot.infinity_polling()
 
 if __name__ == "__main__":
-    # Ejecutar el bot en un hilo separado
-    threading.Thread(target=start_bot).start()
-    # Iniciar Flask en el puerto que Render necesita
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    # Obtén el puerto de la variable de entorno PORT o usa 10000 por defecto
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
