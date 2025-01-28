@@ -5,6 +5,7 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 import os
 import random
 import threading
+from http.server import SimpleHTTPRequestHandler, HTTPServer
 from collections import Counter
 import time
 from pymongo import MongoClient
@@ -460,10 +461,17 @@ def replace_message(message):
 
 # Initialization of the bot.
 # Hilo separado para el bot
-#def start_bot():
-#    bot.infinity_polling()
+def start_bot():
+    bot.infinity_polling()
+
+def start_server():
+    port = int(os.environ.get("PORT", 10000))
+    handler = SimpleHTTPRequestHandler
+    httpd = HTTPServer(("0.0.0.0", port), handler)
+    print(f"Servidor HTTP corriendo en el puerto {port}")
+    httpd.serve_forever()
 
 if __name__ == "__main__":
-    # Obtén el puerto de la variable de entorno PORT o usa 10000 por defecto
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port, debug=True)
+    # Ejecutar el bot y el servidor HTTP en hilos separados
+    threading.Thread(target=start_bot).start()
+    threading.Thread(target=start_server).start()
