@@ -423,7 +423,9 @@ def auto_spawn_event():
                 # Crea un mensaje simulado y llama al manejador de spawn
                 mock_message = MockMessage()
                 spawn_pokemon_handler(mock_message)
-            time.sleep(600)  # Espera 10 minutos antes de ejecutar de nuevo
+            else:
+                print("Fuera del rango horario, no se spawneará Pokémon.")
+            time.sleep(600)  # Espera 10 minutos
         except Exception as e:
             print(f"Error in auto-spawn: {e}")
 # Inicia el evento en un hilo separado
