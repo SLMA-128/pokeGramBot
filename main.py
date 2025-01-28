@@ -6,7 +6,7 @@ import os
 import random
 import threading
 from collections import Counter
-import time
+from datetime import datetime, time
 from pymongo import MongoClient
 from flask import Flask, request
 #import config
@@ -69,8 +69,7 @@ commands=[
     {"command": "mycollection", "description": "Show how many type of Pokemons you have captured."},
     {"command": "freemypokemons", "description": "Free all your Pokemons. (WARNING: It is irreversible!)"},
     {"command": "chance", "description": "Show the chance to capture pokemons.)"},
-    {"command": "chooseyou", "description": "Summon a random pokemon from the user.)"},
-    {"command": "players", "description": "Show the list of players."}
+    {"command": "chooseyou", "description": "Summon a random pokemon from the user.)"}
 ]
 
 #General functions
@@ -403,35 +402,27 @@ def summon_pokemon(message):
     except Exception as e:
         print(f"Error during chooseyou: {e}")
 
-# Callback query handler for /players that return the list of players from the function userEvents.getAllPlayers().
-@bot.callback_query_handler(func=lambda call: call.data.startswith('players'))
-def get_players(call):
-    try:
-        players = userEvents.getListUsernames()
-        response = "Players:\n"
-        for player in players:
-            response += f"- {player}\n"
-        bot.send_message(
-            group_id,
-            response,
-            message_thread_id=topic_id
-        )
-    except Exception as e:
-        print(f"Error during get_players: {e}")
-
-
 class MockMessage:
     def __init__(self):
         self.from_user = type('User', (), {'id': 0})  # Replace with a valid user ID
         self.chat = type('Chat', (), {'id': group_id})     # Replace with your group ID
         self.message_id = 1
+
+# Comprueba si la hora actual está dentro del rango permitido
+def is_within_time_range():
+    now = datetime.now().time()
+    start_time = time(10, 0)  # 10:00 AM
+    end_time = time(23, 50)  # 11:50 PM
+    return start_time <= now <= end_time
+
 # Automatically send the command /spawn with the bot every 10 minutes
 def auto_spawn_event():
     while True:
         try:
-            # Crea un mensaje simulado
-            mock_message = MockMessage()  # Puedes pasar un username y group_id personalizado aquí
-            spawn_pokemon_handler(mock_message)  # Llama al manejador de spawn
+            if is_within_time_range():
+                # Crea un mensaje simulado y llama al manejador de spawn
+                mock_message = MockMessage()
+                spawn_pokemon_handler(mock_message)
             time.sleep(600)  # Espera 10 minutos antes de ejecutar de nuevo
         except Exception as e:
             print(f"Error in auto-spawn: {e}")
