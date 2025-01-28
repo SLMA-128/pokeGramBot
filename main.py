@@ -38,6 +38,10 @@ db = client.get_database()
 # Inicializar Flask
 app = Flask(__name__)
 
+@app.route("/", methods=["GET"])  # Permitir solo GET
+def home():
+    return "Hello, world!", 200
+
 # Ruta básica para evitar el error de puerto
 @app.route("/", methods=['POST'])
 def webhook():
@@ -45,7 +49,6 @@ def webhook():
     update = telebot.types.Update.de_json(json_string)
     bot.process_new_updates([update])
     return "¡OK!", 200
-
 
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
 group_id = CHANNEL_ID
@@ -463,4 +466,4 @@ def replace_message(message):
 if __name__ == "__main__":
     # Obtén el puerto de la variable de entorno PORT o usa 10000 por defecto
     port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=port, debug=True)
