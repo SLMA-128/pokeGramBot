@@ -10,6 +10,7 @@ import time
 from pymongo import MongoClient
 #import config
 from logger_config import logger
+from datetime import datetime
 
 # Definir las variables de entorno
 #TELEGRAM_TOKEN = config.TELEGRAM_TOKEN
@@ -81,6 +82,17 @@ def checkUserExistence(username):
         return True
     return False
 
+#Function to check if its time for the bot to work
+def is_active_hours():
+    current_hour = datetime.now().hour
+    return 10 <= current_hour < 23  # Solo funciona de 10:00 a 22:59
+
+def check_active_hours():
+    if not is_active_hours():
+        bot.send_message(group_id, "Sorry, the bot is not active at the moment. It works from 10:00 to 22:59.",message_thread_id=topic_id)
+        return False
+    return True
+
 #Function for the escaping pokemon
 def pokemon_escape(pokemon, group_id, message_id):
     try:
@@ -119,6 +131,8 @@ def captureCheck(pokemon):
 @bot.message_handler(commands=['start'])
 def start(message):
     try:
+        if not check_active_hours():
+            return
         bot.set_my_commands(commands)
         bot.reply_to(message, "Hola, soy PokeGramBot!")
     except Exception as e:
@@ -128,6 +142,8 @@ def start(message):
 @bot.message_handler(commands=['help'])
 def generate_help_message(message):
     try:
+        if not check_active_hours():
+            return
         help_text = "Here are the commands you can use:\n\n"
         for command in commands:
             help_text += f"/{command['command']} - {command['description']}\n"
@@ -137,10 +153,12 @@ def generate_help_message(message):
     except Exception as e:
         logger.error(f"Error during help: {e}")
 
-#shows some functions
+#shows the chance of capture
 @bot.message_handler(commands=['chance'])
 def generate_help_message(message):
     try:
+        if not check_active_hours():
+            return
         help_text = "Chance to Capture Pokemons\nLevel 1:\nBase: 80%\nShiny:56%\nLegendary:64%\n\nLevel 100:\nBase: 39%\nShiny:30%\nLegendary: 33%\nLegendary and Shiny: 25%\n\nIMPORTANT: This value can be used as reference but said chance is affected by a random value which lowers the rate!"
         msg_cd = bot.reply_to(message, help_text)
         threading.Timer(90, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
@@ -151,6 +169,8 @@ def generate_help_message(message):
 @bot.message_handler(commands=['register'])
 def register_command(message):
     try:
+        if not check_active_hours():
+            return
         username = message.from_user.username
         if not username:
             msg_cd = bot.reply_to(message, "No tienes un nombre de usuario en Telegram. Configúralo primero.")
@@ -169,6 +189,8 @@ def register_command(message):
 @bot.message_handler(commands=['spawn'])
 def spawn_pokemon_handler(message):
     try:
+        if not check_active_hours():
+            return
         user_id = message.from_user.id
         current_time = time.time()
         if user_id in last_spawn_times:
@@ -262,6 +284,8 @@ def capture_pokemon_handler(call):
 @bot.message_handler(commands=['mypokemons'])
 def get_pokemons_by_user(message):
     try:
+        if not check_active_hours():
+            return
         username = message.from_user.username
         if checkUserExistence(username):
             return
@@ -284,6 +308,8 @@ def get_pokemons_by_user(message):
 @bot.message_handler(commands=['capturedpokemons'])
 def get_pokemons_by_user(message):
     try:
+        if not check_active_hours():
+            return
         username = message.from_user.username
         user_id = message.from_user.id
         if checkUserExistence(username):
@@ -318,6 +344,8 @@ def get_pokemons_by_user(message):
 @bot.message_handler(commands=['mycollection'])
 def get_pokemons_by_user(message):
     try:
+        if not check_active_hours():
+            return
         username = message.from_user.username
         if checkUserExistence(username):
             return
@@ -345,6 +373,8 @@ def get_pokemons_by_user(message):
 @bot.message_handler(commands=['freemypokemons'])
 def register_command(message):
     try:
+        if not check_active_hours():
+            return
         username = message.from_user.username
         if checkUserExistence(username):
             return
@@ -358,6 +388,8 @@ def register_command(message):
 @bot.message_handler(commands=['chooseyou'])
 def summon_pokemon(message):
     try:
+        if not check_active_hours():
+            return
         username = message.from_user.username
         if checkUserExistence(username):
             return
@@ -399,8 +431,9 @@ class MockMessage:
 def auto_spawn_event():
     while True:
         try:
-            mock_message = MockMessage()  # mock message
-            spawn_pokemon_handler(mock_message)  # call spawn_pokemon_handler
+            if check_active_hours():
+                mock_message = MockMessage()  # mock message
+                spawn_pokemon_handler(mock_message)  # call spawn_pokemon_handler
             time.sleep(600)  # wait 10 minutes
         except Exception as e:
             logger.error(f"Error in auto-spawn: {e}")
