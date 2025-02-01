@@ -11,6 +11,7 @@ from pymongo import MongoClient
 #import config
 from logger_config import logger
 from datetime import datetime
+import pytz
 
 # Definir las variables de entorno
 #TELEGRAM_TOKEN = config.TELEGRAM_TOKEN
@@ -84,8 +85,10 @@ def checkUserExistence(username):
 
 #Function to check if its time for the bot to work
 def is_active_hours():
-    current_hour = datetime.now().hour
-    return 10 <= current_hour < 23  # Solo funciona de 10:00 a 22:59
+    #Add your own time
+    argentina_tz = pytz.timezone('America/Argentina/Buenos_Aires')
+    current_hour = datetime.now(argentina_tz).hour
+    return 10 <= current_hour < 24  # Solo funciona de 10:00 a 23:59
 
 def check_active_hours():
     if not is_active_hours():
