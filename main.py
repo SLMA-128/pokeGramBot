@@ -5,22 +5,21 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 import os
 import random
 import threading
-from http.server import SimpleHTTPRequestHandler, HTTPServer
 from collections import Counter
 import time
 from pymongo import MongoClient
-from flask import Flask, request
 #import config
+from logger_config import logger
 
+# Definir las variables de entorno
 #TELEGRAM_TOKEN = config.TELEGRAM_TOKEN
 #CHANNEL_ID = config.CHANNEL_ID
 #TOPIC_ID = config.TOPIC_ID
-
+#MONGO_URI = config.MONGO_URI
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHANNEL_ID = int(os.getenv("CHANNEL_ID", "0"))
 TOPIC_ID = int(os.getenv("TOPIC_ID", "0"))
 MONGO_URI = os.getenv("MONGO_URI")
-
 # Validar que las variables de entorno estén configuradas
 if not TELEGRAM_TOKEN:
     raise ValueError("TELEGRAM_TOKEN no está configurado en las variables de entorno.")
@@ -31,26 +30,11 @@ if not TOPIC_ID:
 if not MONGO_URI:
     raise ValueError("MONGO_URI no está configurada en las variables de entorno.")
 
-# Conexión a MongoDB Atlas (reemplaza el string con tu URI de Atlas)
+# Conexión a MongoDB Atlas
 #client = MongoClient(config.MONGO_URI)
 client = MongoClient(MONGO_URI)
 db = client.get_database()
-
-# Inicializar Flask
-app = Flask(__name__)
-
-@app.route("/", methods=["GET"])  # Permitir solo GET
-def home():
-    return "Hello, world!", 200
-
-# Ruta básica para evitar el error de puerto
-@app.route("/", methods=['POST'])
-def webhook():
-    json_string = request.get_data().decode('utf-8')
-    update = telebot.types.Update.de_json(json_string)
-    bot.process_new_updates([update])
-    return "¡OK!", 200
-
+#bpt, group_id and topic_id values
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
 group_id = CHANNEL_ID
 topic_id = TOPIC_ID
@@ -58,6 +42,8 @@ topic_id = TOPIC_ID
 capture_timers = {}
 #capture spawned pokemons in the dictionary
 spawned_pokemons = {}
+#capture spawned pokemons in the dictionary to prvent others users to get them
+capture_locks = {}
 # Dictionary to track last usage times for the spawn command
 last_spawn_times = {}
 spawn_cooldawn = 60  # Cooldown time in seconds
@@ -84,6 +70,17 @@ def generate_capture_button(pokemonId):
     markup.add(button)
     return markup
 
+def checkUserExistence(username):
+    if not username:
+        msg_cd = bot.send_message(group_id, "You don't have a Telegram username. Please set one to see your Pokémon.",message_thread_id=topic_id)
+        threading.Timer(5, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
+        return True
+    if not userEvents.checkUserisRegistered(username):
+        msg_cd = bot.send_message(group_id, "You didn't register.",message_thread_id=topic_id)
+        threading.Timer(5, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
+        return True
+    return False
+
 #Function for the escaping pokemon
 def pokemon_escape(pokemon, group_id, message_id):
     try:
@@ -93,7 +90,10 @@ def pokemon_escape(pokemon, group_id, message_id):
                        f"The wild Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} is a little scared and escaped!",
                        f"The wild Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} saw someone taking down their pants and escaped!",
                        f"The wild Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} dodged a pokeball and escaped!",
-                       f"The wild Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} was in reality a fake doll!"]
+                       f"The wild Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} was in reality a fake doll!",
+                       f"The wild Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} was in reality a Ditto and has escaped!",
+                       f"A pokeball was thrown too hard and killed the Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']}!",
+                       f"The wild Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} killed itself to not be captured!"]
         # Notify the group that the Pokémon escaped
         bot.edit_message_text(
             random.choice(escape_msgs),
@@ -103,7 +103,7 @@ def pokemon_escape(pokemon, group_id, message_id):
         if message_id in spawned_pokemons:
             del spawned_pokemons[message_id]
     except Exception as e:
-        print(f"Error during escape notification: {e}")
+        logger.error(f"Error during escape notification: {e}")
 
 #generate the capture chance
 def captureCheck(pokemon):
@@ -122,7 +122,7 @@ def start(message):
         bot.set_my_commands(commands)
         bot.reply_to(message, "Hola, soy PokeGramBot!")
     except Exception as e:
-        print(f"Error during start: {e}")
+        logger.error(f"Error during start: {e}")
 
 #shows some functions
 @bot.message_handler(commands=['help'])
@@ -132,18 +132,20 @@ def generate_help_message(message):
         for command in commands:
             help_text += f"/{command['command']} - {command['description']}\n"
         help_text += f"\nEste bot es No Inclusivo, cualquier caso que pueda indicar lo contrario es un bug y será corregido."
-        bot.reply_to(message, help_text)
+        msg_cd = bot.reply_to(message, help_text)
+        threading.Timer(60, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
     except Exception as e:
-        print(f"Error during help: {e}")
+        logger.error(f"Error during help: {e}")
 
 #shows some functions
 @bot.message_handler(commands=['chance'])
 def generate_help_message(message):
     try:
-        help_text = "Chance to Capture Pokemons (Used Lv.100 as reference):\nBase: 39%\nShiny:30%\nLegendary: 33%\nLegendary and Shiny: 25%\n\nIMPORTANT: This value can be used as reference but said chance is affected by a random value which lowers the rate!"
-        bot.reply_to(message, help_text)
+        help_text = "Chance to Capture Pokemons\nLevel 1:\nBase: 80%\nShiny:56%\nLegendary:64%\n\nLevel 100:\nBase: 39%\nShiny:30%\nLegendary: 33%\nLegendary and Shiny: 25%\n\nIMPORTANT: This value can be used as reference but said chance is affected by a random value which lowers the rate!"
+        msg_cd = bot.reply_to(message, help_text)
+        threading.Timer(90, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
     except Exception as e:
-        print(f"Error during help: {e}")
+        logger.error(f"Error during help: {e}")
 
 # Bot command handler for /register
 @bot.message_handler(commands=['register'])
@@ -156,12 +158,12 @@ def register_command(message):
             return
         if userEvents.checkUserisRegistered(username):
             msg_cd = bot.reply_to(message, f"Usuario @{username} ya está registrado.")
-            threading.Timer(10, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
+            threading.Timer(5, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
         else:
             msg_cd = bot.reply_to(message, f"Usuario @{username} registrado con éxito.")
-            threading.Timer(5, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
+            threading.Timer(10, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
     except Exception as e:
-        print(f"Error during registration: {e}")
+        logger.error(f"Error during registration: {e}")
 
 # Bot command handler for /spawn
 @bot.message_handler(commands=['spawn'])
@@ -187,7 +189,7 @@ def spawn_pokemon_handler(message):
             return
         spawn_check = random.randint(1,100)
         if spawn_check <= 10:
-            msg = bot.reply_to(message, "El Pokémon escapó mientras intentaste spawnearlo...")
+            msg = bot.reply_to(message, "El Pokémon escapó al intentar spawnearlo...")
             threading.Timer(2, lambda: bot.delete_message(chat_id=group_id, message_id=msg.message_id)).start()
             return
         pokemon = pokemonEvents.generatePokemon()
@@ -215,58 +217,53 @@ def spawn_pokemon_handler(message):
         else:
             bot.reply_to(message, "Failed to spawn a Pokémon.")
     except Exception as e:
-        print(f"Error during spawn: {e}")
+        logger.error(f"Error during spawn: {e}")
 
 # Callback query handler for "Capture!" button
 @bot.callback_query_handler(func=lambda call: call.data.startswith("capture:"))
 def capture_pokemon_handler(call):
     try:
         username = call.from_user.username
-        if not username:
-            bot.answer_callback_query(call.id, "You don't have a Telegram username. Please set one to capture Pokémon.")
-            return
-        if not userEvents.checkUserisRegistered(username):
-            msg = bot.send_message(call.message.chat.id, "You didn't register.", message_thread_id=topic_id)
-            threading.Timer(2, lambda: bot.delete_message(chat_id=call.message.chat.id, message_id=msg.message_id)).start()
+        if checkUserExistence(username):
             return
         pokemon = spawned_pokemons.get(call.message.message_id)
         if pokemon is None:
             bot.answer_callback_query(call.id, "No Pokémon found.")
             return
+        message_id = call.message.message_id
+        if message_id in capture_locks:
+            msg_list = ["Too late! Someone else captured the Pokémon.", "Yasper, otro lo agarró!"]
+            bot.answer_callback_query(call.id, random.choice(msg_list))
+            return
+        user_id = call.from_user.id
+        capture_locks[message_id] = user_id
         # Attempt to capture the Pokémon
         if captureCheck(pokemon) <= 80:
             userEvents.addPokemonCaptured(pokemon, username)  # Ensure this function is compatible with MongoDB Atlas
             if call.message.message_id in capture_timers:
                 capture_timers[call.message.message_id].cancel()
                 del capture_timers[call.message.message_id]
-            bot.answer_callback_query(call.id, f"You captured a Lv.{pokemon['level']} {pokemon['gender']}{' shiny' if pokemon['isShiny'] else ''} {pokemon['name']}!")
             bot.edit_message_text(
                 f"{call.from_user.first_name} captured a Lv.{pokemon['level']} {pokemon['gender']}{' shiny' if pokemon['isShiny'] else ''} {pokemon['name']}!",
                 call.message.chat.id,
                 call.message.message_id
             )
             del spawned_pokemons[call.message.message_id]
+            del capture_locks[message_id]
         else:
-            bot.answer_callback_query(call.id, f"The Pokémon escaped from your hands!")
             pokemon_escape(pokemon, call.message.chat.id, call.message.message_id)
     except Exception as e:
         if "query is too old" in str(e):  # Handle expired callback queries gracefully
-            print("Expired callback query: ignoring outdated interaction.")
+            logger.error("Expired callback query: ignoring outdated interaction.")
         else:
-            print(f"Error during capture: {e}")
+            logger.error(f"Error during capture: {e}")
 
 # Callback query handler for /mypokemons
 @bot.message_handler(commands=['mypokemons'])
 def get_pokemons_by_user(message):
     try:
         username = message.from_user.username
-        if not username:
-            msg_cd = bot.reply_to(message, "You don't have a Telegram username. Please set one to see your Pokémon.")
-            threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg_cd.message_id)).start()
-            return
-        if not userEvents.checkUserisRegistered(username):
-            msg_cd = bot.reply_to(message, "You didn't register.")
-            threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg_cd.message_id)).start()
+        if checkUserExistence(username):
             return
         pokemons = userEvents.getListOfPokemonCapturedByName(username)
         if pokemons:
@@ -275,11 +272,13 @@ def get_pokemons_by_user(message):
                 if pokemon["isShiny"]:
                     shiny_counter += 1
             response = f"Your Pokémon Collection:\n- Pokemons: {len(pokemons)} (Shiny: {shiny_counter})\n"
-            bot.reply_to(message, response)
+            msg = bot.reply_to(message, response)
+            threading.Timer(30, lambda: bot.delete_message(chat_id=group_id, message_id=msg.message_id)).start()
         else:
-            bot.reply_to(message, "You don't have any Pokémon captured.")
+            msg = bot.reply_to(message, "You don't have any Pokémon captured.")
+            threading.Timer(3, lambda: bot.delete_message(chat_id=group_id, message_id=msg.message_id)).start()
     except Exception as e:
-        print(f"Error during mypokemons: {e}")
+        logger.error(f"Error during mypokemons: {e}")
 
 # Callback query handler for /capturedpokemons
 @bot.message_handler(commands=['capturedpokemons'])
@@ -287,13 +286,7 @@ def get_pokemons_by_user(message):
     try:
         username = message.from_user.username
         user_id = message.from_user.id
-        if not username:
-            msg_cd = bot.send_message(user_id, "You don't have a Telegram username. Please set one to see your Pokémon.")
-            threading.Timer(5, lambda: bot.delete_message(chat_id=user_id, message_id=msg_cd.message_id)).start()
-            return
-        if not userEvents.checkUserisRegistered(username):
-            msg_cd = bot.send_message(user_id, "You didn't register.")
-            threading.Timer(5, lambda: bot.delete_message(chat_id=user_id, message_id=msg_cd.message_id)).start()
+        if checkUserExistence(username):
             return
         pokemons = userEvents.getListOfPokemonCapturedByName(username)
         if pokemons:
@@ -309,7 +302,6 @@ def get_pokemons_by_user(message):
                 if pokemon["name"] not in max_levels or pokemon["level"] > max_levels[pokemon["name"]]:
                     max_levels[pokemon["name"]] = pokemon["level"]
                     pokemon_ids[pokemon["name"]] = pokemon["id"]
-            # Format the message
             response = "Your Pokémon Collection:\n"
             for pokemon_name, count in pokemon_counts.items():
                 shiny_count = shiny_counts[pokemon_name]
@@ -320,20 +312,14 @@ def get_pokemons_by_user(message):
         else:
             bot.send_message(user_id, "You don't have any Pokémon captured.")
     except Exception as e:
-        print(f"Error during capturedpokemons: {e}")
+        logger.error(f"Error during capturedpokemons: {e}")
 
 # Callback query handler for /mycollection
 @bot.message_handler(commands=['mycollection'])
 def get_pokemons_by_user(message):
     try:
         username = message.from_user.username
-        if not username:
-            msg_cd = bot.reply_to(message, "You don't have a Telegram username. Please set one to see your Pokémon.")
-            threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg_cd.message_id)).start()
-            return
-        if not userEvents.checkUserisRegistered(username):
-            msg_cd = bot.reply_to(message, "You didn't register.")
-            threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg_cd.message_id)).start()
+        if checkUserExistence(username):
             return
         pokemons = userEvents.getListOfPokemonCapturedByName(username)
         pokemon_counts = {}
@@ -347,39 +333,33 @@ def get_pokemons_by_user(message):
                 if pokemon["name"] not in legendary_counts and pokemon["isLegendary"] == True:
                     legendary_counts[pokemon["name"]] = pokemon["id"]
             response = f"Pokémons Collected: {len(pokemon_counts)}/151\nShiny: {len(shiny_counts)}/151\nLegendary: {len(legendary_counts)}/5\n"
-            bot.reply_to(message, response)
+            msg = bot.reply_to(message, response)
+            threading.Timer(30, lambda: bot.delete_message(chat_id=group_id, message_id=msg.message_id)).start()
         else:
-            bot.reply_to(message, "You don't have any Pokémon captured.")
+            msg = bot.reply_to(message, "You don't have any Pokémon captured.")
+            threading.Timer(3, lambda: bot.delete_message(chat_id=group_id, message_id=msg.message_id)).start()
     except Exception as e:
-        print(f"Error during mycollection: {e}")
+        logger.error(f"Error during mycollection: {e}")
 
 # Bot command handler for /freemypokemons
 @bot.message_handler(commands=['freemypokemons'])
 def register_command(message):
     try:
         username = message.from_user.username
-        if not username:
-            msg_cd = bot.reply_to(message, "No tienes un nombre de usuario en Telegram. Configúralo primero.")
-            threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg_cd.message_id)).start()
+        if checkUserExistence(username):
             return
         userEvents.freeAllPokemons(username)
         msg = bot.reply_to(message, f"Usuario @{username} liberó a todos sus pokémones!")
         threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
     except Exception as e:
-        print(f"Error during freemypokemons: {e}")
+        logger.error(f"Error during freemypokemons: {e}")
 
 # Callback query handler for /chooseyou
 @bot.message_handler(commands=['chooseyou'])
 def summon_pokemon(message):
     try:
         username = message.from_user.username
-        if not username:
-            msg_cd = bot.reply_to(message, "No tienes un nombre de usuario en Telegram. Configúralo primero.")
-            threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg_cd.message_id)).start()
-            return
-        if not userEvents.checkUserisRegistered(username):
-            msg_cd = bot.reply_to(message, "No has registrado.")
-            threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg_cd.message_id)).start()
+        if checkUserExistence(username):
             return
         # Get a random pokemon id from the user's collection
         random_pokemon = userEvents.getRandomPokemonCaptured(username)
@@ -395,16 +375,20 @@ def summon_pokemon(message):
                         photo,
                         message_thread_id=topic_id
                     )
+            msg_list = [f"{user_name} ha elegido a {random_pkm_name}!",
+                        f"{user_name} se le cayo una pokeball y {random_pkm_name} se salió!",
+                        f"{random_pkm_name} salió para ver memes!",
+                        f"{user_name} sacó a {random_pkm_name} mientras veia el canal NSFW!"]
             msg_rp = bot.send_message(
                 group_id,
-                f"{user_name} ha elegido a {random_pkm_name}!",
+                random.choice(msg_list),
                 message_thread_id=topic_id,
                 parse_mode='HTML'
                 )
             threading.Timer(30, lambda: bot.delete_message(chat_id=group_id, message_id=msg_rp.message_id)).start()
             threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg_st.message_id)).start()
     except Exception as e:
-        print(f"Error during chooseyou: {e}")
+        logger.error(f"Error during chooseyou: {e}")
 
 class MockMessage:
     def __init__(self):
@@ -415,28 +399,25 @@ class MockMessage:
 def auto_spawn_event():
     while True:
         try:
-            # Crea un mensaje simulado
-            mock_message = MockMessage()  # Puedes pasar un username y group_id personalizado aquí
-            spawn_pokemon_handler(mock_message)  # Llama al manejador de spawn
-            time.sleep(600)  # Espera 10 minutos antes de ejecutar de nuevo
+            mock_message = MockMessage()  # mock message
+            spawn_pokemon_handler(mock_message)  # call spawn_pokemon_handler
+            time.sleep(600)  # wait 10 minutes
         except Exception as e:
-            print(f"Error in auto-spawn: {e}")
-# Inicia el evento en un hilo separado
+            logger.error(f"Error in auto-spawn: {e}")
+# start the event in a different thread
 spawn_thread = threading.Thread(target=auto_spawn_event, daemon=True)
 spawn_thread.start()
 
-# From this point onwards there will not be more documentation or comment lines explaining anything.
-# If you get any error, update, fix or delete the code yourself.
-# From this point onwards there will not be more documentation or comment lines explaining anything.
-# If you get any error, update, fix the code yourself.
-# Monitor message handler
+# From this line until the next line there will not be more documentation or comment lines explaining anything.
+#----------------------------------------------------------------------------------------------------
+# If you get any error then update, fix or delete the code yourself.
 @bot.message_handler(func=lambda message: True)
 def monitor_messages(message):
     try:
         if "(?" in message.text:
             threading.Timer(2.0, replace_message, args=[message]).start()
     except Exception as e:
-        print(f"Error monitoring message: {e}")
+        logger.error(f"Error monitoring message: {e}")
 
 def replace_message(message):
     try:
@@ -444,7 +425,8 @@ def replace_message(message):
             "? Por cierto, soy puto.",
             "? Me encanta tragar sables",
             "? Puto el que lee.",
-            "? Ojala que llueva para vergotas."]
+            "? Ojala que llueva para vergotas.",
+            "? A Nisman lo mataron."]
         modified_text = message.text.replace("(?", random.choice(mod_text_list))
         bot.delete_message(message.chat.id, message.message_id)
         user_name = message.from_user.username or message.from_user.first_name
@@ -457,21 +439,7 @@ def replace_message(message):
             message_thread_id=message.message_thread_id
         )
     except Exception as e:
-        print(f"Error replacing message: {e}")
-
+        logger.error(f"Error replacing message: {e}")
+#----------------------------------------------------------------------------------------------------
 # Initialization of the bot.
-# Hilo separado para el bot
-def start_bot():
-    bot.infinity_polling()
-
-def start_server():
-    port = int(os.environ.get("PORT", 10000))
-    handler = SimpleHTTPRequestHandler
-    httpd = HTTPServer(("0.0.0.0", port), handler)
-    print(f"Servidor HTTP corriendo en el puerto {port}")
-    httpd.serve_forever()
-
-if __name__ == "__main__":
-    # Ejecutar el bot y el servidor HTTP en hilos separados
-    threading.Thread(target=start_bot).start()
-    threading.Thread(target=start_server).start()
+bot.infinity_polling()

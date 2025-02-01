@@ -1,7 +1,10 @@
 from pymongo import MongoClient
 import random
 import os
+#import config
+from logger_config import logger
 
+#MONGO_URI = config.MONGO_URI
 MONGO_URI = os.getenv("MONGO_URI")
 
 if not MONGO_URI:
@@ -19,7 +22,7 @@ def checkUsersExists():
             collection.insert_one({'placeholder': 'data'})
         client.close()
     except Exception as e:
-        print(f"Error checking users database: {str(e)}")
+        logger.error(f"Error checking users database: {str(e)}")
 
 #Register a new user to the users database, checking if the username already exists.
 def registerUser(username):
@@ -39,7 +42,7 @@ def registerUser(username):
         client.close()
         return True
     except Exception as e:
-        print(f"Error registering user: {str(e)}")
+        logger.error(f"Error registering user: {str(e)}")
         return False
 
 #Check if the user exists in the database
@@ -53,7 +56,7 @@ def checkUserisRegistered(username):
         client.close()
         return user is not None
     except Exception as e:
-        print(f"Error checking user: {str(e)}")
+        logger.error(f"Error checking user: {str(e)}")
         return False
 
 #Get the user name by their username from the database
@@ -67,7 +70,7 @@ def getUserByName(username):
         client.close()
         return user["name"] if user else None
     except Exception as e:
-        print(f"Error getting user: {str(e)}")
+        logger.error(f"Error getting user: {str(e)}")
         return None
 
 #Get the list of pokemons captured by a user using its username
@@ -81,7 +84,7 @@ def getListOfPokemonCapturedByName(username):
         client.close()
         return user["pokemonsOwned"] if user else None
     except Exception as e:
-        print(f"Error getting user: {str(e)}")
+        logger.error(f"Error getting user: {str(e)}")
         return None
 
 #Free all the pokemons captured by a user using their username
@@ -100,7 +103,7 @@ def freeAllPokemons(username):
         client.close()
         return False
     except Exception as e:
-        print(f"Error freeing pokemons: {str(e)}")
+        logger.error(f"Error freeing pokemons: {str(e)}")
         return False
 
 #Add a new captured pokemon to a user
@@ -117,7 +120,7 @@ def addPokemonCaptured(pokemon, username):
         client.close()
         return result.modified_count > 0  # True si se realizó una actualización
     except Exception as e:
-        print(f"Error adding pokemon: {str(e)}")
+        logger.error(f"Error adding pokemon: {str(e)}")
         return False
     
 def getRandomPokemonCaptured(username):
@@ -132,7 +135,7 @@ def getRandomPokemonCaptured(username):
         client.close()
         return None
     except Exception as e:
-        print(f"Error getting user: {str(e)}")
+        logger.error(f"Error getting user: {str(e)}")
         return None
     
 #Get a list with all usernames from the database
@@ -146,5 +149,5 @@ def getListUsernames():
         client.close()
         return [user["name"] for user in users]
     except Exception as e:
-        print(f"Error getting all usernames: {str(e)}")
+        logger.error(f"Error getting all usernames: {str(e)}")
         return None
