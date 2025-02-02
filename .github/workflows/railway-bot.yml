@@ -1,0 +1,25 @@
+name: Railway Bot Scheduler
+
+on:
+  schedule:
+    - cron: "0 7 * * *"  # Encender a las 10:00 AM UTC
+    - cron: "0 20 * * *"  # Apagar a las 23:00 PM UTC
+
+jobs:
+  manage-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Railway CLI
+        run: curl -fsSL https://railway.app/install.sh | sh
+      
+      - name: Login to Railway
+        run: railway login --token ${{ secrets.RAILWAY_TOKEN }}
+
+      - name: Start/Stop Railway Bot
+        run: |
+          HOUR=$(date -u +%H)
+          if [ "$HOUR" -eq "7" ]; then
+            railway up
+          elif [ "$HOUR" -eq "20" ]; then
+            railway down
+          fi
