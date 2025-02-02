@@ -92,23 +92,24 @@ def is_active_hours():
 
 def check_active_hours():
     if not is_active_hours():
-        bot.send_message(group_id, "Sorry, the bot is not active at the moment. It works from 10:00 to 22:59.",message_thread_id=topic_id)
+        msg = bot.send_message(group_id, "Sorry, the bot is not active at the moment. It works from 10:00 to 22:59.",message_thread_id=topic_id)
+        threading.Timer(5, lambda: bot.delete_message(chat_id=group_id, message_id=msg.message_id)).start()
         return False
     return True
 
 #Function for the escaping pokemon
 def pokemon_escape(pokemon, group_id, message_id):
     try:
-        escape_msgs = [f"The wild Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} has escaped!",
-                       f"Someone throw a rock and made the Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} escape!",
-                       f"The wild Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} saw a bad meme and escaped!",
-                       f"The wild Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} is a little scared and escaped!",
-                       f"The wild Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} saw someone taking down their pants and escaped!",
-                       f"The wild Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} dodged a pokeball and escaped!",
-                       f"The wild Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} was in reality a fake doll!",
-                       f"The wild Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} was in reality a Ditto and has escaped!",
-                       f"A pokeball was thrown too hard and killed the Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']}!",
-                       f"The wild Lv.{pokemon['level']} {'Genderless' if pokemon['gender'] == 'genderless' else pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} killed itself to not be captured!"]
+        escape_msgs = [f"The wild Lv.{pokemon['level']} {pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} has escaped!",
+                       f"Someone throw a rock and made the Lv.{pokemon['level']} {pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} escape!",
+                       f"The wild Lv.{pokemon['level']} {pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} saw a bad meme and escaped!",
+                       f"The wild Lv.{pokemon['level']} {pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} is a little scared and escaped!",
+                       f"The wild Lv.{pokemon['level']} {pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} saw someone taking down their pants and escaped!",
+                       f"The wild Lv.{pokemon['level']} {pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} dodged a pokeball and escaped!",
+                       f"The wild Lv.{pokemon['level']} {pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} was in reality a fake doll!",
+                       f"The wild Lv.{pokemon['level']} {pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} was in reality a Ditto and has escaped!",
+                       f"A pokeball was thrown too hard and killed the Lv.{pokemon['level']} {pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']}!",
+                       f"The wild Lv.{pokemon['level']} {pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} killed itself to not be captured!"]
         # Notify the group that the Pokémon escaped
         bot.edit_message_text(
             random.choice(escape_msgs),
@@ -183,6 +184,7 @@ def register_command(message):
             msg_cd = bot.reply_to(message, f"Usuario @{username} ya está registrado.")
             threading.Timer(5, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
         else:
+            userEvents.registerUser(username)
             msg_cd = bot.reply_to(message, f"Usuario @{username} registrado con éxito.")
             threading.Timer(10, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
     except Exception as e:
@@ -218,7 +220,7 @@ def spawn_pokemon_handler(message):
             threading.Timer(2, lambda: bot.delete_message(chat_id=group_id, message_id=msg.message_id)).start()
             return
         pokemon = pokemonEvents.generatePokemon()
-        pokemon_image = f"./pokemon_sprites{'_shiny' if pokemon['isShiny']==True else ''}/{pokemon['id']}.webp"
+        pokemon_image = pokemon["image"]
         if pokemon:
             if os.path.exists(pokemon_image):
                 with open(pokemon_image, 'rb') as photo:
@@ -230,7 +232,7 @@ def spawn_pokemon_handler(message):
             pokemon_name = f"***{pokemon['name']}***" if pokemon['isLegendary'] else pokemon['name']
             msg = bot.send_message(
                 group_id,
-                f"A wild {pokemon_name}{' shiny' if pokemon['isShiny'] else ''} appeared! What will you do?\nGender: {'Genderless' if pokemon['gender']=='genderless' else 'Male' if pokemon['gender']=='male' else 'Female'}\nLevel: {pokemon['level']}",
+                f"A wild {pokemon_name}{' shiny' if pokemon['isShiny'] else ''} appeared! What will you do?\nGender: {pokemon['gender']}\nLevel: {pokemon['level']}",
                 reply_markup=generate_capture_button(pokemon["id"]),
                 message_thread_id=topic_id,
                 parse_mode='Markdown'
@@ -401,7 +403,7 @@ def summon_pokemon(message):
         if random_pokemon:
             random_pkm_name = f"<b>{random_pokemon['name']}</b>"
             user_name = f"<b>{username}</b>"
-            random_pkm_img = f"./pokemon_sprites{'_shiny' if random_pokemon['isShiny']==True else ''}/{random_pokemon['id']}.webp"
+            random_pkm_img = random_pokemon["image"]
             # bot message with the image of the pokemon
             if os.path.exists(random_pkm_img):
                 with open(random_pkm_img, 'rb') as photo:

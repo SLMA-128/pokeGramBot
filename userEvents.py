@@ -10,20 +10,6 @@ MONGO_URI = os.getenv("MONGO_URI")
 if not MONGO_URI:
     raise ValueError("MONGO_URI no está configurada en las variables de entorno.")
 
-#Check if the users database exists
-def checkUsersExists():
-    try:
-        client = MongoClient(MONGO_URI)  # Conectar a MongoDB
-        db = client['pokemon_bot']  # Nombre de la base de datos
-        collection = db['users']  # Colección de usuarios
-        # Verificar si la colección está vacía
-        if collection.count_documents({}) == 0:
-            # Si la colección está vacía, insertar un documento vacío para crear la base de datos
-            collection.insert_one({'placeholder': 'data'})
-        client.close()
-    except Exception as e:
-        logger.error(f"Error checking users database: {str(e)}")
-
 #Register a new user to the users database, checking if the username already exists.
 def registerUser(username):
     try:
@@ -37,7 +23,7 @@ def registerUser(username):
         max_id = collection.find_one({}, {"id": 1}, sort=[("id", -1)])
         new_id = max_id["id"] + 1 if max_id else 1
         # Crear nuevo usuario
-        new_user = {"id": new_id, "name": username, "pokemonsOwned": []}
+        new_user = {"id": new_id, "name": username, "total_pokemons": 0, "total_shiny": 0, "pokemonsOwned": []}
         collection.insert_one(new_user)
         client.close()
         return True
@@ -58,20 +44,6 @@ def checkUserisRegistered(username):
     except Exception as e:
         logger.error(f"Error checking user: {str(e)}")
         return False
-
-#Get the user name by their username from the database
-def getUserByName(username):
-    try:
-        client = MongoClient(MONGO_URI)
-        db = client['pokemon_bot']
-        collection = db['users']
-        # Buscar el usuario por nombre
-        user = collection.find_one({"name": username})
-        client.close()
-        return user["name"] if user else None
-    except Exception as e:
-        logger.error(f"Error getting user: {str(e)}")
-        return None
 
 #Get the list of pokemons captured by a user using its username
 def getListOfPokemonCapturedByName(username):
@@ -136,18 +108,4 @@ def getRandomPokemonCaptured(username):
         return None
     except Exception as e:
         logger.error(f"Error getting user: {str(e)}")
-        return None
-    
-#Get a list with all usernames from the database
-def getListUsernames():
-    try:
-        client = MongoClient(MONGO_URI)
-        db = client['pokemon_bot']
-        collection = db['users']
-        # Obtener todos los nombres de usuario
-        users = collection.find({}, {"name": 1})
-        client.close()
-        return [user["name"] for user in users]
-    except Exception as e:
-        logger.error(f"Error getting all usernames: {str(e)}")
         return None

@@ -24,7 +24,7 @@ def checkPokemonsExists():
     except Exception as e:
         logger.error(f"Error checking the existence of the Pokémon database: {e}")
 
-#Get a pokemon from the database using its ID
+#Get a pokemon name from the database using its ID
 def getPokemonNameById(pokemonId):
     try:
         client = MongoClient(MONGO_URI)
@@ -34,6 +34,20 @@ def getPokemonNameById(pokemonId):
         pokemon = collection.find_one({"id": pokemonId})
         client.close()
         return pokemon["name"] if pokemon else None
+    except Exception as e:
+        logger.error(f"Error getting the Pokémon by ID: {e}")
+        return None
+
+#Get a pokemon from the database using its ID
+def getPokemonById(pokemonId):
+    try:
+        client = MongoClient(MONGO_URI)
+        db = client['pokemon_bot']
+        collection = db['pokemons']
+        # Buscar el pokemon por ID
+        pokemon = collection.find_one({"id": pokemonId})
+        client.close()
+        return pokemon
     except Exception as e:
         logger.error(f"Error getting the Pokémon by ID: {e}")
         return None
@@ -69,25 +83,22 @@ def getGender(pokemonId):
 #Generate a new random pokemon with its ID, name, shiny status, legendary status, level, and gender
 def generatePokemon():
     try:
-        pokemonId = random.randint(1, 151)
-        isShiny_check = random.randint(1, 4096)
-        isLegendary_check = checkLegendary(pokemonId)
-        if isLegendary_check:
-            pokemonId = random.randint(1, 151)
-            isLegendary_check = checkLegendary(pokemonId)
-        # Generar el pokemon usando los datos de la base de datos
-        pokemon_name = getPokemonNameById(pokemonId)
-        if pokemon_name is None:
+        pokemon = getPokemonById(random.randint(1, 151))
+        if pokemon is None:
             return None  # No existe pokemon con ese ID
-        pokemon = {
-            "id": pokemonId,
-            "name": pokemon_name,
-            "isShiny": isShiny_check <= 2,
-            "isLegendary": isLegendary_check,
+        isShiny_check = random.randint(1, 4096) <= 2
+        pokemon_image = f"./pokemon_sprites{'_shiny' if isShiny_check==True else ''}/{pokemon['id']}.webp"
+        # Generar el pokemon usando los datos de la base de datos
+        new_pokemon = {
+            "id": pokemon['id'],
+            "name": pokemon['name'],
+            "isShiny": isShiny_check,
+            "isLegendary": pokemon['isLegendary'],
             "level": random.randint(1, 100),
-            "gender": getGender(pokemonId)
+            "gender": random.choice(pokemon['gender']),
+            "image": pokemon_image
         }
-        return pokemon
+        return new_pokemon
     except Exception as e:
         logger.error(f"Error generating a new Pokémon: {e}")
         return None
