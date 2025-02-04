@@ -87,7 +87,8 @@ def generatePokemon():
         if pokemon is None:
             return None  # No existe pokemon con ese ID
         isShiny_check = random.randint(1, 4096) <= 2
-        pokemon_image = f"./pokemon_sprites{'_shiny' if isShiny_check==True else ''}/{pokemon['id']}.webp"
+        pokemon_image = f"./pokemon_sprites{'_shiny' if isShiny_check==True else ''}/{random.choice(pokemon['image'])}.webp"
+        pkm_gender = "Female" if pokemon_image.endswith("f") else "Male" if pokemon_image.endswith("m") else random.choice(pokemon['gender'])
         # Generar el pokemon usando los datos de la base de datos
         new_pokemon = {
             "id": pokemon['id'],
@@ -95,8 +96,9 @@ def generatePokemon():
             "isShiny": isShiny_check,
             "isLegendary": pokemon['isLegendary'],
             "level": random.randint(1, 100),
-            "gender": random.choice(pokemon['gender']),
-            "image": pokemon_image
+            "gender": pkm_gender,
+            "image": pokemon_image,
+            "captured": 1
         }
         return new_pokemon
     except Exception as e:

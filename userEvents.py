@@ -85,16 +85,50 @@ def addPokemonCaptured(pokemon, username):
         db = client['pokemon_bot']
         collection = db['users']
         # Buscar el usuario y agregar el pokemon
-        result = collection.update_one(
-            {"name": username}, 
-            {"$push": {"pokemonsOwned": pokemon}}
-        )
+        # Incrementar el contador total de Pokémon atrapados
+        update_user_stats = {
+            "$inc": {"total_pokemons": 1}  # Se incrementa con cada captura
+        }
+        # Si el Pokémon capturado es shiny, también incrementamos total_shiny
+        if pokemon["isShiny"]:
+            update_user_stats["$inc"]["total_shiny"] = 1
+        # Aplicar incremento en la base de datos
+        collection.update_one({"name": username}, update_user_stats)
+        query = {
+            "name": username,
+            "pokemonsOwned": {
+                "$elemMatch": {
+                    "id": pokemon["id"],
+                    "isShiny": pokemon["isShiny"]  # Diferenciar shiny de no shiny
+                }
+            }
+        }
+        existing_pokemon = collection.find_one(query)
+        if existing_pokemon:
+            # Si el Pokémon ya existe, actualizar sus datos
+            update_fields = {
+                "$inc": {"pokemonsOwned.$.captured": 1}  # Incrementar cantidad capturada
+            }
+            # Si el nuevo Pokémon tiene mayor nivel, actualizar nivel e imagen
+            if existing_pokemon["pokemonsOwned"][0]["level"] < pokemon["level"]:
+                update_fields["$set"] = {
+                    "pokemonsOwned.$.level": pokemon["level"],
+                    "pokemonsOwned.$.image": pokemon["image"]
+                }
+            collection.update_one(query, update_fields)
+        else:
+            # Si el Pokémon no existe, agregarlo normalmente
+            collection.update_one(
+                {"name": username},
+                {"$push": {"pokemonsOwned": pokemon}}
+            )
         client.close()
-        return result.modified_count > 0  # True si se realizó una actualización
+        return True
     except Exception as e:
         logger.error(f"Error adding pokemon: {str(e)}")
         return False
-    
+
+#Get a random pokemon captured by a user using their username
 def getRandomPokemonCaptured(username):
     try:
         client = MongoClient(MONGO_URI)

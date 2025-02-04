@@ -3,906 +3,1057 @@
         "id": 1,
         "name": "Bulbasaur",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["1"]
     },
     {
         "id": 2,
         "name": "Ivysaur",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["2"]
     },
     {
         "id": 3,
         "name": "Venusaur",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["3"]
     },
     {
         "id": 4,
         "name": "Charmander",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["4"]
     },
     {
         "id": 5,
         "name": "Charmeleon",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["5"]
     },
     {
         "id": 6,
         "name": "Charizard",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["6"]
     },
     {
         "id": 7,
         "name": "Squirtle",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["7"]
     },
     {
         "id": 8,
         "name": "Wartortle",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["8"]
     },
     {
         "id": 9,
         "name": "Blastoise",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["9"]
     },
     {
         "id": 10,
         "name": "Caterpie",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["10"]
     },
     {
         "id": 11,
         "name": "Metapod",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["11"]
     },
     {
         "id": 12,
         "name": "Butterfree",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["12"]
     },
     {
         "id": 13,
         "name": "Weedle",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["13"]
     },
     {
         "id": 14,
         "name": "Kakuna",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["14"]
     },
     {
         "id": 15,
         "name": "Beedrill",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["15"]
     },
     {
         "id": 16,
         "name": "Pidgey",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["16"]
     },
     {
         "id": 17,
         "name": "Pidgeotto",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["17"]
     },
     {
         "id": 18,
         "name": "Pidgeot",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["18"]
     },
     {
         "id": 19,
         "name": "Rattata",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["19"]
     },
     {
         "id": 20,
         "name": "Raticate",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["20"]
     },
     {
         "id": 21,
         "name": "Spearow",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["21"]
     },
     {
         "id": 22,
         "name": "Fearow",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["22"]
     },
     {
         "id": 23,
         "name": "Ekans",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["23"]
     },
     {
         "id": 24,
         "name": "Arbok",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["24"]
     },
     {
         "id": 25,
         "name": "Pikachu",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["25"]
     },
     {
         "id": 26,
         "name": "Raichu",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["26"]
     },
     {
         "id": 27,
         "name": "Sandshrew",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["27"]
     },
     {
         "id": 28,
         "name": "Sandslash",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["28"]
     },
     {
         "id": 29,
         "name": "Nidoran",
         "isLegendary": false,
-        "gender": ["Female"]
+        "gender": ["Female"],
+        "image": ["29"]
     },
     {
         "id": 30,
         "name": "Nidorina",
         "isLegendary": false,
-        "gender": ["Female"]
+        "gender": ["Female"],
+        "image": ["30"]
     },
     {
         "id": 31,
         "name": "Nidoqueen",
         "isLegendary": false,
-        "gender": ["Female"]
+        "gender": ["Female"],
+        "image": ["31"]
     },
     {
         "id": 32,
         "name": "Nidoran",
         "isLegendary": false,
-        "gender": ["Male"]
+        "gender": ["Male"],
+        "image": ["32"]
     },
     {
         "id": 33,
         "name": "Nidorino",
         "isLegendary": false,
-        "gender": ["Male"]
+        "gender": ["Male"],
+        "image": ["33"]
     },
     {
         "id": 34,
         "name": "Nidoking",
         "isLegendary": false,
-        "gender": ["Male"]
+        "gender": ["Male"],
+        "image": ["34"]
     },
     {
         "id": 35,
         "name": "Clefairy",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["35"]
     },
     {
         "id": 36,
         "name": "Clefable",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["36"]
     },
     {
         "id": 37,
         "name": "Vulpix",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["37"]
     },
     {
         "id": 38,
         "name": "Ninetales",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["38"]
     },
     {
         "id": 39,
         "name": "Jigglypuff",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["39"]
     },
     {
         "id": 40,
         "name": "Wigglytuff",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["40"]
     },
     {
         "id": 41,
         "name": "Zubat",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["41"]
     },
     {
         "id": 42,
         "name": "Golbat",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["42"]
     },
     {
         "id": 43,
         "name": "Oddish",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["43"]
     },
     {
         "id": 44,
         "name": "Gloom",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["44"]
     },
     {
         "id": 45,
         "name": "Vileplume",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["45"]
     },
     {
         "id": 46,
         "name": "Paras",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["46"]
     },
     {
         "id": 47,
         "name": "Parasect",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["47"]
     },
     {
         "id": 48,
         "name": "Venonat",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["48"]
     },
     {
         "id": 49,
         "name": "Venomoth",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["49"]
     },
     {
         "id": 50,
         "name": "Diglett",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["50"]
     },
     {
         "id": 51,
         "name": "Dugtrio",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["51"]
     },
     {
         "id": 52,
         "name": "Meowth",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["52"]
     },
     {
         "id": 53,
         "name": "Persian",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["53"]
     },
     {
         "id": 54,
         "name": "Psyduck",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["54"]
     },
     {
         "id": 55,
         "name": "Golduck",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["55"]
     },
     {
         "id": 56,
         "name": "Mankey",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["56"]
     },
     {
         "id": 57,
         "name": "Primeape",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["57"]
     },
     {
         "id": 58,
         "name": "Growlithe",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["58"]
     },
     {
         "id": 59,
         "name": "Arcanine",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["59"]
     },
     {
         "id": 60,
         "name": "Poliwag",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["60"]
     },
     {
         "id": 61,
         "name": "Poliwhirl",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["61"]
     },
     {
         "id": 62,
         "name": "Poliwrath",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["62"]
     },
     {
         "id": 63,
         "name": "Abra",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["63"]
     },
     {
         "id": 64,
         "name": "Kadabra",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["64"]
     },
     {
         "id": 65,
         "name": "Alakazam",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["65"]
     },
     {
         "id": 66,
         "name": "Machop",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["66"]
     },
     {
         "id": 67,
         "name": "Machoke",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["67"]
     },
     {
         "id": 68,
         "name": "Machamp",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["68"]
     },
     {
         "id": 69,
         "name": "Bellsprout",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["69"]
     },
     {
         "id": 70,
         "name": "Weepinbell",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["70"]
     },
     {
         "id": 71,
         "name": "Victreebel",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["71"]
     },
     {
         "id": 72,
         "name": "Tentacool",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["72"]
     },
     {
         "id": 73,
         "name": "Tentacruel",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["73"]
     },
     {
         "id": 74,
         "name": "Geodude",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["74"]
     },
     {
         "id": 75,
         "name": "Graveler",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["75"]
     },
     {
         "id": 76,
         "name": "Golem",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["76"]
     },
     {
         "id": 77,
         "name": "Ponyta",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["77"]
     },
     {
         "id": 78,
         "name": "Rapidash",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["78"]
     },
     {
         "id": 79,
         "name": "Slowpoke",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["79"]
     },
     {
         "id": 80,
         "name": "Slowbro",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["80"]
     },
     {
         "id": 81,
         "name": "Magnemite",
         "isLegendary": false,
-        "gender": ["Genderless"]
+        "gender": ["Genderless"],
+        "image": ["81"]
     },
     {
         "id": 82,
         "name": "Magneton",
         "isLegendary": false,
-        "gender": ["Genderless"]
+        "gender": ["Genderless"],
+        "image": ["82"]
     },
     {
         "id": 83,
         "name": "Farfetchd",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["83"]
     },
     {
         "id": 84,
         "name": "Doduo",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["84"]
     },
     {
         "id": 85,
         "name": "Dodrio",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["85"]
     },
     {
         "id": 86,
         "name": "Seel",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["86"]
     },
     {
         "id": 87,
         "name": "Dewgong",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["87"]
     },
     {
         "id": 88,
         "name": "Grimer",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["88"]
     },
     {
         "id": 89,
         "name": "Muk",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["89"]
     },
     {
         "id": 90,
         "name": "Shellder",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["90"]
     },
     {
         "id": 91,
         "name": "Cloyster",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["91"]
     },
     {
         "id": 92,
         "name": "Gastly",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["92"]
     },
     {
         "id": 93,
         "name": "Haunter",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["93"]
     },
     {
         "id": 94,
         "name": "Gengar",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["94"]
     },
     {
         "id": 95,
         "name": "Onix",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["95"]
     },
     {
         "id": 96,
         "name": "Drowzee",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["96"]
     },
     {
         "id": 97,
         "name": "Hypno",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["97"]
     },
     {
         "id": 98,
         "name": "Krabby",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["98"]
     },
     {
         "id": 99,
         "name": "Kingler",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["99"]
     },
     {
         "id": 100,
         "name": "Voltorb",
         "isLegendary": false,
-        "gender": ["Genderless"]
+        "gender": ["Genderless"],
+        "image": ["100"]
     },
     {
         "id": 101,
         "name": "Electrode",
         "isLegendary": false,
-        "gender": ["Genderless"]
+        "gender": ["Genderless"],
+        "image": ["101"]
     },
     {
         "id": 102,
         "name": "Exeggcute",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["102"]
     },
     {
         "id": 103,
         "name": "Exeggutor",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["103"]
     },
     {
         "id": 104,
         "name": "Cubone",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["104"]
     },
     {
         "id": 105,
         "name": "Marowak",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["105"]
     },
     {
         "id": 106,
         "name": "Hitmonlee",
         "isLegendary": false,
-        "gender": ["Male"]
+        "gender": ["Male"],
+        "image": ["106"]
     },
     {
         "id": 107,
         "name": "Hitmonchan",
         "isLegendary": false,
-        "gender": ["Male"]
+        "gender": ["Male"],
+        "image": ["107"]
     },
     {
         "id": 108,
         "name": "Lickitung",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["108"]
     },
     {
         "id": 109,
         "name": "Koffing",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["109"]
     },
     {
         "id": 110,
         "name": "Weezing",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["110"]
     },
     {
         "id": 111,
         "name": "Rhyhorn",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["111"]
     },
     {
         "id": 112,
         "name": "Rhydon",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["112"]
     },
     {
         "id": 113,
         "name": "Chansey",
         "isLegendary": false,
-        "gender": ["Female"]
+        "gender": ["Female"],
+        "image": ["113"]
     },
     {
         "id": 114,
         "name": "Tangela",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["114"]
     },
     {
         "id": 115,
         "name": "Kangaskhan",
         "isLegendary": false,
-        "gender": ["Female"]
+        "gender": ["Female"],
+        "image": ["115"]
     },
     {
         "id": 116,
         "name": "Horsea",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["116"]
     },
     {
         "id": 117,
         "name": "Seadra",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["117"]
     },
     {
         "id": 118,
         "name": "Goldeen",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["118"]
     },
     {
         "id": 119,
         "name": "Seaking",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["119"]
     },
     {
         "id": 120,
         "name": "Staryu",
         "isLegendary": false,
-        "gender": ["Genderless"]
+        "gender": ["Genderless"],
+        "image": ["120"]
     },
     {
         "id": 121,
         "name": "Starmie",
         "isLegendary": false,
-        "gender": ["Genderless"]
+        "gender": ["Genderless"],
+        "image": ["121"]
     },
     {
         "id": 122,
         "name": "Mr. Mime",
         "isLegendary": false,
-        "gender": ["Male"]
+        "gender": ["Male"],
+        "image": ["122"]
     },
     {
         "id": 123,
         "name": "Scyther",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["123"]
     },
     {
         "id": 124,
         "name": "Jynx",
         "isLegendary": false,
-        "gender": ["Female"]
+        "gender": ["Female"],
+        "image": ["124"]
     },
     {
         "id": 125,
         "name": "Electabuzz",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["125"]
     },
     {
         "id": 126,
         "name": "Magmar",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["126"]
     },
     {
         "id": 127,
         "name": "Pinsir",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["127"]
     },
     {
         "id": 128,
         "name": "Tauros",
         "isLegendary": false,
-        "gender": ["Male"]
+        "gender": ["Male"],
+        "image": ["128"]
     },
     {
         "id": 129,
         "name": "Magikarp",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["129"]
     },
     {
         "id": 130,
         "name": "Gyarados",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["130"]
     },
     {
         "id": 131,
         "name": "Lapras",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["131"]
     },
     {
         "id": 132,
         "name": "Ditto",
         "isLegendary": false,
-        "gender": ["Genderless"]
+        "gender": ["Genderless"],
+        "image": ["132"]
     },
     {
         "id": 133,
         "name": "Eevee",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["133"]
     },
     {
         "id": 134,
         "name": "Vaporeon",
         "isLegendary": false,
-        "gender": ["Female"]
+        "gender": ["Male", "Female"],
+        "image": ["134"]
     },
     {
         "id": 135,
         "name": "Jolteon",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["135"]
     },
     {
         "id": 136,
         "name": "Flareon",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["136"]
     },
     {
         "id": 137,
         "name": "Porygon",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["137"]
     },
     {
         "id": 138,
         "name": "Omanyte",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["138"]
     },
     {
         "id": 139,
         "name": "Omastar",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["139"]
     },
     {
         "id": 140,
         "name": "Kabuto",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["140"]
     },
     {
         "id": 141,
         "name": "Kabutops",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["141"]
     },
     {
         "id": 142,
         "name": "Aerodactyl",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["142"]
     },
     {
         "id": 143,
         "name": "Snorlax",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["143"]
     },
     {
         "id": 144,
         "name": "Articuno",
         "isLegendary": true,
-        "gender": ["Genderless"]
+        "gender": ["Genderless"],
+        "image": ["144"]
     },
     {
         "id": 145,
         "name": "Zapdos",
         "isLegendary": true,
-        "gender": ["Genderless"]
+        "gender": ["Genderless"],
+        "image": ["145"]
     },
     {
         "id": 146,
         "name": "Moltres",
         "isLegendary": true,
-        "gender": ["Genderless"]
+        "gender": ["Genderless"],
+        "image": ["146"]
     },
     {
         "id": 147,
         "name": "Dratini",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["147"]
     },
     {
         "id": 148,
         "name": "Dragonair",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["148"]
     },
     {
         "id": 149,
         "name": "Dragonite",
         "isLegendary": false,
-        "gender": ["Male", "Female"]
+        "gender": ["Male", "Female"],
+        "image": ["149"]
     },
     {
         "id": 150,
         "name": "Mewtwo",
         "isLegendary": true,
-        "gender": ["Genderless"]
+        "gender": ["Genderless"],
+        "image": ["150"]
     },
     {
         "id": 151,
         "name": "Mew",
         "isLegendary": true,
-        "gender": ["Genderless"]
+        "gender": ["Genderless"],
+        "image": ["151"]
     }
 ]

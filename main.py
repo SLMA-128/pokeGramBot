@@ -88,7 +88,7 @@ def is_active_hours():
     #Add your own time
     argentina_tz = pytz.timezone('America/Argentina/Buenos_Aires')
     current_hour = datetime.now(argentina_tz).hour
-    return 10 <= current_hour < 24  # Solo funciona de 10:00 a 23:59
+    return 10 <= current_hour < 23  # Solo funciona de 10:00 a 22:59
 
 def check_active_hours():
     if not is_active_hours():
@@ -424,6 +424,9 @@ def summon_pokemon(message):
                 )
             threading.Timer(30, lambda: bot.delete_message(chat_id=group_id, message_id=msg_rp.message_id)).start()
             threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg_st.message_id)).start()
+        else:
+            msg = bot.send_message(message.chat.id, "No tienes pokémones capturados.")
+            threading.Timer(3, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
     except Exception as e:
         logger.error(f"Error during chooseyou: {e}")
 
@@ -439,7 +442,7 @@ def auto_spawn_event():
             if check_active_hours():
                 mock_message = MockMessage()  # mock message
                 spawn_pokemon_handler(mock_message)  # call spawn_pokemon_handler
-            time.sleep(600)  # wait 10 minutes
+            time.sleep(1200)  # wait 10 minutes
         except Exception as e:
             logger.error(f"Error in auto-spawn: {e}")
 # start the event in a different thread
@@ -447,8 +450,8 @@ spawn_thread = threading.Thread(target=auto_spawn_event, daemon=True)
 spawn_thread.start()
 
 # From this line until the next line there will not be more documentation or comment lines explaining anything.
-#----------------------------------------------------------------------------------------------------
 # If you get any error then update, fix or delete the code yourself.
+#----------------------------------------------------------------------------------------------------
 @bot.message_handler(func=lambda message: True)
 def monitor_messages(message):
     try:
