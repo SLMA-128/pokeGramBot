@@ -474,7 +474,8 @@ def accept_duel(call):
         # Determinar el resultado del combate
         result = random.randint(1, 100) < 50
         loser = challenger if result else opponent
-        userEvents.reducePokemonCaptured(loser)
+        loser_pokemon = ongoing_combats[challenger]['pokemon'] if loser==challenger else ongoing_combats[challenger]['pokemon']
+        userEvents.reducePokemonCaptured(loser, loser_pokemon)
         bot.edit_message_text(
             f"\u2694 {challenger} ({ongoing_combats[challenger]['pokemon']['name']}) vs {opponent} ({opponent_pokemon['name']})!\n\n\U0001F3C6 {'¡' + opponent + ' gana!' if result else '¡' + challenger + ' gana!'}\n\n\u274C {loser} pierde un Pokémon!",
             call.message.chat.id, call.message.message_id
