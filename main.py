@@ -63,7 +63,8 @@ commands=[
     {"command": "mycollection", "description": "Show how many type of Pokemons you have captured."},
     {"command": "freemypokemons", "description": "Free all your Pokemons. (WARNING: It is irreversible!)"},
     {"command": "chance", "description": "Show the chance to capture pokemons.)"},
-    {"command": "chooseyou", "description": "Summon a random pokemon from the user.)"}
+    {"command": "chooseyou", "description": "Summon a random pokemon from the user.)"},
+    {"command": "startcombat", "description": "Start a combat with a random Pokemon. Whoever loses loses a pokemon."}
 ]
 
 #General functions
