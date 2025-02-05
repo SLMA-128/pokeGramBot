@@ -516,7 +516,7 @@ def monitor_messages(message):
         if "(?" in message.text:
             threading.Timer(2.0, replace_message, args=[message]).start()
         if "( ?" in message.text:
-            username = message.from_user.username
+            username = message.from_user.username or message.from_user.first_name
             userEvents.checkUserisRegistered(username)
     except Exception as e:
         logger.error(f"Error monitoring message: {e}")
@@ -528,7 +528,8 @@ def replace_message(message):
             "? Me encanta tragar sables",
             "? Puto el que lee.",
             "? Ojala que llueva para vergotas.",
-            "? A Nisman lo mataron."]
+            "? A Nisman lo mataron.",
+            "? Se te borró un pokemon, F"]
         modified_text = message.text.replace("(?", random.choice(mod_text_list))
         bot.delete_message(message.chat.id, message.message_id)
         user_name = message.from_user.username or message.from_user.first_name
