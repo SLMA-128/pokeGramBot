@@ -158,3 +158,35 @@ def getRandomPokemonCaptured(username):
     except Exception as e:
         logger.error(f"Error getting user: {str(e)}")
         return None
+    
+def reducePokemonCaptured(loser):
+    try:
+        client = MongoClient(MONGO_URI)
+        db = client['pokemon_bot']
+        collection = db['users']
+        # Obtener la lista de Pokémon del usuario
+        user = collection.find_one({"name": loser})
+        if not user or not user["pokemonsOwned"]:
+            client.close()
+            return False  # No hay Pokémon para reducir
+        # Seleccionar un Pokémon aleatorio del usuario
+        selected_pokemon = random.choice(user["pokemonsOwned"])
+        # Reducir el contador de capturas
+        query = {
+            "name": loser,
+            "pokemonsOwned.id": selected_pokemon["id"],
+            "pokemonsOwned.isShiny": selected_pokemon["isShiny"]
+        }
+        update = {"$inc": {"pokemonsOwned.$.captured": -1, "total_pokemons": -1}}
+        if selected_pokemon["isShiny"]:
+            update["$inc"]["total_shiny"] = -1
+        collection.update_one(query, update)
+        # Eliminar el Pokémon si el contador llega a 0
+        updated_user = collection.find_one({"name": loser})
+        updated_pokemons = [pkm for pkm in updated_user["pokemonsOwned"] if pkm["captured"] > 0]
+        collection.update_one({"name": loser}, {"$set": {"pokemonsOwned": updated_pokemons}})
+        client.close()
+        return True
+    except Exception as e:
+        logger.error(f"Error reducing pokemon count: {str(e)}")
+        return False
