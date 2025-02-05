@@ -232,7 +232,7 @@ def spawn_pokemon_handler(message):
             pokemon_name = f"***{pokemon['name']}***" if pokemon['isLegendary'] else pokemon['name']
             msg = bot.send_message(
                 group_id,
-                f"A wild {pokemon_name}{' shiny' if pokemon['isShiny'] else ''} appeared! What will you do?\nGender: {pokemon['gender']}\nLevel: {pokemon['level']}",
+                f"\U0001F514 A wild {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon_name}{'\U0001F31F' if pokemon['isShiny'] else ''} appeared! What will you do?\nGender: {pokemon['gender']}\nLevel: {pokemon['level']}",
                 reply_markup=generate_capture_button(pokemon["id"]),
                 message_thread_id=topic_id,
                 parse_mode='Markdown'
@@ -270,9 +270,10 @@ def capture_pokemon_handler(call):
                 capture_timers[call.message.message_id].cancel()
                 del capture_timers[call.message.message_id]
             bot.edit_message_text(
-                f"{call.from_user.first_name} captured a Lv.{pokemon['level']} {pokemon['gender']}{' shiny' if pokemon['isShiny'] else ''} {pokemon['name']}!",
+                f"\U0001F3C6 {call.from_user.first_name} captured a Lv.{pokemon['level']} {pokemon['gender']}{'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''}!",
                 call.message.chat.id,
-                call.message.message_id
+                call.message.message_id,
+                parse_mode="Markdown"
             )
             del spawned_pokemons[call.message.message_id]
             del capture_locks[message_id]
@@ -324,12 +325,12 @@ def get_pokemons_by_user(message):
             pokemons = sorted(pokemons, key=lambda x: x["id"])
             total_pokemons = user['total_pokemons']
             total_shiny = user['total_shiny']
-            response = f"*Tu colección de Pokémon:*\n"
-            response += f"- *Total capturados:* {total_pokemons}\n"
-            response += f"- *Total Shinies:* {total_shiny}\n\n"
+            response = f"\U0001F4DC*Tu colección de Pokémon:*\n"
+            response += f"\U0001F4E6 *Total capturados:* {total_pokemons}\n"
+            response += f"\U0001F4E6 *Total Shinies:* {total_shiny}\n\n"
             for pkm in pokemons:
-                shiny_status = "Si" if pkm["isShiny"] else "No"
-                response += f"\U0001F31F #{pkm['id']} - *{pkm['name']}*: {pkm['captured']}x (Shiny: {shiny_status}) (Max Lv.: {pkm['level']})\n"
+                shiny_status = "\u2705" if pkm["isShiny"] else "\u274C"
+                response += f"\U0001F538 #{pkm['id']} - {'\U0001F48E' if pkm['isLegendary'] else ''}*{pkm['name']}*: {pkm['captured']}x (Shiny: {shiny_status}) (Lv.: {pkm['level']})\n"
             bot.send_message(user_id, response, parse_mode="Markdown")
         else:
             bot.send_message(user_id, "You don't have any Pokémon captured.")
@@ -403,10 +404,10 @@ def summon_pokemon(message):
                         photo,
                         message_thread_id=topic_id
                     )
-            msg_list = [f"{user_name} ha elegido a {random_pkm_name}!",
-                        f"{user_name} se le cayo una pokeball y {random_pkm_name} se salió!",
-                        f"{random_pkm_name} salió para ver memes!",
-                        f"{user_name} sacó a {random_pkm_name} mientras veia el canal NSFW!"]
+            msg_list = [f"\U0001F3B2 {user_name} ha elegido a {random_pkm_name}!",
+                        f"\U0001F3B2 {user_name} se le cayo una pokeball y {random_pkm_name} se salió!",
+                        f"\U0001F3B2 {random_pkm_name} salió para ver memes!",
+                        f"\U0001F3B2 {user_name} sacó a {random_pkm_name} mientras veia el canal NSFW!"]
             msg_rp = bot.send_message(
                 group_id,
                 random.choice(msg_list),
