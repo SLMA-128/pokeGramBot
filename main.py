@@ -259,8 +259,7 @@ def capture_pokemon_handler(call):
             return
         message_id = call.message.message_id
         if message_id in capture_locks:
-            msg_list = ["Too late! Someone else captured the Pokémon.", "Yasper, otro lo agarró!"]
-            bot.answer_callback_query(call.id, random.choice(msg_list))
+            bot.answer_callback_query(call.id, random.choice(["Too late! Someone else captured the Pokémon.", "Yasper, otro lo agarró!"]))
             return
         user_id = call.from_user.id
         capture_locks[message_id] = user_id
@@ -319,27 +318,19 @@ def get_pokemons_by_user(message):
         user_id = message.from_user.id
         if checkUserExistence(username):
             return
+        user = userEvents.getUserByName(username)
         pokemons = userEvents.getListOfPokemonCapturedByName(username)
         if pokemons:
             pokemons = sorted(pokemons, key=lambda x: x["id"])
-            pokemon_counts = Counter()
-            shiny_counts = Counter()
-            max_levels = {}
-            pokemon_ids = {}
-            for pokemon in pokemons:
-                pokemon_counts[pokemon["name"]] += 1
-                if pokemon["isShiny"]:
-                    shiny_counts[pokemon["name"]] += 1
-                if pokemon["name"] not in max_levels or pokemon["level"] > max_levels[pokemon["name"]]:
-                    max_levels[pokemon["name"]] = pokemon["level"]
-                    pokemon_ids[pokemon["name"]] = pokemon["id"]
-            response = "Your Pokémon Collection:\n"
-            for pokemon_name, count in pokemon_counts.items():
-                shiny_count = shiny_counts[pokemon_name]
-                max_level = max_levels[pokemon_name]
-                pokemon_id = pokemon_ids[pokemon_name]
-                response += f"-|#{pokemon_id} - {pokemon_name}: {count} (Shiny: {shiny_count}) (Max Lv.: {max_level})|\n"
-            bot.send_message(user_id, response)
+            total_pokemons = user['total_pokemons']
+            total_shiny = user['total_shiny']
+            response = f"📜 *Tu colección de Pokémon:*\n"
+            response += f"🔹 *Total capturados:* {total_pokemons}\n"
+            response += f"✨ *Total Shinies:* {total_shiny}\n\n"
+            for pkm in pokemons:
+                shiny_status = "✅" if pkm["isShiny"] else "❌"
+                response += f"🔸 #{pkm['id']} - *{pkm['name']}*: {pkm['captured']}x (Shiny: {shiny_status}) (Max Lv.: {pkm['level']})\n"
+            bot.send_message(user_id, response, parse_mode="Markdown")
         else:
             bot.send_message(user_id, "You don't have any Pokémon captured.")
     except Exception as e:

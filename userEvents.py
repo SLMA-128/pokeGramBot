@@ -45,6 +45,21 @@ def checkUserisRegistered(username):
         logger.error(f"Error checking user: {str(e)}")
         return False
 
+#Get user from database by username
+
+def getUserByName(username):
+    try:
+        client = MongoClient(MONGO_URI)
+        db = client['pokemon_bot']
+        collection = db['users']
+        # Buscar el usuario por nombre
+        user = collection.find_one({"name": username})
+        client.close()
+        return user
+    except Exception as e:
+        logger.error(f"Error getting user: {str(e)}")
+        return None
+
 #Get the list of pokemons captured by a user using its username
 def getListOfPokemonCapturedByName(username):
     try:
