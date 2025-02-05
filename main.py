@@ -324,12 +324,12 @@ def get_pokemons_by_user(message):
             pokemons = sorted(pokemons, key=lambda x: x["id"])
             total_pokemons = user['total_pokemons']
             total_shiny = user['total_shiny']
-            response = f"📜 *Tu colección de Pokémon:*\n"
-            response += f"🔹 *Total capturados:* {total_pokemons}\n"
-            response += f"✨ *Total Shinies:* {total_shiny}\n\n"
+            response = f"*Tu colección de Pokémon:*\n"
+            response += f"- *Total capturados:* {total_pokemons}\n"
+            response += f"- *Total Shinies:* {total_shiny}\n\n"
             for pkm in pokemons:
-                shiny_status = "✅" if pkm["isShiny"] else "❌"
-                response += f"🔸 #{pkm['id']} - *{pkm['name']}*: {pkm['captured']}x (Shiny: {shiny_status}) (Max Lv.: {pkm['level']})\n"
+                shiny_status = "Si" if pkm["isShiny"] else "No"
+                response += f"| #{pkm['id']} - *{pkm['name']}*: {pkm['captured']}x (Shiny: {shiny_status}) (Max Lv.: {pkm['level']})\n"
             bot.send_message(user_id, response, parse_mode="Markdown")
         else:
             bot.send_message(user_id, "You don't have any Pokémon captured.")
