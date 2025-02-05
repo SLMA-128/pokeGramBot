@@ -329,7 +329,7 @@ def get_pokemons_by_user(message):
             response += f"- *Total Shinies:* {total_shiny}\n\n"
             for pkm in pokemons:
                 shiny_status = "Si" if pkm["isShiny"] else "No"
-                response += f"| #{pkm['id']} - *{pkm['name']}*: {pkm['captured']}x (Shiny: {shiny_status}) (Max Lv.: {pkm['level']})\n"
+                response += f"\U0001F31F #{pkm['id']} - *{pkm['name']}*: {pkm['captured']}x (Shiny: {shiny_status}) (Max Lv.: {pkm['level']})\n"
             bot.send_message(user_id, response, parse_mode="Markdown")
         else:
             bot.send_message(user_id, "You don't have any Pokémon captured.")
