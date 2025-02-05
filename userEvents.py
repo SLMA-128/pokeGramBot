@@ -171,20 +171,22 @@ def reducePokemonCaptured(loser):
             return False  # No hay Pokémon para reducir
         # Seleccionar un Pokémon aleatorio del usuario
         selected_pokemon = random.choice(user["pokemonsOwned"])
-        # Reducir el contador de capturas
+        # Reducir el contador de capturas en pokemonsOwned
         query = {
             "name": loser,
             "pokemonsOwned.id": selected_pokemon["id"],
             "pokemonsOwned.isShiny": selected_pokemon["isShiny"]
         }
-        update = {"$inc": {"pokemonsOwned.$.captured": -1, "total_pokemons": -1}}
+        update = {
+            "$inc": {"pokemonsOwned.$.captured": -1, "total_pokemons": -1}
+        }
         if selected_pokemon["isShiny"]:
             update["$inc"]["total_shiny"] = -1
         collection.update_one(query, update)
-        # Eliminar el Pokémon si el contador de capturas llega a 0
+        # Eliminar el Pokémon si su contador de capturas llega a 0
         updated_user = collection.find_one({"name": loser})
         updated_pokemons = [pkm for pkm in updated_user["pokemonsOwned"] if pkm["captured"] > 0]
-        # Solo actualizar si hubo un cambio en la lista
+        # Solo actualizamos si la lista de pokemonsOwned cambió
         if len(updated_user["pokemonsOwned"]) != len(updated_pokemons):
             collection.update_one({"name": loser}, {"$set": {"pokemonsOwned": updated_pokemons}})
         client.close()

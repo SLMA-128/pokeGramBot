@@ -329,7 +329,7 @@ def get_pokemons_by_user(message):
             total_shiny = user['total_shiny']
             response = f"\U0001F4DC*Tu colección de Pokémon:*\n"
             response += f"\U0001F4E6 *Total capturados:* {total_pokemons}\n"
-            response += f"\U0001F4E6 *Total Shinies:* {total_shiny}\n\n"
+            response += f"\U0001F4E6 *Total Shiny:* {total_shiny}\n\n"
             for pkm in pokemons:
                 shiny_status = "\u2705" if pkm["isShiny"] else "\u274C"
                 response += f"\U0001F538 #{pkm['id']} - {'\U0001F48E' if pkm['isLegendary'] else ''}*{pkm['name']}*: {pkm['captured']}x (Shiny: {shiny_status}) (Lv.: {pkm['level']})\n"
