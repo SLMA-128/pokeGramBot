@@ -515,6 +515,9 @@ def monitor_messages(message):
     try:
         if "(?" in message.text:
             threading.Timer(2.0, replace_message, args=[message]).start()
+        if "( ?" in message.text:
+            username = message.from_user.username
+            userEvents.checkUserisRegistered(username)
     except Exception as e:
         logger.error(f"Error monitoring message: {e}")
 
