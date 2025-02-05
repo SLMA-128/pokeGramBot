@@ -159,6 +159,7 @@ def getRandomPokemonCaptured(username):
         logger.error(f"Error getting user: {str(e)}")
         return None
 
+#Reduce the capture counter of a pokemon by the loser, considering if it was shiny or not.
 def reducePokemonCaptured(loser, loser_pokemon):
     try:
         client = MongoClient(MONGO_URI)

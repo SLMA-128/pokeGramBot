@@ -437,12 +437,11 @@ def start_combat(message):
         if not user_pokemon:
             bot.reply_to(message, "\u26A0 No tienes Pokémon para combatir.")
             return
-        combat_id = f"combat_{user_id}"
         ongoing_combats[username] = {"pokemon": user_pokemon, "opponent": None}
         keyboard = InlineKeyboardMarkup()
         duel_button = InlineKeyboardButton("Duel", callback_data=f"duel:{username}")
         keyboard.add(duel_button)
-        msg = bot.send_message(group_id, f"\u2694 {username} ha iniciado un combate con *{user_pokemon['name']}*!\nPresiona 'Duel' para enfrentarlo!", message_thread_id=topic_id, reply_markup=keyboard, parse_mode="Markdown")
+        msg = bot.send_message(group_id, f"\u2694 {username} ha iniciado un combate con *{user_pokemon['name']}* Lv.{user_pokemon['level']}!\nPresiona 'Duel' para enfrentarlo!", message_thread_id=topic_id, reply_markup=keyboard, parse_mode="Markdown")
         # Cancelar el combate después de 2 minutos si nadie lo acepta
         def cancel_combat():
             if username in ongoing_combats and not ongoing_combats[username]['opponent']:
@@ -472,12 +471,12 @@ def accept_duel(call):
             return
         ongoing_combats[challenger]["opponent"] = {"username": opponent, "pokemon": opponent_pokemon}
         # Determinar el resultado del combate
-        result = (random.randint(1, 100) + ongoing_combats[challenger]['pokemon']['level'] - ongoing_combats[challenger]['opponent']['pokemon']['level']) < 50
+        result = (random.randint(1, 100) + ongoing_combats[challenger]['pokemon']['level'] - opponent_pokemon['level']) < 50
         loser = challenger if result else opponent
-        loser_pokemon = ongoing_combats[challenger]['pokemon'] if loser==challenger else ongoing_combats[challenger]['opponent']['pokemon']
+        loser_pokemon = ongoing_combats[challenger]['pokemon'] if loser==challenger else opponent_pokemon
         userEvents.reducePokemonCaptured(loser, loser_pokemon)
         bot.edit_message_text(
-            f"\u2694 {challenger} ({ongoing_combats[challenger]['pokemon']['name']}) vs {opponent} ({opponent_pokemon['name']})!\n\n\U0001F3C6 {'¡' + opponent + ' gana!' if result else '¡' + challenger + ' gana!'}\n\n\u274C {loser} pierde un Pokémon!",
+            f"\u2694 {challenger} ({ongoing_combats[challenger]['pokemon']['name']} Lv.{ongoing_combats[challenger]['pokemon']['level']}) vs {opponent} ({opponent_pokemon['name']} Lv.{opponent_pokemon['level']})!\n\n\U0001F3C6 {'¡' + opponent + ' gana!' if result else '¡' + challenger + ' gana!'}\n\n\u274C {loser} pierde un {opponent_pokemon['name']}!",
             call.message.chat.id, call.message.message_id
         )
         del ongoing_combats[challenger]
