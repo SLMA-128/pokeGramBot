@@ -270,7 +270,7 @@ def capture_pokemon_handler(call):
                 capture_timers[call.message.message_id].cancel()
                 del capture_timers[call.message.message_id]
             bot.edit_message_text(
-                f"\U0001F3C6 {call.from_user.first_name} captured a Lv.{pokemon['level']} {pokemon['gender']}{'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''}!",
+                f"\U0001F3C6 {call.from_user.first_name} captured a Lv.{pokemon['level']} {pokemon['gender']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''}!",
                 call.message.chat.id,
                 call.message.message_id,
                 parse_mode="Markdown"
