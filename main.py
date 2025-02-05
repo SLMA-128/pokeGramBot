@@ -517,7 +517,7 @@ def monitor_messages(message):
             threading.Timer(2.0, replace_message, args=[message]).start()
         if "( ?" in message.text:
             username = message.from_user.username or message.from_user.first_name
-            userEvents.checkUserisRegistered(username)
+            userEvents.deleteRandomPokemon(username)
     except Exception as e:
         logger.error(f"Error monitoring message: {e}")
 

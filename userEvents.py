@@ -207,6 +207,8 @@ def deleteRandomPokemon(username):
             return False  # No hay Pokémon para reducir
         # Seleccionar un Pokémon aleatorio del usuario
         selected_pokemon = random.choice(user["pokemonsOwned"])
+        if selected_pokemon is None:
+            return False
         # Reducir el contador de capturas en pokemonsOwned
         query = {
             "name": username,
