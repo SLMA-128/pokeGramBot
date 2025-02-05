@@ -471,7 +471,12 @@ def accept_duel(call):
             return
         ongoing_combats[challenger]["opponent"] = {"username": opponent, "pokemon": opponent_pokemon}
         # Determinar el resultado del combate
-        result = (random.randint(1, 100) + ongoing_combats[challenger]['pokemon']['level'] - opponent_pokemon['level']) < 50
+        combat_roll = random.randint(1, 100)
+        level_check = ongoing_combats[challenger]['pokemon']['level'] - opponent_pokemon['level']
+        challenger_advantage = pokemonEvents.get_type_advantage(ongoing_combats[challenger]['pokemon']['types'], opponent_pokemon['types'])
+        opponent_advantage = pokemonEvents.get_type_advantage(opponent_pokemon['types'], ongoing_combats[challenger]['pokemon']['types'])
+        type_modifier = challenger_advantage - opponent_advantage
+        result = (combat_roll + level_check + type_modifier) < 50
         loser = challenger if result else opponent
         loser_pokemon = ongoing_combats[challenger]['pokemon'] if loser==challenger else opponent_pokemon
         userEvents.reducePokemonCaptured(loser, loser_pokemon)

@@ -4,1056 +4,1207 @@
         "name": "Bulbasaur",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["1"]
+        "image": ["1"],
+        "types": ["Grass", "Poison"]
     },
     {
         "id": 2,
         "name": "Ivysaur",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["2"]
+        "image": ["2"],
+        "types": ["Grass", "Poison"]
     },
     {
         "id": 3,
         "name": "Venusaur",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["3"]
+        "image": ["3"],
+        "types": ["Grass", "Poison"]
     },
     {
         "id": 4,
         "name": "Charmander",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["4"]
+        "image": ["4"],
+        "types": ["Fire"]
     },
     {
         "id": 5,
         "name": "Charmeleon",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["5"]
+        "image": ["5"],
+        "types": ["Fire"]
     },
     {
         "id": 6,
         "name": "Charizard",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["6"]
+        "image": ["6"],
+        "types": ["Fire", "Flying"]
     },
     {
         "id": 7,
         "name": "Squirtle",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["7"]
+        "image": ["7"],
+        "types": ["Water"]
     },
     {
         "id": 8,
         "name": "Wartortle",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["8"]
+        "image": ["8"],
+        "types": ["Water"]
     },
     {
         "id": 9,
         "name": "Blastoise",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["9"]
+        "image": ["9"],
+        "types": ["Water"]
     },
     {
         "id": 10,
         "name": "Caterpie",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["10"]
+        "image": ["10"],
+        "types": ["Bug"]
     },
     {
         "id": 11,
         "name": "Metapod",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["11"]
+        "image": ["11"],
+        "types": ["Bug"]
     },
     {
         "id": 12,
         "name": "Butterfree",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["12"]
+        "image": ["12"],
+        "types": ["Bug", "Flying"]
     },
     {
         "id": 13,
         "name": "Weedle",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["13"]
+        "image": ["13"],
+        "types": ["Bug", "Poison"]
     },
     {
         "id": 14,
         "name": "Kakuna",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["14"]
+        "image": ["14"],
+        "types": ["Bug", "Poison"]
     },
     {
         "id": 15,
         "name": "Beedrill",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["15"]
+        "image": ["15"],
+        "types": ["Bug", "Poison"]
     },
     {
         "id": 16,
         "name": "Pidgey",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["16"]
+        "image": ["16"],
+        "types": ["Normal", "Flying"]
     },
     {
         "id": 17,
         "name": "Pidgeotto",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["17"]
+        "image": ["17"],
+        "types": ["Normal", "Flying"]
     },
     {
         "id": 18,
         "name": "Pidgeot",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["18"]
+        "image": ["18"],
+        "types": ["Normal", "Flying"]
     },
     {
         "id": 19,
         "name": "Rattata",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["19"]
+        "image": ["19"],
+        "types": ["Normal"]
     },
     {
         "id": 20,
         "name": "Raticate",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["20"]
+        "image": ["20"],
+        "types": ["Normal"]
     },
     {
         "id": 21,
         "name": "Spearow",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["21"]
+        "image": ["21"],
+        "types": ["Normal", "Flying"]
     },
     {
         "id": 22,
         "name": "Fearow",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["22"]
+        "image": ["22"],
+        "types": ["Normal", "Flying"]
     },
     {
         "id": 23,
         "name": "Ekans",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["23"]
+        "image": ["23"],
+        "types": ["Poison"]
     },
     {
         "id": 24,
         "name": "Arbok",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["24"]
+        "image": ["24"],
+        "types": ["Poison"]
     },
     {
         "id": 25,
         "name": "Pikachu",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["25"]
+        "image": ["25"],
+        "types": ["Electric"]
     },
     {
         "id": 26,
         "name": "Raichu",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["26"]
+        "image": ["26"],
+        "types": ["Electric"]
     },
     {
         "id": 27,
         "name": "Sandshrew",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["27"]
+        "image": ["27"],
+        "types": ["Ground"]
     },
     {
         "id": 28,
         "name": "Sandslash",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["28"]
+        "image": ["28"],
+        "types": ["Ground"]
     },
     {
         "id": 29,
         "name": "Nidoran",
         "isLegendary": false,
         "gender": ["Female"],
-        "image": ["29"]
+        "image": ["29"],
+        "types": ["Poison"]
     },
     {
         "id": 30,
         "name": "Nidorina",
         "isLegendary": false,
         "gender": ["Female"],
-        "image": ["30"]
+        "image": ["30"],
+        "types": ["Poison"]
     },
     {
         "id": 31,
         "name": "Nidoqueen",
         "isLegendary": false,
         "gender": ["Female"],
-        "image": ["31"]
+        "image": ["31"],
+        "types": ["Poison", "Ground"]
     },
     {
         "id": 32,
         "name": "Nidoran",
         "isLegendary": false,
         "gender": ["Male"],
-        "image": ["32"]
+        "image": ["32"],
+        "types": ["Poison"]
     },
     {
         "id": 33,
         "name": "Nidorino",
         "isLegendary": false,
         "gender": ["Male"],
-        "image": ["33"]
+        "image": ["33"],
+        "types": ["Poison"]
     },
     {
         "id": 34,
         "name": "Nidoking",
         "isLegendary": false,
         "gender": ["Male"],
-        "image": ["34"]
+        "image": ["34"],
+        "types": ["Poison", "Ground"]
     },
     {
         "id": 35,
         "name": "Clefairy",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["35"]
+        "image": ["35"],
+        "types": ["Fairy"]
     },
     {
         "id": 36,
         "name": "Clefable",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["36"]
+        "image": ["36"],
+        "types": ["Fairy"]
     },
     {
         "id": 37,
         "name": "Vulpix",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["37"]
+        "image": ["37"],
+        "types": ["Fire"]
     },
     {
         "id": 38,
         "name": "Ninetales",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["38"]
+        "image": ["38"],
+        "types": ["Fire"]
     },
     {
         "id": 39,
         "name": "Jigglypuff",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["39"]
+        "image": ["39"],
+        "types": ["Normal", "Fairy"]
     },
     {
         "id": 40,
         "name": "Wigglytuff",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["40"]
+        "image": ["40"],
+        "types": ["Normal", "Fairy"]
     },
     {
         "id": 41,
         "name": "Zubat",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["41"]
+        "image": ["41"],
+        "types": ["Poison", "Flying"]
     },
     {
         "id": 42,
         "name": "Golbat",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["42"]
+        "image": ["42"],
+        "types": ["Poison", "Flying"]
     },
     {
         "id": 43,
         "name": "Oddish",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["43"]
+        "image": ["43"],
+        "types": ["Grass", "Poison"]
     },
     {
         "id": 44,
         "name": "Gloom",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["44"]
+        "image": ["44"],
+        "types": ["Grass", "Poison"]
     },
     {
         "id": 45,
         "name": "Vileplume",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["45"]
+        "image": ["45"],
+        "types": ["Grass", "Poison"]
     },
     {
         "id": 46,
         "name": "Paras",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["46"]
+        "image": ["46"],
+        "types": ["Bug", "Grass"]
     },
     {
         "id": 47,
         "name": "Parasect",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["47"]
+        "image": ["47"],
+        "types": ["Bug", "Grass"]
     },
     {
         "id": 48,
         "name": "Venonat",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["48"]
+        "image": ["48"],
+        "types": ["Bug", "Poison"]
     },
     {
         "id": 49,
         "name": "Venomoth",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["49"]
+        "image": ["49"],
+        "types": ["Bug", "Poison"]
     },
     {
         "id": 50,
         "name": "Diglett",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["50"]
+        "image": ["50"],
+        "types": ["Ground"]
     },
     {
         "id": 51,
         "name": "Dugtrio",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["51"]
+        "image": ["51"],
+        "types": ["Ground"]
     },
     {
         "id": 52,
         "name": "Meowth",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["52"]
+        "image": ["52"],
+        "types": ["Normal"]
     },
     {
         "id": 53,
         "name": "Persian",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["53"]
+        "image": ["53"],
+        "types": ["Normal"]
     },
     {
         "id": 54,
         "name": "Psyduck",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["54"]
+        "image": ["54"],
+        "types": ["Water"]
     },
     {
         "id": 55,
         "name": "Golduck",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["55"]
+        "image": ["55"],
+        "types": ["Water"]
     },
     {
         "id": 56,
         "name": "Mankey",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["56"]
+        "image": ["56"],
+        "types": ["Fighting"]
     },
     {
         "id": 57,
         "name": "Primeape",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["57"]
+        "image": ["57"],
+        "types": ["Fighting"]
     },
     {
         "id": 58,
         "name": "Growlithe",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["58"]
+        "image": ["58"],
+        "types": ["Fire"]
     },
     {
         "id": 59,
         "name": "Arcanine",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["59"]
+        "image": ["59"],
+        "types": ["Fire"]
     },
     {
         "id": 60,
         "name": "Poliwag",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["60"]
+        "image": ["60"],
+        "types": ["Water"]
     },
     {
         "id": 61,
         "name": "Poliwhirl",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["61"]
+        "image": ["61"],
+        "types": ["Water", "Fighting"]
     },
     {
         "id": 62,
         "name": "Poliwrath",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["62"]
+        "image": ["62"],
+        "types": ["Water", "Fighting"]
     },
     {
         "id": 63,
         "name": "Abra",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["63"]
+        "image": ["63"],
+        "types": ["Psychic"]
     },
     {
         "id": 64,
         "name": "Kadabra",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["64"]
+        "image": ["64"],
+        "types": ["Psychic"]
     },
     {
         "id": 65,
         "name": "Alakazam",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["65"]
+        "image": ["65"],
+        "types": ["Psychic"]
     },
     {
         "id": 66,
         "name": "Machop",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["66"]
+        "image": ["66"],
+        "types": ["Fighting"]
     },
     {
         "id": 67,
         "name": "Machoke",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["67"]
+        "image": ["67"],
+        "types": ["Fighting"]
     },
     {
         "id": 68,
         "name": "Machamp",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["68"]
+        "image": ["68"],
+        "types": ["Fighting"]
     },
     {
         "id": 69,
         "name": "Bellsprout",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["69"]
+        "image": ["69"],
+        "types": ["Grass", "Poison"]
     },
     {
         "id": 70,
         "name": "Weepinbell",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["70"]
+        "image": ["70"],
+        "types": ["Grass", "Poison"]
     },
     {
         "id": 71,
         "name": "Victreebel",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["71"]
+        "image": ["71"],
+        "types": ["Grass", "Poison"]
     },
     {
         "id": 72,
         "name": "Tentacool",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["72"]
+        "image": ["72"],
+        "types": ["Water", "Poison"]
     },
     {
         "id": 73,
         "name": "Tentacruel",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["73"]
+        "image": ["73"],
+        "types": ["Water", "Poison"]
     },
     {
         "id": 74,
         "name": "Geodude",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["74"]
+        "image": ["74"],
+        "types": ["Rock", "Ground"]
     },
     {
         "id": 75,
         "name": "Graveler",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["75"]
+        "image": ["75"],
+        "types": ["Rock", "Ground"]
     },
     {
         "id": 76,
         "name": "Golem",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["76"]
+        "image": ["76"],
+        "types": ["Rock", "Ground"]
     },
     {
         "id": 77,
         "name": "Ponyta",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["77"]
+        "image": ["77"],
+        "types": ["Fire"]
     },
     {
         "id": 78,
         "name": "Rapidash",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["78"]
+        "image": ["78"],
+        "types": ["Fire"]
     },
     {
         "id": 79,
         "name": "Slowpoke",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["79"]
+        "image": ["79"],
+        "types": ["Water", "Psychic"]
     },
     {
         "id": 80,
         "name": "Slowbro",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["80"]
+        "image": ["80"],
+        "types": ["Water", "Psychic"]
     },
     {
         "id": 81,
         "name": "Magnemite",
         "isLegendary": false,
         "gender": ["Genderless"],
-        "image": ["81"]
+        "image": ["81"],
+        "types": ["Electric", "Steel"]
     },
     {
         "id": 82,
         "name": "Magneton",
         "isLegendary": false,
         "gender": ["Genderless"],
-        "image": ["82"]
+        "image": ["82"],
+        "types": ["Electric", "Steel"]
     },
     {
         "id": 83,
         "name": "Farfetchd",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["83"]
+        "image": ["83"],
+        "types": ["Normal", "Flying"]
     },
     {
         "id": 84,
         "name": "Doduo",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["84"]
+        "image": ["84"],
+        "types": ["Flying", "Normal"]
     },
     {
         "id": 85,
         "name": "Dodrio",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["85"]
+        "image": ["85"],
+        "types": ["Flying", "Ghost"]
     },
     {
         "id": 86,
         "name": "Seel",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["86"]
+        "image": ["86"],
+        "types": ["Water"]
     },
     {
         "id": 87,
         "name": "Dewgong",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["87"]
+        "image": ["87"],
+        "types": ["Water", "Ice"]
     },
     {
         "id": 88,
         "name": "Grimer",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["88"]
+        "image": ["88"],
+        "types": ["Poison"]
     },
     {
         "id": 89,
         "name": "Muk",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["89"]
+        "image": ["89"],
+        "types": ["Poison"]
     },
     {
         "id": 90,
         "name": "Shellder",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["90"]
+        "image": ["90"],
+        "types": ["Water"]
     },
     {
         "id": 91,
         "name": "Cloyster",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["91"]
+        "image": ["91"],
+        "types": ["Water", "Ice"]
     },
     {
         "id": 92,
         "name": "Gastly",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["92"]
+        "image": ["92"],
+        "types": ["Ghost", "Poison"]
     },
     {
         "id": 93,
         "name": "Haunter",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["93"]
+        "image": ["93"],
+        "types": ["Ghost", "Poison"]
     },
     {
         "id": 94,
         "name": "Gengar",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["94"]
+        "image": ["94"],
+        "types": ["Ghost", "Poison"]
     },
     {
         "id": 95,
         "name": "Onix",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["95"]
+        "image": ["95"],
+        "types": ["Rock", "Ground"]
     },
     {
         "id": 96,
         "name": "Drowzee",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["96"]
+        "image": ["96"],
+        "types": ["Psychic"]
     },
     {
         "id": 97,
         "name": "Hypno",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["97"]
+        "image": ["97"],
+        "types": ["Psychic"]
     },
     {
         "id": 98,
         "name": "Krabby",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["98"]
+        "image": ["98"],
+        "types": ["Water"]
     },
     {
         "id": 99,
         "name": "Kingler",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["99"]
+        "image": ["99"],
+        "types": ["Water"]
     },
     {
         "id": 100,
         "name": "Voltorb",
         "isLegendary": false,
         "gender": ["Genderless"],
-        "image": ["100"]
+        "image": ["100"],
+        "types": ["Electric"]
     },
     {
         "id": 101,
         "name": "Electrode",
         "isLegendary": false,
         "gender": ["Genderless"],
-        "image": ["101"]
+        "image": ["101"],
+        "types": ["Electric"]
     },
     {
         "id": 102,
         "name": "Exeggcute",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["102"]
+        "image": ["102"],
+        "types": ["Normal", "Psychic"]
     },
     {
         "id": 103,
         "name": "Exeggutor",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["103"]
+        "image": ["103"],
+        "types": ["Normal", "Psychic"]
     },
     {
         "id": 104,
         "name": "Cubone",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["104"]
+        "image": ["104"],
+        "types": ["Ground"]
     },
     {
         "id": 105,
         "name": "Marowak",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["105"]
+        "image": ["105"],
+        "types": ["Ground"]
     },
     {
         "id": 106,
         "name": "Hitmonlee",
         "isLegendary": false,
         "gender": ["Male"],
-        "image": ["106"]
+        "image": ["106"],
+        "types": ["Fighting"]
     },
     {
         "id": 107,
         "name": "Hitmonchan",
         "isLegendary": false,
         "gender": ["Male"],
-        "image": ["107"]
+        "image": ["107"],
+        "types": ["Fighting"]
     },
     {
         "id": 108,
         "name": "Lickitung",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["108"]
+        "image": ["108"],
+        "types": ["Normal"]
     },
     {
         "id": 109,
         "name": "Koffing",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["109"]
+        "image": ["109"],
+        "types": ["Poison"]
     },
     {
         "id": 110,
         "name": "Weezing",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["110"]
+        "image": ["110"],
+        "types": ["Poison"]
     },
     {
         "id": 111,
         "name": "Rhyhorn",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["111"]
+        "image": ["111"],
+        "types": ["Rock", "Ground"]
     },
     {
         "id": 112,
         "name": "Rhydon",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["112"]
+        "image": ["112"],
+        "types": ["Rock", "Ground"]
     },
     {
         "id": 113,
         "name": "Chansey",
         "isLegendary": false,
         "gender": ["Female"],
-        "image": ["113"]
+        "image": ["113"],
+        "types": ["Normal"]
     },
     {
         "id": 114,
         "name": "Tangela",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["114"]
+        "image": ["114"],
+        "types": ["Grass"]
     },
     {
         "id": 115,
         "name": "Kangaskhan",
         "isLegendary": false,
         "gender": ["Female"],
-        "image": ["115"]
+        "image": ["115"],
+        "types": ["Normal"]
     },
     {
         "id": 116,
         "name": "Horsea",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["116"]
+        "image": ["116"],
+        "types": ["Water"]
     },
     {
         "id": 117,
         "name": "Seadra",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["117"]
+        "image": ["117"],
+        "types": ["Water"]
     },
     {
         "id": 118,
         "name": "Goldeen",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["118"]
+        "image": ["118"],
+        "types": ["Water"]
     },
     {
         "id": 119,
         "name": "Seaking",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["119"]
+        "image": ["119"],
+        "types": ["Water"]
     },
     {
         "id": 120,
         "name": "Staryu",
         "isLegendary": false,
         "gender": ["Genderless"],
-        "image": ["120"]
+        "image": ["120"],
+        "types": ["Water"]
     },
     {
         "id": 121,
         "name": "Starmie",
         "isLegendary": false,
         "gender": ["Genderless"],
-        "image": ["121"]
+        "image": ["121"],
+        "types": ["Water", "Psychic"]
     },
     {
         "id": 122,
         "name": "Mr. Mime",
         "isLegendary": false,
         "gender": ["Male"],
-        "image": ["122"]
+        "image": ["122"],
+        "types": ["Fairy", "Psychic"]
     },
     {
         "id": 123,
         "name": "Scyther",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["123"]
+        "image": ["123"],
+        "types": ["Bug", "Flying"]
     },
     {
         "id": 124,
         "name": "Jynx",
         "isLegendary": false,
         "gender": ["Female"],
-        "image": ["124"]
+        "image": ["124"],
+        "types": ["Ice", "Psychic"]
     },
     {
         "id": 125,
         "name": "Electabuzz",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["125"]
+        "image": ["125"],
+        "types": ["Electric"]
     },
     {
         "id": 126,
         "name": "Magmar",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["126"]
+        "image": ["126"],
+        "types": ["Fire"]
     },
     {
         "id": 127,
         "name": "Pinsir",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["127"]
+        "image": ["127"],
+        "types": ["Bug"]
     },
     {
         "id": 128,
         "name": "Tauros",
         "isLegendary": false,
         "gender": ["Male"],
-        "image": ["128"]
+        "image": ["128"],
+        "types": ["Normal"]
     },
     {
         "id": 129,
         "name": "Magikarp",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["129"]
+        "image": ["129"],
+        "types": ["Water"]
     },
     {
         "id": 130,
         "name": "Gyarados",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["130"]
+        "image": ["130"],
+        "types": ["Water", "Flying"]
     },
     {
         "id": 131,
         "name": "Lapras",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["131"]
+        "image": ["131"],
+        "types": ["Ice", "Water"]
     },
     {
         "id": 132,
         "name": "Ditto",
         "isLegendary": false,
         "gender": ["Genderless"],
-        "image": ["132"]
+        "image": ["132"],
+        "types": ["Normal"]
     },
     {
         "id": 133,
         "name": "Eevee",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["133"]
+        "image": ["133"],
+        "types": ["Normal"]
     },
     {
         "id": 134,
         "name": "Vaporeon",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["134"]
+        "image": ["134"],
+        "types": ["Water"]
     },
     {
         "id": 135,
         "name": "Jolteon",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["135"]
+        "image": ["135"],
+        "types": ["Electric"]
     },
     {
         "id": 136,
         "name": "Flareon",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["136"]
+        "image": ["136"],
+        "types": ["Fire"]
     },
     {
         "id": 137,
         "name": "Porygon",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["137"]
+        "image": ["137"],
+        "types": ["Normal"]
     },
     {
         "id": 138,
         "name": "Omanyte",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["138"]
+        "image": ["138"],
+        "types": ["Water", "Rock"]
     },
     {
         "id": 139,
         "name": "Omastar",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["139"]
+        "image": ["139"],
+        "types": ["Water", "Rock"]
     },
     {
         "id": 140,
         "name": "Kabuto",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["140"]
+        "image": ["140"],
+        "types": ["Water", "Rock"]
     },
     {
         "id": 141,
         "name": "Kabutops",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["141"]
+        "image": ["141"],
+        "types": ["Water", "Rock"]
     },
     {
         "id": 142,
         "name": "Aerodactyl",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["142"]
+        "image": ["142"],
+        "types": ["Flying", "Rock"]
     },
     {
         "id": 143,
         "name": "Snorlax",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["143"]
+        "image": ["143"],
+        "types": ["Normal"]
     },
     {
         "id": 144,
         "name": "Articuno",
         "isLegendary": true,
         "gender": ["Genderless"],
-        "image": ["144"]
+        "image": ["144"],
+        "types": ["Ice", "Flying"]
     },
     {
         "id": 145,
         "name": "Zapdos",
         "isLegendary": true,
         "gender": ["Genderless"],
-        "image": ["145"]
+        "image": ["145"],
+        "types": ["Electric", "Flying"]
     },
     {
         "id": 146,
         "name": "Moltres",
         "isLegendary": true,
         "gender": ["Genderless"],
-        "image": ["146"]
+        "image": ["146"],
+        "types": ["Fire", "Flying"]
     },
     {
         "id": 147,
         "name": "Dratini",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["147"]
+        "image": ["147"],
+        "types": ["Dragon"]
     },
     {
         "id": 148,
         "name": "Dragonair",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["148"]
+        "image": ["148"],
+        "types": ["Dragon"]
     },
     {
         "id": 149,
         "name": "Dragonite",
         "isLegendary": false,
         "gender": ["Male", "Female"],
-        "image": ["149"]
+        "image": ["149"],
+        "types": ["Dragon", "Flying"]
     },
     {
         "id": 150,
         "name": "Mewtwo",
         "isLegendary": true,
         "gender": ["Genderless"],
-        "image": ["150"]
+        "image": ["150"],
+        "types": ["Psychic"]
     },
     {
         "id": 151,
         "name": "Mew",
         "isLegendary": true,
         "gender": ["Genderless"],
-        "image": ["151"]
+        "image": ["151"],
+        "types": ["Psychic"]
     }
 ]

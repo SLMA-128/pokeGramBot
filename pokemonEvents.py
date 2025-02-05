@@ -10,6 +10,29 @@ MONGO_URI = os.getenv("MONGO_URI")
 if not MONGO_URI:
     raise ValueError("MONGO_URI no está configurada en las variables de entorno.")
 
+# Define the type effectiveness dictionary.
+type_effectiveness = {
+    "Normal":   {"strong_against": [], "weak_against": ["Rock", "Steel"], "immune_against": ["Ghost"]},
+    "Fire":     {"strong_against": ["Grass", "Bug", "Ice", "Steel"], "weak_against": ["Water", "Rock", "Fire"], "immune_against": []},
+    "Water":    {"strong_against": ["Fire", "Ground", "Rock"], "weak_against": ["Electric", "Grass", "Water"], "immune_against": []},
+    "Electric": {"strong_against": ["Water", "Flying"], "weak_against": ["Electric", "Grass", "Dragon"], "immune_against": ["Ground"]},
+    "Grass":    {"strong_against": ["Water", "Ground", "Rock"], "weak_against": ["Fire", "Flying", "Bug", "Poison", "Grass", "Dragon", "Steel"], "immune_against": []},
+    "Ice":      {"strong_against": ["Grass", "Ground", "Flying", "Dragon"], "weak_against": ["Fire", "Water", "Ice", "Steel"], "immune_against": []},
+    "Fighting": {"strong_against": ["Normal", "Ice", "Rock", "Dark", "Steel"], "weak_against": ["Flying", "Poison", "Bug", "Psychic", "Fairy"], "immune_against": ["Ghost"]},
+    "Poison":   {"strong_against": ["Grass", "Fairy"], "weak_against": ["Poison", "Ground", "Rock", "Ghost"], "immune_against": ["Steel"]},
+    "Ground":   {"strong_against": ["Fire", "Electric", "Poison", "Rock", "Steel"], "weak_against": ["Grass", "Bug"], "immune_against": ["Electric"]},
+    "Flying":   {"strong_against": ["Grass", "Fighting", "Bug"], "weak_against": ["Electric", "Rock", "Steel"], "immune_against": ["Ground"]},
+    "Psychic":  {"strong_against": ["Fighting", "Poison"], "weak_against": ["Psychic", "Steel"], "immune_against": ["Dark"]},
+    "Bug":      {"strong_against": ["Grass", "Psychic", "Dark"], "weak_against": ["Fire", "Fighting", "Poison", "Flying", "Ghost", "Steel", "Fairy"], "immune_against": []},
+    "Rock":     {"strong_against": ["Fire", "Ice", "Flying", "Bug"], "weak_against": ["Fighting", "Ground", "Steel"], "immune_against": []},
+    "Ghost":    {"strong_against": ["Psychic", "Ghost"], "weak_against": ["Dark"], "immune_against": ["Normal", "Fighting"]},
+    "Dragon":   {"strong_against": ["Dragon"], "weak_against": ["Steel"], "immune_against": ["Fairy"]},
+    "Dark":     {"strong_against": ["Psychic", "Ghost"], "weak_against": ["Fighting", "Dark", "Fairy"], "immune_against": []},
+    "Steel":    {"strong_against": ["Ice", "Rock", "Fairy"], "weak_against": ["Fire", "Water", "Electric", "Steel"], "immune_against": ["Poison"]},
+    "Fairy":    {"strong_against": ["Fighting", "Dragon", "Dark"], "weak_against": ["Fire", "Poison", "Steel"], "immune_against": ["Dragon"]}
+}
+
+
 #Check the existence of the pokemon database
 def checkPokemonsExists():
     try:
@@ -97,6 +120,7 @@ def generatePokemon():
             "isLegendary": pokemon['isLegendary'],
             "level": random.randint(1, 100),
             "gender": pkm_gender,
+            "types": pokemon['types'],
             "image": pokemon_image,
             "captured": 1
         }
@@ -104,3 +128,17 @@ def generatePokemon():
     except Exception as e:
         logger.error(f"Error generating a new Pokémon: {e}")
         return None
+
+# bonus por ventaja de tipos
+def get_type_advantage(attacker_types, defender_types):
+    bonus = 0
+    for atk_type in attacker_types:
+        if atk_type in type_effectiveness:
+            for def_type in defender_types:
+                if def_type in type_effectiveness[atk_type]["strong_against"]:
+                    bonus += 10  # Bonificación si el atacante tiene ventaja
+                elif def_type in type_effectiveness[atk_type]["weak_against"]:
+                    bonus -= 10  # Penalización si el atacante tiene desventaja
+                elif def_type in type_effectiveness[atk_type]["immune_against"]:
+                    bonus -= 20  # Desventaja total si el ataque no afecta
+    return bonus
