@@ -442,12 +442,13 @@ def start_combat(message):
         keyboard = InlineKeyboardMarkup()
         duel_button = InlineKeyboardButton("Duel", callback_data=f"duel:{username}")
         keyboard.add(duel_button)
-        msg = bot.send_message(message.chat.id, f"\u2694 {username} ha iniciado un combate con {user_pokemon['name']}!\nPresiona 'Duel' para enfrentarlo!", reply_markup=keyboard)
+        msg = bot.send_message(group_id, f"\u2694 {username} ha iniciado un combate con *{user_pokemon['name']}*!\nPresiona 'Duel' para enfrentarlo!", message_thread_id=topic_id, reply_markup=keyboard, parse_mode="Markdown")
         # Cancelar el combate después de 2 minutos si nadie lo acepta
         def cancel_combat():
             if username in ongoing_combats and not ongoing_combats[username]['opponent']:
                 del ongoing_combats[username]
-                bot.edit_message_text("\u23F3 El combate ha expirado.", message.chat.id, msg.message_id)
+                msg = bot.edit_message_text("\u23F3 El combate ha expirado.", message.chat.id, msg.message_id)
+                threading.Timer(10, lambda: bot.delete_message(chat_id=group_id, message_id=msg.message_id)).start()
         threading.Timer(120, cancel_combat).start()
     except Exception as e:
         logger.error(f"Error during startcombat: {e}")
@@ -460,14 +461,14 @@ def accept_duel(call):
         opponent = call.from_user.username
         opponent_id = call.from_user.id
         if challenger not in ongoing_combats or ongoing_combats[challenger]["opponent"]:
-            bot.answer_callback_query(call.id, "\u274C El duelo ya ha sido aceptado o ha expirado.")
+            bot.answer_callback_query(call.id, "El duelo ya ha sido aceptado o ha expirado.")
             return
         if opponent == challenger:
-            bot.answer_callback_query(call.id, "\u26A0 No puedes luchar contra ti mismo.")
+            bot.answer_callback_query(call.id, "No puedes luchar contra ti mismo.")
             return
         opponent_pokemon = userEvents.getRandomPokemonCaptured(opponent)
         if not opponent_pokemon:
-            bot.answer_callback_query(call.id, "\u26A0 No tienes Pokémon para combatir.")
+            bot.answer_callback_query(call.id, "No tienes Pokémon para combatir.")
             return
         ongoing_combats[challenger]["opponent"] = {"username": opponent, "pokemon": opponent_pokemon}
         # Determinar el resultado del combate
@@ -475,7 +476,7 @@ def accept_duel(call):
         loser = challenger if result else opponent
         userEvents.reducePokemonCaptured(loser)
         bot.edit_message_text(
-            f"⚔️ {challenger} ({ongoing_combats[challenger]['pokemon']['name']}) vs {opponent} ({opponent_pokemon['name']})!\n\n\U0001F3C6 {'¡' + opponent + ' gana!' if result else '¡' + challenger + ' gana!'}\n\n\u274C {loser} pierde un Pokémon!",
+            f"\u2694 {challenger} ({ongoing_combats[challenger]['pokemon']['name']}) vs {opponent} ({opponent_pokemon['name']})!\n\n\U0001F3C6 {'¡' + opponent + ' gana!' if result else '¡' + challenger + ' gana!'}\n\n\u274C {loser} pierde un Pokémon!",
             call.message.chat.id, call.message.message_id
         )
         del ongoing_combats[challenger]
