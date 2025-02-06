@@ -242,24 +242,34 @@ def deleteRandomPokemon(username):
         return False
 
 # combat results incresing victories for the winner and defeats for the loser
-
 def updateCombatResults(winner, loser):
     try:
         client = MongoClient(MONGO_URI)
         db = client['pokemon_bot']
         collection = db['users']
-        # Obtener el usuario ganador y el perdedor
         winner_user = collection.find_one({"name": winner})
         loser_user = collection.find_one({"name": loser})
-        if winner_user and loser_user:
-            # Incrementar los resultados de combates ganados y perdidos
-            update_winner = {"$inc": {"victories": 1}}
-            update_loser = {"$inc": {"defeats": 1}}
-            collection.update_one({"name": winner}, update_winner)
-            collection.update_one({"name": loser}, update_loser)
-            return True
+        if not winner_user or not loser_user:
+            client.close()
+            return False
+        def update_record(username, field, opponent):
+            user = collection.find_one({"name": username})
+            records = user.get(field, [])
+            for record in records:
+                if opponent in record:
+                    collection.update_one(
+                        {"name": username, f"{field}.{records.index(record)}.{opponent}": {"$exists": True}},
+                        {"$inc": {f"{field}.$.{opponent}": 1}}
+                    )
+                    return
+            collection.update_one(
+                {"name": username},
+                {"$push": {field: {opponent: 1}}}
+            )
+        update_record(winner, "victories", loser)
+        update_record(loser, "defeats", winner)
         client.close()
-        return False
+        return True
     except Exception as e:
         logger.error(f"Error updating combat results: {str(e)}")
         return False
