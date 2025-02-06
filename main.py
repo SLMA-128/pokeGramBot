@@ -458,7 +458,6 @@ def accept_duel(call):
     try:
         challenger = call.data.split(":")[1]
         opponent = call.from_user.username
-        opponent_id = call.from_user.id
         if challenger not in ongoing_combats or ongoing_combats[challenger]["opponent"]:
             bot.answer_callback_query(call.id, "El duelo ya ha sido aceptado o ha expirado.")
             return
@@ -479,9 +478,10 @@ def accept_duel(call):
         result = (combat_roll + level_check + type_modifier) < 50
         loser = challenger if result else opponent
         loser_pokemon = ongoing_combats[challenger]['pokemon'] if loser==challenger else opponent_pokemon
+        print(loser_pokemon['name'] if not None else 'error en el pokemon del loser')
         userEvents.reducePokemonCaptured(loser, loser_pokemon)
         bot.edit_message_text(
-            f"\u2694 {challenger} ({ongoing_combats[challenger]['pokemon']['name']} Lv.{ongoing_combats[challenger]['pokemon']['level']}) vs {opponent} ({opponent_pokemon['name']} Lv.{opponent_pokemon['level']})!\n\n\U0001F3C6 {'¡' + opponent + ' gana!' if result else '¡' + challenger + ' gana!'}\n\n\u274C {loser} pierde un {opponent_pokemon['name']}!",
+            f"\u2694 {challenger} ({ongoing_combats[challenger]['pokemon']['name']} Lv.{ongoing_combats[challenger]['pokemon']['level']}) vs {opponent} ({opponent_pokemon['name']} Lv.{opponent_pokemon['level']})!\n\n\U0001F3C6 {'¡' + opponent + ' gana!' if result else '¡' + challenger + ' gana!'}\n\n\u274C {loser} pierde un {loser_pokemon['name']}!",
             call.message.chat.id, call.message.message_id
         )
         del ongoing_combats[challenger]
