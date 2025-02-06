@@ -487,10 +487,9 @@ def accept_duel(call):
 def profile(message):
     try:
         username = message.from_user.username
-        user_data = userEvents.getUserByName(username)
-        if not user_data:
-            bot.reply_to(message, "\u26A0 No estás registrado en el sistema. Usa /register para registrarte.")
+        if checkUserExistence(username):
             return
+        user_data = userEvents.getUserByName(username)
         # Extraer los datos relevantes
         name = user_data["name"]
         total_pokemons = user_data["total_pokemons"]
@@ -498,8 +497,8 @@ def profile(message):
         victories = user_data.get("victories", [])
         defeats = user_data.get("defeats", [])
         # Formatear victorias y derrotas
-        victories_text = ", ".join([f"{opponent}: {count}" for opponent, count in victories.items()]) if victories else "None"
-        defeats_text = ", ".join([f"{opponent}: {count}" for opponent, count in defeats.items()]) if defeats else "None"
+        victories_text = ", ".join([f"{opponent}: {count}" for entry in victories for opponent, count in entry.items()]) if victories else "None"
+        defeats_text = ", ".join([f"{opponent}: {count}" for entry in defeats for opponent, count in entry.items()]) if defeats else "None"
         # Mensaje de respuesta
         profile_text = (
             f"\U0001F4DC *{name} Profile*\n"
