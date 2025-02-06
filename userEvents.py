@@ -23,7 +23,15 @@ def registerUser(username):
         max_id = collection.find_one({}, {"id": 1}, sort=[("id", -1)])
         new_id = max_id["id"] + 1 if max_id else 1
         # Crear nuevo usuario
-        new_user = {"id": new_id, "name": username, "total_pokemons": 0, "total_shiny": 0, "pokemonsOwned": []}
+        new_user = {
+            "id": new_id,
+            "name": username,
+            "total_pokemons": 0,
+            "total_shiny": 0,
+            "pokemonsOwned": [],
+            "victories":[],
+            "defeats": []
+            }
         collection.insert_one(new_user)
         client.close()
         return True
@@ -231,4 +239,27 @@ def deleteRandomPokemon(username):
         return True
     except Exception as e:
         logger.error(f"Error reducing pokemon count: {str(e)}")
+        return False
+
+# combat results incresing victories for the winner and defeats for the loser
+
+def updateCombatResults(winner, loser):
+    try:
+        client = MongoClient(MONGO_URI)
+        db = client['pokemon_bot']
+        collection = db['users']
+        # Obtener el usuario ganador y el perdedor
+        winner_user = collection.find_one({"name": winner})
+        loser_user = collection.find_one({"name": loser})
+        if winner_user and loser_user:
+            # Incrementar los resultados de combates ganados y perdidos
+            update_winner = {"$inc": {"victories": 1}}
+            update_loser = {"$inc": {"defeats": 1}}
+            collection.update_one({"name": winner}, update_winner)
+            collection.update_one({"name": loser}, update_loser)
+            return True
+        client.close()
+        return False
+    except Exception as e:
+        logger.error(f"Error updating combat results: {str(e)}")
         return False

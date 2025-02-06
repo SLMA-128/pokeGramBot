@@ -4,48 +4,62 @@
         "name": "LautaroR",
         "total_pokemons": 0,
         "total_shiny": 0,
-        "pokemonsOwned": []
+        "pokemonsOwned": [],
+        "victories":[],
+        "defeats": []
     },
     {
         "id": 4,
         "name": "Adrian_Ramos",
         "total_pokemons": 0,
         "total_shiny": 0,
-        "pokemonsOwned": []
+        "pokemonsOwned": [],
+        "victories":[],
+        "defeats": []
     },
     {
         "id": 5,
         "name": "Sigthl",
         "total_pokemons": 0,
         "total_shiny": 0,
-        "pokemonsOwned": []
+        "pokemonsOwned": [],
+        "victories":[],
+        "defeats": []
     },
     {
         "id": 1,
         "name": "Demikhov",
         "total_pokemons": 0,
         "total_shiny": 0,
-        "pokemonsOwned": []
+        "pokemonsOwned": [],
+        "victories":[],
+        "defeats": []
     },
     {
         "id": 6,
         "name": "paulaa_cx",
         "total_pokemons": 0,
         "total_shiny": 0,
-        "pokemonsOwned": []
+        "pokemonsOwned": [],
+        "victories":[],
+        "defeats": []
     },
     {
         "id": 3,
         "name": "AgustinDelgado",
         "total_pokemons": 0,
         "total_shiny": 0,
-        "pokemonsOwned": []
+        "pokemonsOwned": [],
+        "victories":[],
+        "defeats": []
     },
     {
         "id": 8,
         "name": "testPlayer",
         "total_pokemons": 0,
         "total_shiny": 0,
-        "pokemonsOwned": []
+        "pokemonsOwned": [],
+        "victories":[],
+        "defeats": []
     }
 ]

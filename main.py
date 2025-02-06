@@ -103,16 +103,16 @@ def check_active_hours():
 #Function for the escaping pokemon
 def pokemon_escape(pokemon, group_id, message_id):
     try:
-        escape_msgs = [f"\U0001F4A8 The wild Lv.{pokemon['level']} {pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} has escaped!",
-                       f"\U0001F4A8 Someone throw a rock and made the Lv.{pokemon['level']} {pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} escape!",
-                       f"\U0001F4A8 The wild Lv.{pokemon['level']} {pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} saw a bad meme and escaped!",
-                       f"\U0001F4A8 The wild Lv.{pokemon['level']} {pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} is a little scared and escaped!",
-                       f"\U0001F4A8 The wild Lv.{pokemon['level']} {pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} saw someone taking down their pants and escaped!",
-                       f"\U0001F4A8 The wild Lv.{pokemon['level']} {pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} dodged a pokeball and escaped!",
-                       f"\U0001F4A8 The wild Lv.{pokemon['level']} {pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} was in reality a fake doll!",
-                       f"\U0001F4A8 The wild Lv.{pokemon['level']} {pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} was in reality a Ditto and has escaped!",
-                       f"\U0001F480 A pokeball was thrown too hard and killed the Lv.{pokemon['level']} {pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']}!",
-                       f"\U0001F480 The wild Lv.{pokemon['level']} {pokemon['gender']} {'shiny ' if pokemon['isShiny'] else ''}{pokemon['name']} killed itself to not be captured!"]
+        escape_msgs = [f"\U0001F4A8 The wild Lv.{pokemon['level']} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} has escaped!",
+                       f"\U0001F4A8 Someone throw a rock and made the Lv.{pokemon['level']} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''}{'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} escape!",
+                       f"\U0001F4A8 The wild Lv.{pokemon['level']} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} saw a bad meme and escaped!",
+                       f"\U0001F4A8 The wild Lv.{pokemon['level']} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} is a little scared and escaped!",
+                       f"\U0001F4A8 The wild Lv.{pokemon['level']} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} saw someone taking down their pants and escaped!",
+                       f"\U0001F4A8 The wild Lv.{pokemon['level']} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} dodged a pokeball and escaped!",
+                       f"\U0001F4A8 The wild Lv.{pokemon['level']} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} was in reality a fake doll!",
+                       f"\U0001F4A8 The wild Lv.{pokemon['level']} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} was in reality a Ditto and has escaped!",
+                       f"\U0001F480 A pokeball was thrown too hard and killed the Lv.{pokemon['level']} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''}!",
+                       f"\U0001F480 The wild Lv.{pokemon['level']} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} killed itself to not be captured!"]
         # Notify the group that the Pokémon escaped
         bot.edit_message_text(
             random.choice(escape_msgs),
@@ -235,7 +235,7 @@ def spawn_pokemon_handler(message):
             pokemon_name = f"***{pokemon['name']}***" if pokemon['isLegendary'] else pokemon['name']
             msg = bot.send_message(
                 group_id,
-                f"\U0001F514 A wild {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon_name}{'\U0001F31F' if pokemon['isShiny'] else ''} appeared! What will you do?\nGender: {pokemon['gender']}\nLevel: {pokemon['level']}",
+                f"\U0001F514 A wild {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon_name}{'\U0001F31F' if pokemon['isShiny'] else ''} appeared! What will you do?\nGender: {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''}\nLevel: {pokemon['level']}",
                 reply_markup=generate_capture_button(pokemon["id"]),
                 message_thread_id=topic_id,
                 parse_mode='Markdown'
@@ -273,7 +273,7 @@ def capture_pokemon_handler(call):
                 capture_timers[call.message.message_id].cancel()
                 del capture_timers[call.message.message_id]
             bot.edit_message_text(
-                f"\U0001F3C6 {call.from_user.first_name} captured a Lv.{pokemon['level']} {pokemon['gender']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''}!",
+                f"\U0001F3C6 {call.from_user.first_name} captured a Lv.{pokemon['level']} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''}!",
                 call.message.chat.id,
                 call.message.message_id,
                 parse_mode="Markdown"
@@ -476,12 +476,16 @@ def accept_duel(call):
         opponent_advantage = pokemonEvents.get_type_advantage(opponent_pokemon['types'], ongoing_combats[challenger]['pokemon']['types'])
         type_modifier = challenger_advantage - opponent_advantage
         result = (combat_roll + level_check + type_modifier) < 50
+        winner = opponent if result else challenger
         loser = challenger if result else opponent
         loser_pokemon = ongoing_combats[challenger]['pokemon'] if loser==challenger else opponent_pokemon
-        print(loser_pokemon['name'] if not None else 'error en el pokemon del loser')
         userEvents.reducePokemonCaptured(loser, loser_pokemon)
+        steal = random.randint(1,100) <= 5
+        if steal:
+            userEvents.addPokemonCaptured(loser_pokemon, winner)
+        userEvents.updateCombatResults(winner, loser)
         bot.edit_message_text(
-            f"\u2694 {challenger} ({ongoing_combats[challenger]['pokemon']['name']} Lv.{ongoing_combats[challenger]['pokemon']['level']}) vs {opponent} ({opponent_pokemon['name']} Lv.{opponent_pokemon['level']})!\n\n\U0001F3C6 {'¡' + opponent + ' gana!' if result else '¡' + challenger + ' gana!'}\n\n\u274C {loser} pierde un {loser_pokemon['name']}!",
+            f"\u2694 {challenger} ({ongoing_combats[challenger]['pokemon']['name']} Lv.{ongoing_combats[challenger]['pokemon']['level']}) vs {opponent} ({opponent_pokemon['name']} Lv.{opponent_pokemon['level']})!\n\n\U0001F3C6 {'¡' + opponent + ' gana!' if result else '¡' + challenger + ' gana!'}\n\n\u274C {loser} pierde un {loser_pokemon['name']}!{('\n\n\U0001F3C5 ' + winner + 'se queda con el pokemon!') if steal else ''}",
             call.message.chat.id, call.message.message_id
         )
         del ongoing_combats[challenger]
