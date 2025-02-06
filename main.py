@@ -54,16 +54,16 @@ ongoing_combats = {}
 #commands
 
 commands=[
-    {"command": "help", "description": "Get the list of commands."},
-    {"command": "start", "description": "The bot starts and says hi."},
-    {"command": "register", "description": "Register your username."},
-    {"command": "spawn", "description": "Spawn a random Pokemon. Each user can spawn once a minute."},
-    {"command": "mypokemons", "description": "Show how many Pokemons, normal and shiny, you captured."},
     {"command": "capturedpokemons", "description": "Show your captured Pokemon with deatails."},
-    {"command": "mycollection", "description": "Show how many type of Pokemons you have captured."},
-    {"command": "freemypokemons", "description": "Free all your Pokemons. (WARNING: It is irreversible!)"},
     {"command": "chance", "description": "Show the chance to capture pokemons.)"},
     {"command": "chooseyou", "description": "Summon a random pokemon from the user.)"},
+    {"command": "help", "description": "Get the list of commands."},
+    {"command": "mycollection", "description": "Show how many type of Pokemons you have captured."},
+    {"command": "mypokemons", "description": "Show how many Pokemons, normal and shiny, you captured."},
+    {"command": "profile", "description": "Shows the profile of the user"},
+    {"command": "register", "description": "Register your username."},
+    {"command": "spawn", "description": "Spawn a random Pokemon. Each user can spawn once a minute."},
+    {"command": "start", "description": "The bot starts and says hi."},
     {"command": "startcombat", "description": "Start a combat with a random Pokemon. Whoever loses loses a pokemon."}
 ]
 
@@ -366,21 +366,6 @@ def get_pokemons_by_user(message):
     except Exception as e:
         logger.error(f"Error during mycollection: {e}")
 
-# Bot command handler for /freemypokemons
-@bot.message_handler(commands=['freemypokemons'])
-def register_command(message):
-    try:
-        if not check_active_hours():
-            return
-        username = message.from_user.username
-        if checkUserExistence(username):
-            return
-        userEvents.freeAllPokemons(username)
-        msg = bot.reply_to(message, f"Usuario @{username} liberó a todos sus pokémones!")
-        threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
-    except Exception as e:
-        logger.error(f"Error during freemypokemons: {e}")
-
 # Callback query handler for /chooseyou
 @bot.message_handler(commands=['chooseyou'])
 def summon_pokemon(message):
@@ -496,6 +481,39 @@ def accept_duel(call):
         del ongoing_combats[challenger]
     except Exception as e:
         logger.error(f"Error in duel handling: {e}")
+
+# Callback query handler for /profile
+@bot.message_handler(commands=['profile'])
+def profile(message):
+    try:
+        username = message.from_user.username
+        user_data = userEvents.getUserByName(username)
+        if not user_data:
+            bot.reply_to(message, "\u26A0 No estás registrado en el sistema. Usa /register para registrarte.")
+            return
+        # Extraer los datos relevantes
+        name = user_data["name"]
+        total_pokemons = user_data["total_pokemons"]
+        total_shiny = user_data["total_shiny"]
+        victories = user_data.get("victories", [])
+        defeats = user_data.get("defeats", [])
+        # Formatear victorias y derrotas
+        victories_text = ", ".join([f"{opponent}: {count}" for opponent, count in victories.items()]) if victories else "None"
+        defeats_text = ", ".join([f"{opponent}: {count}" for opponent, count in defeats.items()]) if defeats else "None"
+        # Mensaje de respuesta
+        profile_text = (
+            f"\U0001F4DC *{name} Profile*\n"
+            f"\U0001F4E6 Pokemons Captured: {total_pokemons}\n"
+            f"\U0001F31F Shiny Captured: {total_shiny}\n"
+            f"\U0001F3C6 Victories: {victories_text}\n"
+            f"\U0001F480 Defeats: {defeats_text}"
+        )
+        msg = bot.reply_to(message, profile_text, parse_mode="Markdown")
+        threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
+    except Exception as e:
+        logger.error(f"Error mostrando perfil: {e}")
+        msg = bot.reply_to(message, "\u26A0 Ocurrió un error al obtener tu perfil.")
+        threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
 
 class MockMessage:
     def __init__(self):
