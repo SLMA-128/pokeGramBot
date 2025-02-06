@@ -493,8 +493,8 @@ def profile(message):
         victories = user_data.get("victories", [])
         defeats = user_data.get("defeats", [])
         # Formatear victorias y derrotas
-        victories_text = ",\n\U0001F537".join([f"{opponent}: {count}" for entry in victories for opponent, count in entry.items()]) if victories else "None"
-        defeats_text = ",\n\U0001F536".join([f"{opponent}: {count}" for entry in defeats for opponent, count in entry.items()]) if defeats else "None"
+        victories_text = ",\n\U0001F538".join([f"{opponent}: {count}" for entry in victories for opponent, count in entry.items()]) if victories else "None"
+        defeats_text = ",\n\U0001F539".join([f"{opponent}: {count}" for entry in defeats for opponent, count in entry.items()]) if defeats else "None"
         # Mensaje de respuesta
         profile_text = (
             f"\U0001F4DC *{user_data["name"]} Profile*\n"
