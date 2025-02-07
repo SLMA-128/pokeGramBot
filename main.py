@@ -511,7 +511,7 @@ def profile(message):
             f"\U0001F3AF Winrate: {winrate}%\n"
             f"\U0001F3C6 Victories:\nTotal: {total_victories}{victories_text}\n"
             f"\U0001F947 Most Victories: {most_victories}\n"
-            f"\U0001F480 Defeats:\nTotal: {total_defeats}\n{defeats_text}"
+            f"\U0001F480 Defeats:\nTotal: {total_defeats}{defeats_text}\n"
             f"\U0001F635 Most Defeats: {most_defeats}"
         )
         msg = bot.reply_to(message, profile_text, parse_mode="Markdown")
