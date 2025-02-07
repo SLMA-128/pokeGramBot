@@ -167,7 +167,7 @@ def getRandomPokemonCaptured(username):
         logger.error(f"Error getting user: {str(e)}")
         return None
 
-#Reduce the capture counter of a pokemon by the loser, considering if it was shiny or not.
+# Reduce the capture counter of a Pokémon by the loser, considering if it was shiny or not.
 def reducePokemonCaptured(loser, loser_pokemon):
     try:
         client = MongoClient(MONGO_URI)
@@ -177,25 +177,30 @@ def reducePokemonCaptured(loser, loser_pokemon):
         if not user or not user["pokemonsOwned"]:
             client.close()
             return False
-        query = {
-            "name": loser,
-            "pokemonsOwned.id": loser_pokemon["id"],
-            "pokemonsOwned.isShiny": loser_pokemon["isShiny"]
-        }
-        update = {
-            "$inc": {"pokemonsOwned.$.captured": -1, "total_pokemons": -1}
-        }
-        if loser_pokemon["isShiny"]:
-            update["$inc"]["total_shiny"] = -1
-        collection.update_one(query, update)
-        updated_user = collection.find_one({"name": loser})
-        updated_pokemons = [pkm for pkm in updated_user["pokemonsOwned"] if pkm["captured"] > 0]
-        if len(updated_user["pokemonsOwned"]) != len(updated_pokemons):
-            collection.update_one({"name": loser}, {"$set": {"pokemonsOwned": updated_pokemons}})
+        for pkm in user["pokemonsOwned"]:
+            if pkm["id"] == loser_pokemon["id"] and pkm["isShiny"] == loser_pokemon["isShiny"]:
+                if pkm["captured"] > 1:
+                    collection.update_one(
+                        {"name": loser, "pokemonsOwned.id": loser_pokemon["id"], "pokemonsOwned.isShiny": loser_pokemon["isShiny"]},
+                        {"$inc": {"pokemonsOwned.$.captured": -1, "total_pokemons": -1}}
+                    )
+                    if loser_pokemon["isShiny"]:
+                        collection.update_one({"name": loser}, {"$inc": {"total_shiny": -1}})
+                else:
+                    collection.update_one(
+                        {"name": loser},
+                        {
+                            "$pull": {"pokemonsOwned": {"id": loser_pokemon["id"], "isShiny": loser_pokemon["isShiny"]}},
+                            "$inc": {"total_pokemons": -1}
+                        }
+                    )
+                    if loser_pokemon["isShiny"]:
+                        collection.update_one({"name": loser}, {"$inc": {"total_shiny": -1}})
+                break  # Salimos del bucle una vez encontrado y actualizado
         client.close()
         return True
     except Exception as e:
-        logger.error(f"Error reducing pokemon count: {str(e)}")
+        logger.error(f"Error reducing Pokémon count: {str(e)}")
         return False
 
 #Reduce the capture counter of a pokemon by the loser, considering if it was shiny or not. 
