@@ -545,8 +545,28 @@ def pokedex(message):
             "Female": "\u2640",
             "Genderless": "Unknown"
         }
+        type_symbols = {
+            "Normal": "\u26AA",      
+            "Fire": "\U0001F525",    
+            "Water": "\U0001F4A7",   
+            "Electric": "\u26A1",    
+            "Grass": "\U0001F33F",   
+            "Ice": "\u2744",         
+            "Fighting": "\U0001F94A",
+            "Poison": "\u2620",      
+            "Ground": "\U0001F30E",  
+            "Flying": "\U0001F54A",  
+            "Psychic": "\U0001F52E", 
+            "Bug": "\U0001F41B",     
+            "Rock": "\U0001FAA8",    
+            "Ghost": "\U0001F47B",   
+            "Dragon": "\U0001F409",  
+            "Dark": "\U0001F311",    
+            "Steel": "\u2699",       
+            "Fairy": "\u2728"        
+        }
         gender_display = ", ".join([gender_symbols.get(g, g) for g in pokemon.get("gender", ["Genderless"])])
-        types_text = ", ".join(pokemon["types"])
+        types_text = ", ".join([f"{type_symbols.get(t, '')} {t}" for t in pokemon["types"]])
         legendary_text = "\U0001F48E Legendary" if pokemon.get("isLegendary", False) else "\U0001F4A0 Common"
         pokemon_text = (
             f"\U0001F4D6 *Pokedex #{pokemon['id']}*\n"
