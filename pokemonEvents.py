@@ -82,7 +82,7 @@ def getPokemonByName(pokemonName):
         db = client['pokemon_bot']
         collection = db['pokemons']
         # Buscar el pokemon por nombre
-        pokemon = collection.find_one({"name": pokemonName})
+        pokemon = collection.find_one({"name": {"$regex": f"^{pokemonName}$", "$options": "i"}})
         client.close()
         return pokemon
     except Exception as e:

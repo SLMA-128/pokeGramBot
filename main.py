@@ -527,8 +527,10 @@ def profile(message):
 def pokedex(message):
     try:
         args = message.text.split(maxsplit=1)  # Obtiene el parámetro después del comando
+        print(f"Argumentos recibidos: {args}")
         if len(args) < 2:
-            bot.reply_to(message, "\u26A0 Debes proporcionar un nombre o ID de Pokémon.")
+            msg = bot.reply_to(message, "\u26A0 Debes proporcionar un nombre o ID de Pokémon.")
+            threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()  # Borrar el mensaje después de 5 segundos
             return
         parametro = args[1].strip()
         if parametro.isdigit():
@@ -536,7 +538,8 @@ def pokedex(message):
         else:
             pokemon = pokemonEvents.getPokemonByName(parametro.capitalize())  # Capitaliza el nombre
         if not pokemon:
-            bot.reply_to(message, "\u274C No se encontró el Pokémon en la Pokédex.")
+            msg = bot.reply_to(message, "\u274C No se encontró el Pokémon en la Pokédex.")
+            threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()  # Borrar el mensaje después de 5 segundos
             return
         gender_symbols = {
             "Male": "\u2642",
@@ -553,8 +556,7 @@ def pokedex(message):
             f"\U0001F538 *Gender:* {gender_display}\n"
             f"{legendary_text}"
         )
-        image_url = pokemon['image']
-        msg = bot.send_photo(message.chat.id, image_url, caption=pokemon_text, parse_mode="Markdown")
+        msg = bot.send_message(group_id, pokemon_text, message_thread_id=topic_id, parse_mode="Markdown")
         threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()  # Borrar el mensaje después de 30 segundos
     except Exception as e:
         logger.error(f"Error en /pokedex: {e}")
