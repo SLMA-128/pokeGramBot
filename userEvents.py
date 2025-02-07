@@ -242,30 +242,25 @@ def deleteRandomPokemon(username):
         return False
 
 # combat results incresing victories for the winner and defeats for the loser
+# Actualiza los resultados del combate, incrementando victorias y derrotas
 def updateCombatResults(winner, loser):
     try:
         client = MongoClient(MONGO_URI)
         db = client['pokemon_bot']
         collection = db['users']
-        winner_user = collection.find_one({"name": winner})
-        loser_user = collection.find_one({"name": loser})
-        if not winner_user or not loser_user:
-            client.close()
-            return False
         def update_record(username, field, opponent):
-            user = collection.find_one({"name": username})
-            records = user.get(field, [])
-            for record in records:
-                if opponent in record:
-                    collection.update_one(
-                        {"name": username, f"{field}.{records.index(record)}.{opponent}": {"$exists": True}},
-                        {"$inc": {f"{field}.$.{opponent}": 1}}
-                    )
-                    return
-            collection.update_one(
-                {"name": username},
-                {"$push": {field: {opponent: 1}}}
-            )
+            query = {"name": username, f"{field}.opponent": opponent}
+            existing_record = collection.find_one(query)
+            if existing_record:
+                collection.update_one(
+                    {"name": username, f"{field}.opponent": opponent},
+                    {"$inc": {f"{field}.$.count": 1}}
+                )
+            else:
+                collection.update_one(
+                    {"name": username},
+                    {"$push": {field: {"opponent": opponent, "count": 1}}}
+                )
         update_record(winner, "victories", loser)
         update_record(loser, "defeats", winner)
         client.close()
@@ -273,3 +268,4 @@ def updateCombatResults(winner, loser):
     except Exception as e:
         logger.error(f"Error updating combat results: {str(e)}")
         return False
+
