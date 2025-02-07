@@ -75,6 +75,20 @@ def getPokemonById(pokemonId):
         logger.error(f"Error getting the Pokémon by ID: {e}")
         return None
 
+#Get a pokemon from the database using its name
+def getPokemonByName(pokemonName):
+    try:
+        client = MongoClient(MONGO_URI)
+        db = client['pokemon_bot']
+        collection = db['pokemons']
+        # Buscar el pokemon por nombre
+        pokemon = collection.find_one({"name": pokemonName})
+        client.close()
+        return pokemon
+    except Exception as e:
+        logger.error(f"Error getting the Pokémon by name: {e}")
+        return None
+
 #Check if a pokemon is legendary by its ID
 def checkLegendary(pokemonId):
     try:

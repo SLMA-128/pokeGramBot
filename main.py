@@ -60,6 +60,7 @@ commands=[
     {"command": "help", "description": "Get the list of commands."},
     {"command": "mycollection", "description": "Show how many type of Pokemons you have captured."},
     {"command": "mypokemons", "description": "Show how many Pokemons, normal and shiny, you captured."},
+    {"command": "pokedex", "description": "Show the data of a Pokemon using its ID or Name."},
     {"command": "profile", "description": "Shows the profile of the user"},
     {"command": "register", "description": "Register your username."},
     {"command": "spawn", "description": "Spawn a random Pokemon. Each user can spawn once a minute."},
@@ -509,9 +510,9 @@ def profile(message):
             f"\U0001F4E6 Pokemons Captured: {user_data["total_pokemons"]}\n"
             f"\U0001F31F Shiny Captured: {user_data["total_shiny"]}\n"
             f"\U0001F3AF Winrate: {winrate}%\n"
-            f"\U0001F3C6 Victories:\nTotal: {total_victories}{victories_text}\n"
+            f"\U0001F3C6 Victories: {total_victories}{victories_text}\n"
             f"\U0001F947 Most Victories: {most_victories}\n"
-            f"\U0001F480 Defeats:\nTotal: {total_defeats}{defeats_text}\n"
+            f"\U0001F480 Defeats: {total_defeats}{defeats_text}\n"
             f"\U0001F635 Most Defeats: {most_defeats}"
         )
         msg = bot.reply_to(message, profile_text, parse_mode="Markdown")
@@ -519,6 +520,45 @@ def profile(message):
     except Exception as e:
         logger.error(f"Error mostrando perfil: {e}")
         msg = bot.reply_to(message, "\u26A0 Ocurrió un error al obtener tu perfil.")
+        threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
+
+# Callback query handler for /pokedex
+@bot.message_handler(commands=['pokedex'])
+def pokedex(message):
+    try:
+        args = message.text.split(maxsplit=1)  # Obtiene el parámetro después del comando
+        if len(args) < 2:
+            bot.reply_to(message, "\u26A0 Debes proporcionar un nombre o ID de Pokémon.")
+            return
+        parametro = args[1].strip()
+        if parametro.isdigit():
+            pokemon = pokemonEvents.getPokemonById(int(parametro))
+        else:
+            pokemon = pokemonEvents.getPokemonByName(parametro.capitalize())  # Capitaliza el nombre
+        if not pokemon:
+            bot.reply_to(message, "\u274C No se encontró el Pokémon en la Pokédex.")
+            return
+        gender_symbols = {
+            "Male": "\u2642",
+            "Female": "\u2640",
+            "Genderless": "Unknown"
+        }
+        gender_display = ", ".join([gender_symbols.get(g, g) for g in pokemon.get("gender", ["Genderless"])])
+        types_text = ", ".join(pokemon["types"])
+        legendary_text = "\U0001F48E Legendary" if pokemon.get("isLegendary", False) else "\U0001F4A0 Common"
+        pokemon_text = (
+            f"\U0001F4D6 *Pokedex #{pokemon['id']}*\n"
+            f"\U0001F535 *Name:* {pokemon['name']}\n"
+            f"\U0001F300 *Types:* {types_text}\n"
+            f"\U0001F538 *Gender:* {gender_display}\n"
+            f"{legendary_text}"
+        )
+        image_url = pokemon['image']
+        msg = bot.send_photo(message.chat.id, image_url, caption=pokemon_text, parse_mode="Markdown")
+        threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()  # Borrar el mensaje después de 30 segundos
+    except Exception as e:
+        logger.error(f"Error en /pokedex: {e}")
+        msg = bot.reply_to(message, "\u274C Ocurrió un error al obtener la información del Pokémon.")
         threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
 
 class MockMessage:
