@@ -289,7 +289,7 @@ def capture_pokemon_handler(call):
         else:
             logger.error(f"Error during capture: {e}")
 
-# Callback query handler for /mypokemons
+# Bot command handler for /mypokemons
 @bot.message_handler(commands=['mypokemons'])
 def get_pokemons_by_user(message):
     try:
@@ -312,7 +312,7 @@ def get_pokemons_by_user(message):
     except Exception as e:
         logger.error(f"Error during mypokemons: {e}")
 
-# Callback query handler for /capturedpokemons
+# Bot command handler for /capturedpokemons
 @bot.message_handler(commands=['capturedpokemons'])
 def get_pokemons_by_user(message):
     try:
@@ -340,7 +340,7 @@ def get_pokemons_by_user(message):
     except Exception as e:
         logger.error(f"Error during capturedpokemons: {e}")
 
-# Callback query handler for /mycollection
+# Bot command handler for /mycollection
 @bot.message_handler(commands=['mycollection'])
 def get_pokemons_by_user(message):
     try:
@@ -367,7 +367,7 @@ def get_pokemons_by_user(message):
     except Exception as e:
         logger.error(f"Error during mycollection: {e}")
 
-# Callback query handler for /chooseyou
+# Bot command handler for /chooseyou
 @bot.message_handler(commands=['chooseyou'])
 def summon_pokemon(message):
     try:
@@ -408,7 +408,7 @@ def summon_pokemon(message):
     except Exception as e:
         logger.error(f"Error during chooseyou: {e}")
 
-# Callback query handler for /startcombat
+# Bot command handler for /startcombat
 @bot.message_handler(commands=['startcombat'])
 def start_combat(message):
     try:
@@ -483,7 +483,7 @@ def accept_duel(call):
     except Exception as e:
         logger.error(f"Error in duel handling: {e}")
 
-# Callback query handler for /profile
+# Bot command handler for /profile
 @bot.message_handler(commands=['profile'])
 def profile(message):
     try:
@@ -522,12 +522,11 @@ def profile(message):
         msg = bot.reply_to(message, "\u26A0 Ocurrió un error al obtener tu perfil.")
         threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
 
-# Callback query handler for /pokedex
+# Bot command handler for /pokedex
 @bot.message_handler(commands=['pokedex'])
 def pokedex(message):
     try:
         args = message.text.split(maxsplit=1)  # Obtiene el parámetro después del comando
-        print(f"Argumentos recibidos: {args}")
         if len(args) < 2:
             msg = bot.reply_to(message, "\u26A0 Debes proporcionar un nombre o ID de Pokémon.")
             threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()  # Borrar el mensaje después de 5 segundos
