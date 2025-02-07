@@ -432,12 +432,12 @@ def start_combat(message):
         ongoing_combats[username]["message_id"] = msg.message_id
         def cancel_combat():
             if username in ongoing_combats and not ongoing_combats[username]['opponent']:
-                bot.edit_message_text(
+                msg = bot.edit_message_text(
                     "\u23F3 El combate ha expirado.", 
                     group_id,
                     ongoing_combats[username]["message_id"]
                 )
-                threading.Timer(10, lambda: bot.delete_message(chat_id=group_id, message_id=ongoing_combats[username]["message_id"])).start()
+                threading.Timer(3, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
                 del ongoing_combats[username]
         threading.Timer(120, cancel_combat).start()
     except Exception as e:
