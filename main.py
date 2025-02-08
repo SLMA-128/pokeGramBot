@@ -482,7 +482,7 @@ def accept_duel(call):
             f"\u2694 {challenger} ({ongoing_combats[challenger]['pokemon']['name']} Lv.{ongoing_combats[challenger]['pokemon']['level']}) vs {opponent} ({opponent_pokemon['name']} Lv.{opponent_pokemon['level']})!\n\n"
             f"\U0001F3C6 {'¡' + opponent + ' wins!' if result else '¡' + challenger + ' wins!'}\n\n"
             f"\u274C {loser} loses its {loser_pokemon['name']}!\n\n"
-            f"\U0001F3C6 {winner}'s {winner_pokemon['name']} has leveled up! Now is Lv.{new_level}!"
+            f"\U0001F53C {winner}'s {winner_pokemon['name']} has leveled up! Now is Lv.{new_level}!"
             f"{('\n\n\U0001F3C5 ' + winner + ' has stolen the pokemon before it died!') if steal else ''}"
         )
         bot.edit_message_text(
