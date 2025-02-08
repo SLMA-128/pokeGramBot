@@ -150,9 +150,9 @@ def get_type_advantage(attacker_types, defender_types):
         if atk_type in type_effectiveness:
             for def_type in defender_types:
                 if def_type in type_effectiveness[atk_type]["strong_against"]:
-                    bonus += 10  # Bonificación si el atacante tiene ventaja
+                    bonus += 15  # Bonificación si el atacante tiene ventaja
                 elif def_type in type_effectiveness[atk_type]["weak_against"]:
-                    bonus -= 10  # Penalización si el atacante tiene desventaja
+                    bonus -= 15  # Penalización si el atacante tiene desventaja
                 elif def_type in type_effectiveness[atk_type]["immune_against"]:
-                    bonus -= 20  # Desventaja total si el ataque no afecta
+                    bonus -= 25  # Desventaja total si el ataque no afecta
     return bonus
