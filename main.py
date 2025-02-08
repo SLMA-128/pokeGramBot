@@ -470,13 +470,22 @@ def accept_duel(call):
         winner = opponent if result else challenger
         loser = challenger if result else opponent
         loser_pokemon = ongoing_combats[challenger]['pokemon'] if loser==challenger else opponent_pokemon
+        winner_pokemon = ongoing_combats[challenger]['pokemon'] if winner==challenger else opponent_pokemon
         userEvents.reducePokemonCaptured(loser, loser_pokemon)
         steal = random.randint(1,100) <= 5
         if steal:
             userEvents.addPokemonCaptured(loser_pokemon, winner)
-        userEvents.updateCombatResults(winner, loser)
+        new_level = min(winner_pokemon['level'] + random.randint(1, 5), 100)
+        userEvents.updateCombatResults(winner, loser, winner_pokemon, new_level)
+        response = (
+            f"\u2694 {challenger} ({ongoing_combats[challenger]['pokemon']['name']} Lv.{ongoing_combats[challenger]['pokemon']['level']}) vs {opponent} ({opponent_pokemon['name']} Lv.{opponent_pokemon['level']})!\n\n"
+            f"\U0001F3C6 {'¡' + opponent + ' wins!' if result else '¡' + challenger + ' wins!'}\n\n"
+            f"\u274C {loser} loses its {loser_pokemon['name']}!\n\n"
+            f"\U0001F3C6 {winner}'s {winner_pokemon['name']} has leveled up! Now is Lv.{new_level}!"
+            f"{('\n\n\U0001F3C5 ' + winner + ' has stolen the pokemon before it died!') if steal else ''}"
+        )
         bot.edit_message_text(
-            f"\u2694 {challenger} ({ongoing_combats[challenger]['pokemon']['name']} Lv.{ongoing_combats[challenger]['pokemon']['level']}) vs {opponent} ({opponent_pokemon['name']} Lv.{opponent_pokemon['level']})!\n\n\U0001F3C6 {'¡' + opponent + ' gana!' if result else '¡' + challenger + ' gana!'}\n\n\u274C {loser} pierde un {loser_pokemon['name']}!{('\n\n\U0001F3C5 ' + winner + 'se queda con el pokemon!') if steal else ''}",
+            response,
             call.message.chat.id, call.message.message_id
         )
         del ongoing_combats[challenger]

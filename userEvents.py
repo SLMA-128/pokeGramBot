@@ -238,7 +238,7 @@ def deleteRandomPokemon(username):
         return False
 
 # combat results incresing victories for the winner and defeats for the loser
-def updateCombatResults(winner, loser):
+def updateCombatResults(winner, loser, winner_pokemon, new_level):
     try:
         client = MongoClient(MONGO_URI)
         db = client['pokemon_bot']
@@ -258,6 +258,11 @@ def updateCombatResults(winner, loser):
                 )
         update_record(winner, "victories", loser)
         update_record(loser, "defeats", winner)
+        if winner_pokemon:
+            collection.update_one(
+                {"name": winner, "pokemonsOwned.id": winner_pokemon['id']},
+                {"$set": {"pokemonsOwned.$.level": new_level}}
+            )
         client.close()
         return True
     except Exception as e:
