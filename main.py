@@ -511,11 +511,13 @@ def profile(message):
             for victory in victories:
                 victories_text += f"- {str(victory['opponent'])}: {str(victory['count'])}\n"
         defeats_text = ""
+        print(victories_text)
         if defeats:
             defeats_text = "\n"
             for defeat in defeats:
                 defeats_text += f"- {str(defeat['opponent'])}: {str(defeat['count'])}\n"
-        most_victories = max(victories, key=lambda x: x["count"])["opponent"] if victories else "Virgin"
+        print(defeats_text)
+        most_victories = max(victories, key=lambda x: x["count"])["opponent"] if victories else "Pacifist"
         most_defeats = max(defeats, key=lambda x: x["count"])["opponent"] if defeats else "Undefeated"
         winrate = round((total_victories / (total_victories + total_defeats)) * 100, 2) if (total_victories + total_defeats) > 0 else 0
         # Mensaje de respuesta
@@ -524,9 +526,9 @@ def profile(message):
             f"\U0001F4E6 Pokemons Captured: {user_data.get('total_pokemons', 0)}\n"
             f"\U0001F31F Shiny Captured: {user_data.get('total_shiny', 0)}\n"
             f"\U0001F3AF Winrate: {winrate}%\n"
-            f"\U0001F3C6 Victories: {total_victories}{victories_text}\n"
+            f"\U0001F3C6 Victories: {total_victories}\n"
             f"\U0001F947 Most Victories: {most_victories}\n"
-            f"\U0001F480 Defeats: {total_defeats}{defeats_text}\n"
+            f"\U0001F480 Defeats: {total_defeats}\n"
             f"\U0001F635 Most Defeats: {most_defeats}"
         )
         msg = bot.reply_to(message, profile_text, parse_mode="Markdown")
