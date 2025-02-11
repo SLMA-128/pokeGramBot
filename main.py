@@ -548,11 +548,11 @@ def battlehistory(message):
                 defeats_text += f"\U0001F538 {str(defeat['opponent'])}: {str(defeat['count'])}\n"
         # Mensaje de respuesta
         history_text = (
-            f"\U0001F3C6 *{user_data['name']} Battle History*\n"
-            f"\U0001F389 Battles: {len(victories) + len(defeats)}\n"
-            f"\U0001F3C6 Battle History:\n"
-            #f"{victories_text}"
-            f"{defeats_text}"
+            #f"\U0001F3C6 *{user_data['name']} Battle History*\n"
+            #f"\U0001F389 Battles: {len(victories) + len(defeats)}\n"
+            #f"\U0001F3C6 Battle History:\n"
+            f"{victories_text}"
+            #f"{defeats_text}"
         )
         msg = bot.reply_to(message, history_text, parse_mode="Markdown")
         threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
