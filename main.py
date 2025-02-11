@@ -498,14 +498,11 @@ def accept_duel(call):
 def profile(message):
     try:
         username = message.from_user.username
-        print(username)
         if checkUserExistence(username):
             return
         user_data = userEvents.getUserByName(username)
-        print(user_data)
         victories = user_data.get("victories", [])
         defeats = user_data.get("defeats", [])
-        print(victories+'\n\n'+defeats)
         total_victories = sum(entry["count"] for entry in victories) if victories else 0
         total_defeats = sum(entry["count"] for entry in defeats) if defeats else 0
         victories_text = "\n\U0001F539 " + "\n\U0001F539 ".join(
@@ -514,24 +511,20 @@ def profile(message):
         defeats_text = "\n\U0001F538 " + "\n\U0001F538 ".join(
             [f"{entry['opponent']}: {entry['count']}" for entry in defeats]
         ) if defeats else ""
-        print(victories_text+'\n\n'+defeats_text)
         most_victories = max(victories, key=lambda x: x["count"])["opponent"] if victories else "Virgin"
         most_defeats = max(defeats, key=lambda x: x["count"])["opponent"] if defeats else "Undefeated"
-        print(most_victories+'\n\n'+most_defeats)
         winrate = round((total_victories / (total_victories + total_defeats)) * 100, 2) if (total_victories + total_defeats) > 0 else 0
-        print(winrate)
         # Mensaje de respuesta
         profile_text = (
-            f"\U0001F4DC *{user_data["name"]} Profile*\n"
-            f"\U0001F4E6 Pokemons Captured: {user_data["total_pokemons"]}\n"
-            f"\U0001F31F Shiny Captured: {user_data["total_shiny"]}\n"
+            f"\U0001F4DC *{user_data['name']} Profile*\n"
+            f"\U0001F4E6 Pokemons Captured: {user_data['total_pokemons']}\n"
+            f"\U0001F31F Shiny Captured: {user_data['total_shiny']}\n"
             f"\U0001F3AF Winrate: {winrate}%\n"
             f"\U0001F3C6 Victories: {total_victories}{victories_text}\n"
             f"\U0001F947 Most Victories: {most_victories}\n"
             f"\U0001F480 Defeats: {total_defeats}{defeats_text}\n"
             f"\U0001F635 Most Defeats: {most_defeats}"
         )
-        print(profile_text)
         msg = bot.reply_to(message, profile_text, parse_mode="Markdown")
         threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
     except Exception as e:
