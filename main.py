@@ -541,7 +541,7 @@ def battlehistory(message):
         if victories:
             for victory in victories:
                 battles_text += f"\U0001F539 {str(victory['opponent'])}: {str(victory['count'])}\n"
-        battles_text = "Defeats:\n"
+        battles_text += "Defeats:\n"
         if defeats:
             for defeat in defeats:
                 battles_text += f"\U0001F538 {str(defeat['opponent'])}: {str(defeat['count'])}\n"
