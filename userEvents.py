@@ -434,8 +434,10 @@ def add_titles_to_user(username):
         if not user:
             return False  # Usuario no encontrado
         current_titles = set(user.get("titles", []))
+        print("current titles:")
         print(current_titles)
         new_titles = {titulo for titulo, data in titles.items() if data["condition"](user) and titulo not in current_titles}
+        print("new titles:")
         print(new_titles)
         if new_titles:
             updated_titles = current_titles | new_titles
