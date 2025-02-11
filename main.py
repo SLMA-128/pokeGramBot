@@ -537,20 +537,21 @@ def battlehistory(message):
         user_data = userEvents.getUserByName(username)
         victories = user_data.get("victories", [])
         defeats = user_data.get("defeats", [])
-        battles_text = "Victories:\n"
+        victories_text = "Victories:\n"
         if victories:
             for victory in victories:
-                battles_text += f"\U0001F539 {str(victory['opponent'])}: {str(victory['count'])}\n"
-        battles_text += "Defeats:\n"
+                victories_text += f"\U0001F539 {str(victory['opponent'])}: {str(victory['count'])}\n"
+        defeats_text = "Defeats:\n"
         if defeats:
             for defeat in defeats:
-                battles_text += f"\U0001F538 {str(defeat['opponent'])}: {str(defeat['count'])}\n"
+                defeats_text += f"\U0001F538 {str(defeat['opponent'])}: {str(defeat['count'])}\n"
         # Mensaje de respuesta
         history_text = (
             f"\U0001F3C6 *{user_data['name']} Battle History*\n"
             f"\U0001F389 Battles: {len(victories) + len(defeats)}\n"
             f"\U0001F3C6 Battle History:\n"
-            f"{battles_text}"
+            f"{victories_text}"
+            #f"{defeats_text}"
         )
         msg = bot.reply_to(message, history_text, parse_mode="Markdown")
         threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
