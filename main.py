@@ -641,8 +641,9 @@ def my_titles_handler(message):
             threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
             return
         # Formatear la lista de títulos con descripciones
-        titles_list = "\n".join([f"\U0001F3C6 *{title}*: {userEvents.titles[title]['description']}" for title in user_titles])
-        bot.send_message(message.chat.id, f"\U0001F451 *Tus títulos obtenidos:*\n{titles_list}", parse_mode="Markdown")
+        titles_list = "\n".join([f"\U0001F3C6 *{title}*: {next(t['description'] for t in userEvents.titles if t['title'] == title)}" for title in user_titles])
+        msg = bot.send_message(group_id, f"\U0001F451 *Tus títulos obtenidos:*\n{titles_list}", parse_mode="Markdown", message_thread_id=topic_id)
+        threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
     except Exception as e:
         logger.error(f"Error en /mytitles: {e}")
         msg = bot.reply_to(message, "\u274C Ocurrió al intentar obtener los titulos.")

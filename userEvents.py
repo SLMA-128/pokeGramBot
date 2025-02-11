@@ -9,158 +9,188 @@ if not MONGO_URI:
     raise ValueError("MONGO_URI no está configurada en las variables de entorno.")
 
 # List of all the titles and their descriptions
-titles = {
-    "Entrenador Novato": {
+titles = [
+    {
+        "title": "Entrenador Novato",
         "description": "Has capturado más de 10 Pokémon. ¡Apenas comienzas!",
         "condition": lambda u: u["total_pokemons"] > 10,
         "howto": "Captura 10 Pokémones."
     },
-    "Entrenador Experimentado": {
+    {
+        "title": "Entrenador Experimentado",
         "description": "Has capturado más de 50 Pokémon. ¡Sigue creciendo!",
         "condition": lambda u: u["total_pokemons"] > 50,
         "howto": "Captura 50 Pokémones."
     },
-    "Maestro Pokémon": {
+    {
+        "title": "Maestro Pokémon",
         "description": "Has capturado más de 100 Pokémon. ¡Tampoco te abuses!",
         "condition": lambda u: u["total_pokemons"] > 100,
         "howto": "Captura 100 Pokémones."
     },
-    "Cazador de Shiny": {
+    {
+        "title": "Maestro Pokémon Shiny",
         "description": "Has capturado al menos un Pokémon shiny. ¡Su cabeza adornara tu pared!",
         "condition": lambda u: u["total_shiny"] > 0,
         "howto": "Captura Pokémones shiny."
     },
-    "Duelista": {
+    {
+        "title": "Duelista",
         "description": "Has ganado al menos 10 duelos contra otros entrenadores. ¡Como te encanta el bardo!",
         "condition": lambda u: sum(entry["count"] for entry in u.get("victories", [])) > 10,
         "howto": "Gana 10 duelos."
     },
-    "Leyenda de los Combates": {
+    {
+        "titles": "Leyenda de los Combates",
         "description": "Has ganado más de 50 duelos. ¡La violencia es una pregunta y la respuesta es si!",
         "condition": lambda u: sum(entry["count"] for entry in u.get("victories", [])) > 50,
         "howto": "Gana 50 duelos."
     },
-    "Coleccionista": {
-        "description": "Tienes al menos 50 especies diferentes de Pokémon. ¡Vas bastante bien!",
+    {
+        "title": "Coleccionista",
+        "description": "Capturaste al menos 50 especies diferentes de Pokémon. ¡Vas bastante bien!",
         "condition": lambda u: len(u["pokemonsOwned"]) > 50,
         "howto": "Ten al menos 50 especies diferentes de Pokémon."
     },
-    "Completista": {
+    {
+        "title": "Completista",
         "description": "Completaste la Pokedex con los 151 Pokémones. ¡No hay NewGame+!",
         "condition": lambda u: len(u["pokemonsOwned"]) == 151,
         "howto": "Completa la Pokedex con los 151 Pokémones."
     },
-    "Domador": {
+    {
+        "title": "Domador",
         "description": "Tienes al menos un Pokémon de nivel 100. ¡Demuestra tu poder!",
         "condition": lambda u: len([p for p in u["pokemonsOwned"] if p["level"] == 100]) >= 1,
         "howto": "Tienes al menos un Pokémon de nivel 100."
     },
-    "Veterano": {
+    {
+        "title": "Veterano",
         "description": "Tienes al menos 20 Pokémon en nivel 100. ¡No seas tna tryhard!",
         "condition": lambda u: len([p for p in u["pokemonsOwned"] if p["level"] == 100]) >= 20,
         "howto": "Tienes al menos 20 Pokémon en nivel 100."
     },
-    "Cazador de Legendarios": {
-        "description": "Tienes al menos un Pokémon legendario. ¡Nadie escapará de tus Pokébolas!",
+    {
+        "title": "Cazador de Legendarios",
+        "description": "Capturaste al menos un Pokémon legendario. ¡Nadie escapará de tus Pokébolas!",
         "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if p["isLegendary"]) >= 1,
         "howto": "Ten al menos un Pokémon legendario."
     },
-    "Scalies": {
-        "description": "Tienes al menos 5 Pokémon de tipo Dragón. ¡Se nota que te gustan las escamas!",
+    {
+        "title": "Scalies",
+        "description": "Capturaste al menos 5 Pokémon de tipo Dragón. ¡Se nota que te gustan las escamas!",
         "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Dragon" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Dragón."
     },
-    "Metalero": {
-        "description": "Tienes al menos 5 Pokémon de tipo Acero. ¡Pegale con el fierro!",
+    {
+        "title": "Metalero",
+        "description": "Capturaste al menos 5 Pokémon de tipo Acero. ¡Pegale con el fierro!",
         "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Steel" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Acero."
     },
-    "Piromano": {
-        "description": "Tienes al menos 5 Pokémon de tipo Fuego. ¡A cocinar esos Pokémones!",
+    {
+        "title": "Piromano",
+        "description": "Capturaste al menos 5 Pokémon de tipo Fuego. ¡A cocinar esos Pokémones!",
         "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Fire" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Fuego."
     },
-    "Buzo": {
-        "description": "Tienes al menos 5 Pokémon de tipo Agua. ¡Glu glu glu!",
+    {
+        "title": "Hidrofilico",
+        "description": "Capturaste al menos 5 Pokémon de tipo Agua. ¡Glu glu glu!",
         "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Water" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Agua."
     },
-    "Normalucho": {
-        "description": "Tienes al menos 5 Pokémon de tipo Normal. ¡No eres nada especial!",
+    {
+        "title": "Normalucho",
+        "description": "Capturaste al menos 5 Pokémon de tipo Normal. ¡No eres nada especial!",
         "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Normal" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Normal."
     },
-    "Vegano": {
-        "description": "Tienes al menos 5 Pokémon de tipo Planta. ¡Metele hasta la raíz!",
+    {
+        "title": "Vegano",
+        "description": "Capturaste al menos 5 Pokémon de tipo Planta. ¡Metele hasta la raíz!",
         "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Grass" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Planta."
     },
-    "Edgy": {
-        "description": "Tienes al menos 5 Pokémon de tipo Siniestro. ¡Sigue cultivando esa aura!",
+    {
+        "title": "Edgy",
+        "description": "Capturaste al menos 5 Pokémon de tipo Siniestro. ¡Sigue cultivando esa aura!",
         "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Dark" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Siniestro."
     },
-    "Electricista": {
-        "description": "Tienes al menos 5 Pokémon de tipo Eléctrico. ¡Tira esos Pokémones a la bañera!",
+    {
+        "title": "Electricista",
+        "description": "Capturaste al menos 5 Pokémon de tipo Eléctrico. ¡Tira esos Pokémones a la bañera!",
         "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Electric" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Eléctrico."
     },
-    "Kamikaze": {
-        "description": "Tienes al menos 5 Pokémon de tipo Volador. ¡Contra las torres!",
+    {
+        "title": "Kamikaze",
+        "description": "Capturaste al menos 5 Pokémon de tipo Volador. ¡Contra las torres!",
         "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Flying" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Volador."
     },
-    "Hard Rock": {
-        "description": "Tienes al menos 5 Pokémon de tipo Roca. ¡Ya te gustaria tenerla así!",
+    {
+        "title": "Hard Rock",
+        "description": "Capturaste al menos 5 Pokémon de tipo Roca. ¡Ya te gustaria tenerla así!",
         "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Rock" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Roca."
     },
-    "Sucio": {
-        "description": "Tienes al menos 5 Pokémon de tipo Tierra. ¡Te encanta que te den en el barro!",
+    {
+        "title": "Sucio",
+        "description": "Capturaste al menos 5 Pokémon de tipo Tierra. ¡Te encanta que te den en el barro!",
         "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Ground" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Tierra."
     },
-    "Hechicero": {
-        "description": "Tienes al menos 5 Pokémon de tipo Psíquico. ¡No te inmutas!",
+    {
+        "title": "Hechicero",
+        "description": "Capturaste al menos 5 Pokémon de tipo Psíquico. ¡No te inmutas!",
         "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Psychic" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Psíquico."
     },
-    "Cazador de Hadas": {
-        "description": "Tienes al menos 5 Pokémon de tipo Hada. ¡No cuentan como padrinos-magicos!",
+    {
+        "title": "Cazador de Hadas",
+        "description": "Capturaste al menos 5 Pokémon de tipo Hada. ¡No cuentan como padrinos-magicos!",
         "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Fairy" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Hada."
     },
-    "Ghostbuster": {
-        "description": "Tienes al menos 5 Pokémon de tipo Fantasma. ¡Haz plata con esos fantasmas!",
+    {
+        "title": "Ghostbuster",
+        "description": "Capturaste al menos 5 Pokémon de tipo Fantasma. ¡Haz plata con esos fantasmas!",
         "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Ghost" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Fantasma."
     },
-    "Maltratador": {
-        "description": "Tienes al menos 5 Pokémon de tipo Lucha. ¡Hazlos luchar por las buenas o por las malas!",
+    {
+        "title": "Maltratador",
+        "description": "Capturaste al menos 5 Pokémon de tipo Lucha. ¡Hazlos luchar por las buenas o por las malas!",
         "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Fighting" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Lucha."
     },
-    "Toxico": {
-        "description": "Tienes al menos 5 Pokémon de tipo Veneno. ¡Esto dice mucho de ti!",
+    {
+        "title": "Toxico",
+        "description": "Capturaste al menos 5 Pokémon de tipo Veneno. ¡Esto dice mucho de ti!",
         "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Poison" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Veneno."
     },
-    "Blue Balls": {
-        "description": "Tienes al menos 5 Pokémon de tipo Hielo. ¡Siempre los dejas frios!",
+    {
+        "title": "Blue Balls",
+        "description": "Capturaste al menos 5 Pokémon de tipo Hielo. ¡Siempre los dejas frios!",
         "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Ice" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Hielo."
     },
-    "Bichero": {
-        "description": "Tienes al menos 5 Pokémon de tipo Bicho. ¡Cada quien tiene sus gustos!",
+    {
+        "title": "Bichero",
+        "description": "Capturaste al menos 5 Pokémon de tipo Bicho. ¡Cada quien tiene sus gustos!",
         "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Bug" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Bicho."
     },
-    "Vivido": {
-        "description": "Tienes al menos un Pokémon de cada tipo en tu colección. ¡Uno de cada sabor!",
+    {
+        "title": "Vivido",
+        "description": "Capturaste al menos un Pokémon de cada tipo en tu colección. ¡Uno de cada sabor!",
         "condition": lambda u: len(set([p["types"] for p in u["pokemonsOwned"]])) == 18,
         "howto": "Tienes al menos un Pokémon de cada tipo en tu colección."
     }
-}
+]
 
 #Register a new user to the users database, checking if the username already exists.
 def registerUser(username):
@@ -436,11 +466,11 @@ def add_titles_to_user(username):
         current_titles = set(user.get("titles", []))
         print("current titles:")
         print(current_titles)
-        new_titles = {titulo for titulo, data in titles.items() if data["condition"](user) and titulo not in current_titles}
+        new_titles = {titulo for titulo in titles if titulo["condition"](user) and titulo["title"] not in current_titles}
         print("new titles:")
         print(new_titles)
         if new_titles:
-            updated_titles = current_titles | new_titles
+            updated_titles = current_titles | {titulo["title"] for titulo in new_titles}
             collection.update_one({"name": username}, {"$set": {"titles": list(updated_titles)}})
         client.close()
         return True
