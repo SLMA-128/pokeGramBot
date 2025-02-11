@@ -463,7 +463,13 @@ def add_titles_to_user(username):
         current_titles = set(user.get("titles", []))
         print("current titles:")
         print(current_titles)
-        new_titles = [titulo["title"] for titulo in titles if titulo["condition"](user) and titulo["title"] not in current_titles]
+        new_titles = []
+        for titulo in titles:
+            # Imprimir el resultado de la condición para verificar su ejecución
+            condition_result = titulo["condition"](user)
+            print(f"Condición para el título '{titulo['title']}': {condition_result}")
+            if condition_result and titulo["title"] not in current_titles:
+                new_titles.append(titulo["title"])
         print("new titles:")
         print(new_titles)
         if new_titles:
