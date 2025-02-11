@@ -500,7 +500,21 @@ def profile(message):
         username = message.from_user.username
         if checkUserExistence(username):
             return
-        user_data = userEvents.getUserByName(username)
+        #user_data = userEvents.getUserByName(username)
+        user_data = {
+            '_id': '67a41a17aaf1a2ad67d575f5',
+            'id': 1,
+            'name': 'testPlayer',
+            'total_pokemons': 17,
+            'total_shiny': 0,
+            'pokemonsOwned': [
+                {'id': 118, 'name': 'Goldeen', 'isShiny': False, 'isLegendary': False, 'level': 68, 'gender': 'Female', 'types': ['Water'], 'captured': 1},
+                {'id': 145, 'name': 'Zapdos', 'isShiny': False, 'isLegendary': True, 'level': 10, 'gender': 'Genderless', 'types': ['Electric', 'Flying'], 'captured': 1},
+                {'id': 98, 'name': 'Krabby', 'isShiny': False, 'isLegendary': False, 'level': 95, 'gender': 'Female', 'types': ['Water'], 'captured': 1}
+            ],
+            'victories': [{'opponent': 'testPlayer2', 'count': 5}, {'opponent': 'testPlayer3', 'count': 3}, {'opponent': 'testPlayer4', 'count': 1}],
+            'defeats': [{'opponent': 'testPlayer2', 'count': 5}, {'opponent': 'testPlayer3', 'count': 5}]
+        }
         if not user_data:
             bot.reply_to(message, "\U0001F6AB No se encontraron datos de usuario.")
             return
