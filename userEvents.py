@@ -432,7 +432,7 @@ def add_titles_to_user(username):
             return False  # Usuario no encontrado
         nuevos_titulos = set(user.get("titles", []))  # Usamos un set para evitar duplicados
         for titulo, data in titles.items():
-            if data["condicion"](user) and titulo not in user["titles"]:
+            if data["condition"](user) and titulo not in user["titles"]:
                 nuevos_titulos.add(titulo)
         # Si se añadieron nuevos títulos, actualizar la base de datos.
         if nuevos_titulos != set(user.get("titles", [])):
