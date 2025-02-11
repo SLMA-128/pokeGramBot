@@ -500,40 +500,15 @@ def profile(message):
         username = message.from_user.username
         if checkUserExistence(username):
             return
-        #user_data = userEvents.getUserByName(username)
-        user_data = {
-            '_id': '67a41a17aaf1a2ad67d575f5',
-            'id': 1,
-            'name': 'testPlayer',
-            'total_pokemons': 17,
-            'total_shiny': 0,
-            'pokemonsOwned': [
-                {'id': 118, 'name': 'Goldeen', 'isShiny': False, 'isLegendary': False, 'level': 68, 'gender': 'Female', 'types': ['Water'], 'captured': 1},
-                {'id': 145, 'name': 'Zapdos', 'isShiny': False, 'isLegendary': True, 'level': 10, 'gender': 'Genderless', 'types': ['Electric', 'Flying'], 'captured': 1},
-                {'id': 98, 'name': 'Krabby', 'isShiny': False, 'isLegendary': False, 'level': 95, 'gender': 'Female', 'types': ['Water'], 'captured': 1}
-            ],
-            'victories': [{'opponent': 'testPlayer2', 'count': 5}, {'opponent': 'testPlayer3', 'count': 3}, {'opponent': 'testPlayer4', 'count': 1}],
-            'defeats': [{'opponent': 'testPlayer2', 'count': 5}, {'opponent': 'testPlayer3', 'count': 5}]
-        }
-        if not user_data:
-            bot.reply_to(message, "\U0001F6AB No se encontraron datos de usuario.")
-            return
+        user_data = userEvents.getUserByName(username)
         victories = user_data.get("victories", [])
         defeats = user_data.get("defeats", [])
         total_victories = sum(entry["count"] for entry in victories) if victories else 0
         total_defeats = sum(entry["count"] for entry in defeats) if defeats else 0
-        if not isinstance(victories, list) or not isinstance(defeats, list):
-            print(f"Error: victories o defeats no son listas. victories={victories}, defeats={defeats}")
-            bot.reply_to(message, "\U0001F6AB Hubo un problema con los datos de batallas.")
-            return
-        victories_text = "\n\U0001F539 " + "\n\U0001F539 ".join(
-            [f"{entry['opponent']}: {entry['count']}" for entry in victories]
-        ) if victories else ""
-        defeats_text = "\n\U0001F538 " + "\n\U0001F538 ".join(
-            [f"{entry['opponent']}: {entry['count']}" for entry in defeats]
-        ) if defeats else ""
-        most_victories = max(victories, key=lambda x: x["count"])["opponent"] if victories else "Virgin"
-        most_defeats = max(defeats, key=lambda x: x["count"])["opponent"] if defeats else "Undefeated"
+        #victories_text = "\n\U0001F539 " + "\n\U0001F539 ".join([f"{entry['opponent']}: {entry['count']}" for entry in victories]) if victories else ""
+        #defeats_text = "\n\U0001F538 " + "\n\U0001F538 ".join([f"{entry['opponent']}: {entry['count']}" for entry in defeats]) if defeats else ""
+        #most_victories = max(victories, key=lambda x: x["count"])["opponent"] if victories else "Virgin"
+        #most_defeats = max(defeats, key=lambda x: x["count"])["opponent"] if defeats else "Undefeated"
         winrate = round((total_victories / (total_victories + total_defeats)) * 100, 2) if (total_victories + total_defeats) > 0 else 0
         # Mensaje de respuesta
         profile_text = (
@@ -541,10 +516,10 @@ def profile(message):
             f"\U0001F4E6 Pokemons Captured: {user_data.get('total_pokemons', 0)}\n"
             f"\U0001F31F Shiny Captured: {user_data.get('total_shiny', 0)}\n"
             f"\U0001F3AF Winrate: {winrate}%\n"
-            f"\U0001F3C6 Victories: {total_victories}{victories_text}\n"
-            f"\U0001F947 Most Victories: {most_victories}\n"
-            f"\U0001F480 Defeats: {total_defeats}{defeats_text}\n"
-            f"\U0001F635 Most Defeats: {most_defeats}"
+            #f"\U0001F3C6 Victories: {total_victories}{victories_text}\n"
+            #f"\U0001F947 Most Victories: {most_victories}\n"
+            #f"\U0001F480 Defeats: {total_defeats}{defeats_text}\n"
+            #f"\U0001F635 Most Defeats: {most_defeats}"
         )
         msg = bot.reply_to(message, profile_text, parse_mode="Markdown")
         threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
