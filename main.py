@@ -517,8 +517,8 @@ def profile(message):
         # Mensaje de respuesta
         profile_text = (
             f"\U0001F4DC *{user_data['name']} Profile*\n"
-            f"\U0001F4E6 Pokemons Captured: {user_data['total_pokemons']}\n"
-            f"\U0001F31F Shiny Captured: {user_data['total_shiny']}\n"
+            f"\U0001F4E6 Pokemons Captured: {user_data.get('total_pokemons', 0)}\n"
+            f"\U0001F31F Shiny Captured: {user_data.get('total_shiny', 0)}\n"
             f"\U0001F3AF Winrate: {winrate}%\n"
             f"\U0001F3C6 Victories: {total_victories}{victories_text}\n"
             f"\U0001F947 Most Victories: {most_victories}\n"
