@@ -111,8 +111,11 @@ def get_user_data(user_data):
     winrate = round((total_victories / (total_victories + total_defeats)) * 100, 2) if (total_victories + total_defeats) > 0 else 0
     titles = user_data.get("titles", [])
     titles_text = ""
-    for title in titles:
-        titles_text += f"\U0001F396 {title}\n"
+    if len(titles) > 0:
+        for title in titles:
+            titles_text += f"\U0001F396 {title}\n"
+    else:
+        titles_text = "No titles earned yet.\n"
     # Mensaje de respuesta
     profile_text = (
         f"\U0001F4DC *{user_data['name']} Profile*\n"
@@ -123,7 +126,7 @@ def get_user_data(user_data):
         f"\U0001F947 Most Victories: {most_victories}\n"
         f"\U0001F480 Total Defeats: {total_defeats}\n{defeats_text}"
         f"\U0001F635 Most Defeats: {most_defeats}\n"
-        f"\U0001F4D6 *Titles*\n{titles_text}"
+        f"\U0001F4D6 Titles:\n{titles_text}"
     )
     return profile_text
 
@@ -312,6 +315,7 @@ def capture_pokemon_handler(call):
         # Attempt to capture the Pokémon
         if captureCheck(pokemon) <= 80:
             userEvents.addPokemonCaptured(pokemon, username)  # Ensure this function is compatible with MongoDB Atlas
+            userEvents.add_titles_to_user(username)
             if call.message.message_id in capture_timers:
                 capture_timers[call.message.message_id].cancel()
                 del capture_timers[call.message.message_id]
@@ -323,7 +327,6 @@ def capture_pokemon_handler(call):
             )
             del spawned_pokemons[call.message.message_id]
             del capture_locks[message_id]
-            userEvents.add_titles_to_user(username)
         else:
             pokemon_escape(pokemon, call.message.chat.id, call.message.message_id)
     except Exception as e:
@@ -344,7 +347,7 @@ def get_my_pokemons_by_user(message):
         user = userEvents.getUserByName(username)
         pokemons = userEvents.getListOfPokemonCapturedByName(username)
         if pokemons:
-            total_pokemons = len(user['pokemonsOwned'])
+            total_pokemons = user['total_pokemons']
             total_shiny = user['total_shiny']
             response = f"\U0001F4DC Your Pokémon Collection:\n\U0001F3C6 Pokemons: {total_pokemons} (\U0001F31FShiny: {total_shiny})\n"
             msg = bot.reply_to(message, response)
@@ -394,14 +397,16 @@ def get_pokemons_collection_by_user(message):
             return
         user = userEvents.getUserByName(username)
         pokemons = userEvents.getListOfPokemonCapturedByName(username)
-        total_pokemons = user['total_pokemons']
-        total_shiny = user['total_shiny']
+        total_pokemons = len(user['pokemonsOwned'])
+        shiny_counts = {}
         legendary_counts = {}
         if pokemons:
             for pokemon in pokemons:
                 if pokemon["name"] not in legendary_counts and pokemon["isLegendary"] == True:
                     legendary_counts[pokemon["name"]] = pokemon["id"]
-            response = f"\U0001F3C6 Pokémons Collected: {total_pokemons}/151\n\U0001F31F Shiny: {total_shiny}/151\n\U0001F48E Legendary: {len(legendary_counts)}/5\n"
+                if pokemon["name"] not in shiny_counts and pokemon["isShiny"] == True:
+                    shiny_counts[pokemon["name"]] = pokemon["id"]
+            response = f"\U0001F3C6 Pokémons Collected: {total_pokemons}/151\n\U0001F31F Shiny: {shiny_counts}/151\n\U0001F48E Legendary: {len(legendary_counts)}/5\n"
             msg = bot.reply_to(message, response)
             threading.Timer(30, lambda: bot.delete_message(chat_id=group_id, message_id=msg.message_id)).start()
         else:
@@ -521,6 +526,8 @@ def accept_duel(call):
             userEvents.addPokemonCaptured(loser_pokemon, winner)
         new_level = min(winner_pokemon['level'] + random.randint(1, 5), 100)
         userEvents.updateCombatResults(winner, loser, winner_pokemon, new_level)
+        userEvents.add_titles_to_user(winner)
+        userEvents.add_titles_to_user(loser)
         response = (
             f"\u2694 {challenger} ({ongoing_combats[challenger]['pokemon']['name']} Lv.{ongoing_combats[challenger]['pokemon']['level']}) vs {opponent} ({opponent_pokemon['name']} Lv.{opponent_pokemon['level']})!\n\n"
             f"\U0001F3C6 {'¡' + opponent + ' wins!' if result else '¡' + challenger + ' wins!'}\n\n"
@@ -533,7 +540,6 @@ def accept_duel(call):
             call.message.chat.id, call.message.message_id
         )
         del ongoing_combats[challenger]
-        userEvents.add_titles_to_user(winner)
     except Exception as e:
         logger.error(f"Error in duel handling: {e}")
 
