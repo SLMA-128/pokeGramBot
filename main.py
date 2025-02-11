@@ -507,13 +507,11 @@ def profile(message):
         total_defeats = sum(entry["count"] for entry in defeats) if defeats else 0
         victories_text = ""
         if victories:
-            victories_text = "\n"
             for victory in victories:
                 victories_text += f"- {str(victory['opponent'])}: {str(victory['count'])}\n"
         defeats_text = ""
         print(victories_text)
         if defeats:
-            defeats_text = "\n"
             for defeat in defeats:
                 defeats_text += f"- {str(defeat['opponent'])}: {str(defeat['count'])}\n"
         print(defeats_text)
@@ -527,6 +525,7 @@ def profile(message):
             f"\U0001F31F Shiny Captured: {user_data.get('total_shiny', 0)}\n"
             f"\U0001F3AF Winrate: {winrate}%\n"
             f"\U0001F3C6 Victories: {total_victories}\n"
+            f"{victories_text}"
             f"\U0001F947 Most Victories: {most_victories}\n"
             f"\U0001F480 Defeats: {total_defeats}\n"
             f"\U0001F635 Most Defeats: {most_defeats}"
