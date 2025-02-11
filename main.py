@@ -94,12 +94,12 @@ def escape_markdown(text):
 def get_user_data(user_data):
     victories = user_data.get("victories", [])
     defeats = user_data.get("defeats", [])
-    victories_text = "Victories:\n"
+    victories_text = ""
     if victories:
         for victory in victories:
             opponent = escape_markdown(str(victory["opponent"]))
             victories_text += f"\U0001F539 {opponent}: {victory['count']}\n"
-    defeats_text = "Defeats:\n"
+    defeats_text = ""
     if defeats:
         for defeat in defeats:
             opponent = escape_markdown(str(defeat["opponent"]))
@@ -109,16 +109,21 @@ def get_user_data(user_data):
     most_victories = max(victories, key=lambda x: x["count"])["opponent"] if victories else "Pacifist"
     most_defeats = max(defeats, key=lambda x: x["count"])["opponent"] if defeats else "Undefeated"
     winrate = round((total_victories / (total_victories + total_defeats)) * 100, 2) if (total_victories + total_defeats) > 0 else 0
+    titles = user_data.get("titles", [])
+    titles_text = ""
+    for title in titles:
+        titles_text += f"\U0001F396 {title}\n"
     # Mensaje de respuesta
     profile_text = (
         f"\U0001F4DC *{user_data['name']} Profile*\n"
         f"\U0001F4E6 Pokemons Captured: {user_data.get('total_pokemons', 0)}\n"
         f"\U0001F31F Shiny Captured: {user_data.get('total_shiny', 0)}\n"
         f"\U0001F3AF Winrate: {winrate}%\n"
-        f"\U0001F3C6 Victories: {total_victories}\n{victories_text}"
+        f"\U0001F3C6 Total Victories: {total_victories}\n{victories_text}"
         f"\U0001F947 Most Victories: {most_victories}\n"
-        f"\U0001F480 Defeats: {total_defeats}\n{defeats_text}"
-        f"\U0001F635 Most Defeats: {most_defeats}"
+        f"\U0001F480 Total Defeats: {total_defeats}\n{defeats_text}"
+        f"\U0001F635 Most Defeats: {most_defeats}\n"
+        f"\U0001F4D6 *Titles*\n{titles_text}"
     )
     return profile_text
 
