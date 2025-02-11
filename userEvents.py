@@ -461,8 +461,6 @@ def add_titles_to_user(username):
         if not user:
             return False
         current_titles = set(user.get("titles", []))
-        print("current titles:")
-        print(current_titles)
         new_titles = []
         for titulo in titles:
             # Imprimir el resultado de la condición para verificar su ejecución
@@ -470,10 +468,10 @@ def add_titles_to_user(username):
             print(f"Condición para el título '{titulo['title']}': {condition_result}")
             if condition_result and titulo["title"] not in current_titles:
                 new_titles.append(titulo["title"])
-        print("new titles:")
-        print(new_titles)
+        print("Nuevos títulos a agregar:", new_titles)
         if new_titles:
-            updated_titles = current_titles | set(new_titles)  # Unión de los títulos actuales con los nuevos
+            updated_titles = current_titles | set(new_titles)
+            print(f"Actualizando títulos para {username}: {updated_titles}")
             collection.update_one({"name": username}, {"$set": {"titles": list(updated_titles)}})
         client.close()
         return True
