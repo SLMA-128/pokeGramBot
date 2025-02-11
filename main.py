@@ -501,6 +501,9 @@ def profile(message):
         if checkUserExistence(username):
             return
         user_data = userEvents.getUserByName(username)
+        if not user_data:
+            bot.reply_to(message, "\U0001F6AB No se encontraron datos de usuario.")
+            return
         victories = user_data.get("victories", [])
         defeats = user_data.get("defeats", [])
         total_victories = sum(entry["count"] for entry in victories) if victories else 0
