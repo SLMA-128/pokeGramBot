@@ -423,15 +423,20 @@ def updateCombatResults(winner, loser, winner_pokemon, new_level):
 # Add titles to the user
 def add_titles_to_user(username):
     try:
+        print("intentando agregar titulos")
+        print(username)
         client = MongoClient(MONGO_URI)
         db = client['pokemon_bot']
         collection = db['users']
         # Obtener datos del usuario
         user = collection.find_one({"name": username})
+        print(user)
         if not user:
             return False  # Usuario no encontrado
         current_titles = set(user.get("titles", []))
+        print(current_titles)
         new_titles = {titulo for titulo, data in titles.items() if data["condition"](user) and titulo not in current_titles}
+        print(new_titles)
         if new_titles:
             updated_titles = current_titles | new_titles
             collection.update_one({"name": username}, {"$set": {"titles": list(updated_titles)}})
