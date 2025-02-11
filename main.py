@@ -54,6 +54,7 @@ commands=[
     {"command": "help", "description": "Get the list of commands."},
     {"command": "mycollection", "description": "Show how many type of Pokemons you have captured."},
     {"command": "mypokemons", "description": "Show how many Pokemons, normal and shiny, you captured."},
+    {"command": "mytitles", "description": "Shows your titles."},
     {"command": "pokedex", "description": "Show the data of a Pokemon using its ID or Name."},
     {"command": "profile", "description": "Shows the profile of a user if given its username, otherwise shows your profile."},
     {"command": "register", "description": "Register your username."},
@@ -463,7 +464,6 @@ def start_combat(message):
         if not check_active_hours():
             return
         username = message.from_user.username
-        user_id = message.from_user.id
         if username in ongoing_combats:
             bot.reply_to(message, "\u26A0 Ya tienes un combate en curso.")
             return
@@ -624,6 +624,30 @@ def pokedex(message):
         logger.error(f"Error en /pokedex: {e}")
         msg = bot.reply_to(message, "\u274C Ocurrió un error al obtener la información del Pokémon.")
         threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
+
+# Bot command handler for /mytitles
+@bot.message_handler(commands=['mytitles'])
+def my_titles_handler(message):
+    try:
+        username = message.from_user.username
+        if checkUserExistence(username):
+            return
+        # Revisar y agregar títulos si es necesario
+        userEvents.add_titles_to_user(username)
+        updated_user_data = userEvents.getUserByName(username)  # Volver a obtener los datos actualizados
+        user_titles = updated_user_data.get("titles", [])
+        if not user_titles:
+            msg = bot.reply_to(message, "\u26A0 No tienes títulos aún. ¡Sigue jugando para obtenerlos!")
+            threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
+            return
+        # Formatear la lista de títulos con descripciones
+        titles_list = "\n".join([f"\U0001F3C6 *{title}*: {userEvents.titles[title]['description']}" for title in user_titles])
+        bot.send_message(message.chat.id, f"\U0001F451 *Tus títulos obtenidos:*\n{titles_list}", parse_mode="Markdown")
+    except Exception as e:
+        logger.error(f"Error en /mytitles: {e}")
+        msg = bot.reply_to(message, "\u274C Ocurrió al intentar obtener los titulos.")
+        threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
+
 
 # Mock message class for the auto_spawn_event
 class MockMessage:
