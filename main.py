@@ -88,6 +88,13 @@ def checkUserExistence(username):
         return True
     return False
 
+# Function to remove special chars to prevent errors with markdown
+def escape_markdown(text):
+    escape_chars = ['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!']
+    for char in escape_chars:
+        text = text.replace(char, f"\\{char}")
+    return text
+
 #Function to check if its time for the bot to work
 def is_active_hours():
     #Add your own time
@@ -540,19 +547,20 @@ def battlehistory(message):
         victories_text = "Victories:\n"
         if victories:
             for victory in victories:
-                victories_text += f"\U0001F539 {str(victory['opponent'])}: {str(victory['count'])}\n"
-        print(victories_text)
+                opponent = escape_markdown(str(victory["opponent"]))
+                victories_text += f"\U0001F539 {opponent}: {victory['count']}\n"
         defeats_text = "Defeats:\n"
         if defeats:
             for defeat in defeats:
-                defeats_text += f"\U0001F538 {str(defeat['opponent'])}: {str(defeat['count'])}\n"
+                opponent = escape_markdown(str(victory["opponent"]))
+                defeats_text += f"\U0001F538 {opponent}: {defeat['count']}\n"
         # Mensaje de respuesta
         history_text = (
-            #f"\U0001F3C6 *{user_data['name']} Battle History*\n"
-            #f"\U0001F389 Battles: {len(victories) + len(defeats)}\n"
-            #f"\U0001F3C6 Battle History:\n"
+            f"\U0001F3C6 *{user_data['name']} Battle History*\n"
+            f"\U0001F389 Battles: {len(victories) + len(defeats)}\n"
+            f"\U0001F3C6 Battle History:\n"
             f"{victories_text}"
-            #f"{defeats_text}"
+            f"{defeats_text}"
         )
         msg = bot.reply_to(message, history_text, parse_mode="Markdown")
         threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
