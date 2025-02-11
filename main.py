@@ -525,6 +525,7 @@ def profile(message):
             f"\U0001F480 Defeats: {total_defeats}{defeats_text}\n"
             f"\U0001F635 Most Defeats: {most_defeats}"
         )
+        print(profile_text)
         msg = bot.reply_to(message, profile_text, parse_mode="Markdown")
         threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
     except Exception as e:
