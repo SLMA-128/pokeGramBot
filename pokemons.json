@@ -1091,7 +1091,7 @@
         "id": 137,
         "name": "Porygon",
         "isLegendary": false,
-        "gender": ["Male", "Female"],
+        "gender": ["Genderless"],
         "image": ["137"],
         "types": ["Normal"]
     },

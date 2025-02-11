@@ -61,7 +61,7 @@ commands=[
     {"command": "mycollection", "description": "Show how many type of Pokemons you have captured."},
     {"command": "mypokemons", "description": "Show how many Pokemons, normal and shiny, you captured."},
     {"command": "pokedex", "description": "Show the data of a Pokemon using its ID or Name."},
-    {"command": "profile", "description": "Shows the profile of the user"},
+    {"command": "myprofile", "description": "Shows the profile of the user"},
     {"command": "register", "description": "Register your username."},
     {"command": "spawn", "description": "Spawn a random Pokemon. Each user can spawn once a minute."},
     {"command": "start", "description": "The bot starts and says hi."},
@@ -493,8 +493,8 @@ def accept_duel(call):
     except Exception as e:
         logger.error(f"Error in duel handling: {e}")
 
-# Bot command handler for /profile
-@bot.message_handler(commands=['profile'])
+# Bot command handler for /myprofile
+@bot.message_handler(commands=['myprofile'])
 def profile(message):
     try:
         username = message.from_user.username
@@ -505,6 +505,10 @@ def profile(message):
         defeats = user_data.get("defeats", [])
         total_victories = sum(entry["count"] for entry in victories) if victories else 0
         total_defeats = sum(entry["count"] for entry in defeats) if defeats else 0
+        if not isinstance(victories, list) or not isinstance(defeats, list):
+            print(f"Error: victories o defeats no son listas. victories={victories}, defeats={defeats}")
+            bot.reply_to(message, "\U0001F6AB Hubo un problema con los datos de batallas.")
+            return
         victories_text = "\n\U0001F539 " + "\n\U0001F539 ".join(
             [f"{entry['opponent']}: {entry['count']}" for entry in victories]
         ) if victories else ""
