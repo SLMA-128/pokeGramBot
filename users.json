@@ -7,6 +7,6 @@
         "pokemonsOwned": [],
         "victories":[],
         "defeats": [],
-        "titles": []
+        "titles": ["title1","titles2"]
     }
 ]
