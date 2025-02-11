@@ -505,16 +505,8 @@ def profile(message):
         defeats = user_data.get("defeats", [])
         total_victories = sum(entry["count"] for entry in victories) if victories else 0
         total_defeats = sum(entry["count"] for entry in defeats) if defeats else 0
-        victories_text = ""
-        if victories:
-            victories_text = "\n"
-            for entry in victories:
-                victories_text += f"\U0001F539 {entry['opponent']}: {entry['count']}\n"
-        defeats_text = ""
-        if defeats:
-            defeats_text = "\n"
-            for entry in defeats:
-                defeats_text += f"\U0001F538 {entry['opponent']}: {entry['count']}\n"
+        victories_text = "\n" + "\n".join("\U0001F539 {}: {}".format(entry['opponent'], entry['count']) for entry in victories) if victories else ""
+        defeats_text = "\n" + "\n".join("\U0001F538 {}: {}".format(entry['opponent'], entry['count']) for entry in defeats) if defeats else ""
         most_victories = max(victories, key=lambda x: x["count"])["opponent"] if victories else "Virgin"
         most_defeats = max(defeats, key=lambda x: x["count"])["opponent"] if defeats else "Undefeated"
         winrate = round((total_victories / (total_victories + total_defeats)) * 100, 2) if (total_victories + total_defeats) > 0 else 0
