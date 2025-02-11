@@ -13,16 +13,12 @@ from logger_config import logger
 from datetime import datetime
 import pytz
 
-# Definir las variables de entorno
-#TELEGRAM_TOKEN = config.TELEGRAM_TOKEN
-#CHANNEL_ID = config.CHANNEL_ID
-#TOPIC_ID = config.TOPIC_ID
-#MONGO_URI = config.MONGO_URI
+# Environment variables
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHANNEL_ID = int(os.getenv("CHANNEL_ID", "0"))
 TOPIC_ID = int(os.getenv("TOPIC_ID", "0"))
 MONGO_URI = os.getenv("MONGO_URI")
-# Validar que las variables de entorno estén configuradas
+# Check if the environment variables are set correctly
 if not TELEGRAM_TOKEN:
     raise ValueError("TELEGRAM_TOKEN no está configurado en las variables de entorno.")
 if not CHANNEL_ID:
@@ -32,27 +28,25 @@ if not TOPIC_ID:
 if not MONGO_URI:
     raise ValueError("MONGO_URI no está configurada en las variables de entorno.")
 
-# Conexión a MongoDB Atlas
-#client = MongoClient(config.MONGO_URI)
+# Connection to MongoDB Atlas
 client = MongoClient(MONGO_URI)
 db = client.get_database()
-#bpt, group_id and topic_id values
+# Bot token, group_id and topic_id values
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
 group_id = CHANNEL_ID
 topic_id = TOPIC_ID
-#capture_timers should save the timers of all spawned pokemons
+# Capture_timers should save the timers of all spawned pokemons
 capture_timers = {}
-#capture spawned pokemons in the dictionary
+# Capture spawned pokemons in the dictionary
 spawned_pokemons = {}
-#capture spawned pokemons in the dictionary to prvent others users to get them
+# Capture spawned pokemons in the dictionary to prvent others users to get them
 capture_locks = {}
 # Dictionary to track last usage times for the spawn command
 last_spawn_times = {}
 spawn_cooldawn = 60  # Cooldown time in seconds
 # Dictionary to track combats
 ongoing_combats = {}
-#commands
-
+# Commands
 commands=[
     {"command": "capturedpokemons", "description": "Show your captured Pokemon with deatails."},
     {"command": "chance", "description": "Show the chance to capture pokemons.)"},
@@ -68,7 +62,8 @@ commands=[
     {"command": "startcombat", "description": "Start a combat with a random Pokemon. Whoever loses loses a pokemon."}
 ]
 
-#General functions
+# General functions
+#----------------------------------------------------------------
 # Generate an inline keyboard with a "Capture!" button
 def generate_capture_button(pokemonId):
     markup = InlineKeyboardMarkup()
@@ -166,7 +161,7 @@ def pokemon_escape(pokemon, group_id, message_id):
     except Exception as e:
         logger.error(f"Error during escape notification: {e}")
 
-#generate the capture chance
+# Function to generate the capture chance
 def captureCheck(pokemon):
     capture_check = round((random.uniform(1,100) * (1 + pokemon["level"]/100)), 2)
     if pokemon["isShiny"]:
@@ -175,8 +170,9 @@ def captureCheck(pokemon):
         capture_check *= 1.2
     return capture_check
 
-#Functions for the bot
-#The bot start and says hi
+# Functions for the commands of the bot
+#----------------------------------------------------------------
+# Bot command handler for /start
 @bot.message_handler(commands=['start'])
 def start(message):
     try:
@@ -187,7 +183,7 @@ def start(message):
     except Exception as e:
         logger.error(f"Error during start: {e}")
 
-#shows some functions
+# Bot command handler for /help
 @bot.message_handler(commands=['help'])
 def generate_help_message(message):
     try:
@@ -202,7 +198,7 @@ def generate_help_message(message):
     except Exception as e:
         logger.error(f"Error during help: {e}")
 
-#shows the chance of capture
+# Bot command handler for /chance
 @bot.message_handler(commands=['chance'])
 def generate_help_message(message):
     try:
@@ -322,6 +318,7 @@ def capture_pokemon_handler(call):
             )
             del spawned_pokemons[call.message.message_id]
             del capture_locks[message_id]
+            userEvents.add_titles_to_user(username)
         else:
             pokemon_escape(pokemon, call.message.chat.id, call.message.message_id)
     except Exception as e:
@@ -332,7 +329,7 @@ def capture_pokemon_handler(call):
 
 # Bot command handler for /mypokemons
 @bot.message_handler(commands=['mypokemons'])
-def get_pokemons_by_user(message):
+def get_my_pokemons_by_user(message):
     try:
         if not check_active_hours():
             return
@@ -355,7 +352,7 @@ def get_pokemons_by_user(message):
 
 # Bot command handler for /capturedpokemons
 @bot.message_handler(commands=['capturedpokemons'])
-def get_pokemons_by_user(message):
+def get_captured_pokemons_by_user(message):
     try:
         if not check_active_hours():
             return
@@ -383,7 +380,7 @@ def get_pokemons_by_user(message):
 
 # Bot command handler for /mycollection
 @bot.message_handler(commands=['mycollection'])
-def get_pokemons_by_user(message):
+def get_pokemons_collection_by_user(message):
     try:
         if not check_active_hours():
             return
@@ -531,6 +528,7 @@ def accept_duel(call):
             call.message.chat.id, call.message.message_id
         )
         del ongoing_combats[challenger]
+        userEvents.add_titles_to_user(winner)
     except Exception as e:
         logger.error(f"Error in duel handling: {e}")
 
@@ -539,7 +537,9 @@ def accept_duel(call):
 def profile(message):
     try:
         args = message.text.split(maxsplit=1)
-        if len(args) < 2:
+        if message.reply_to_message:
+            username = message.reply_to_message.from_user.username
+        elif len(args) < 2:
             username = message.from_user.username
         else:
             username = args[1].strip()
@@ -614,6 +614,7 @@ def pokedex(message):
         msg = bot.reply_to(message, "\u274C Ocurrió un error al obtener la información del Pokémon.")
         threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
 
+# Mock message class for the auto_spawn_event
 class MockMessage:
     def __init__(self):
         self.from_user = type('User', (), {'id': 0})  # Replace with a valid user ID
