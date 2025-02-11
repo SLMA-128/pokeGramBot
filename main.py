@@ -54,6 +54,7 @@ ongoing_combats = {}
 #commands
 
 commands=[
+    {"command": "battlehistory", "description": "Shows the battle history of the user."},
     {"command": "capturedpokemons", "description": "Show your captured Pokemon with deatails."},
     {"command": "chance", "description": "Show the chance to capture pokemons.)"},
     {"command": "chooseyou", "description": "Summon a random pokemon from the user.)"},
@@ -505,16 +506,6 @@ def profile(message):
         defeats = user_data.get("defeats", [])
         total_victories = sum(entry["count"] for entry in victories) if victories else 0
         total_defeats = sum(entry["count"] for entry in defeats) if defeats else 0
-        victories_text = ""
-        if victories:
-            for victory in victories:
-                victories_text += f"- {str(victory['opponent'])}: {str(victory['count'])}\n"
-        defeats_text = ""
-        print(victories_text)
-        if defeats:
-            for defeat in defeats:
-                defeats_text += f"- {str(defeat['opponent'])}: {str(defeat['count'])}\n"
-        print(defeats_text)
         most_victories = max(victories, key=lambda x: x["count"])["opponent"] if victories else "Pacifist"
         most_defeats = max(defeats, key=lambda x: x["count"])["opponent"] if defeats else "Undefeated"
         winrate = round((total_victories / (total_victories + total_defeats)) * 100, 2) if (total_victories + total_defeats) > 0 else 0
@@ -525,7 +516,6 @@ def profile(message):
             f"\U0001F31F Shiny Captured: {user_data.get('total_shiny', 0)}\n"
             f"\U0001F3AF Winrate: {winrate}%\n"
             f"\U0001F3C6 Victories: {total_victories}\n"
-            f"{victories_text}"
             f"\U0001F947 Most Victories: {most_victories}\n"
             f"\U0001F480 Defeats: {total_defeats}\n"
             f"\U0001F635 Most Defeats: {most_defeats}"
@@ -536,6 +526,38 @@ def profile(message):
         logger.error(f"Error mostrando perfil: {e}")
         msg = bot.reply_to(message, "\u26A0 Ocurrió un error al obtener tu perfil.")
         threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
+
+# Bot command handler for /battlehistory
+@bot.message_handler(commands=['battlehistory'])
+def battlehistory(message):
+    try:
+        username = message.from_user.username
+        if checkUserExistence(username):
+            return
+        user_data = userEvents.getUserByName(username)
+        victories = user_data.get("victories", [])
+        defeats = user_data.get("defeats", [])
+        battles_text = "Victories:\n"
+        if victories:
+            for victory in victories:
+                battles_text += f"\U0001F539 {str(victory['opponent'])}: {str(victory['count'])}\n"
+        battles_text = "Defeats:\n"
+        if defeats:
+            for defeat in defeats:
+                battles_text += f"\U0001F538 {str(defeat['opponent'])}: {str(defeat['count'])}\n"
+        # Mensaje de respuesta
+        history_text = (
+            f"\U0001F3C6 *{user_data['name']} Battle History*\n"
+            f"\U0001F389 Battles: {len(victories) + len(defeats)}\n"
+            f"\U0001F3C6 Battle History:\n"
+            f"{battles_text}"
+        )
+        msg = bot.reply_to(message, history_text, parse_mode="Markdown")
+        threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
+    except Exception as e:
+        logger.error(f"Error mostrando historial de battles: {e}")
+        msg = bot.reply_to(message, "\u26A0 Ocurrió un error al obtener tu historial de battles.")
+        threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()  # Borrar el mensaje después de 5 segundos
 
 # Bot command handler for /pokedex
 @bot.message_handler(commands=['pokedex'])
