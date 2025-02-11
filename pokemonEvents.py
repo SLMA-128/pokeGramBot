@@ -1,10 +1,8 @@
 import random
 from pymongo import MongoClient
 import os
-#import config
 from logger_config import logger
 
-#MONGO_URI = config.MONGO_URI
 MONGO_URI = os.getenv("MONGO_URI")
 
 if not MONGO_URI:
