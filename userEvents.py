@@ -32,12 +32,12 @@ titles = {
     },
     "Duelista": {
         "description": "Has ganado al menos 10 duelos contra otros entrenadores. ¡Como te encanta el bardo!",
-        "condition": lambda u: sum(entry["count"] for entry in u["victories"]) > 10,
+        "condition": lambda u: sum(entry["count"] for entry in u.get("victories", [])) > 10,
         "howto": "Gana 10 duelos."
     },
     "Leyenda de los Combates": {
         "description": "Has ganado más de 50 duelos. ¡La violencia es una pregunta y la respuesta es si!",
-        "condition": lambda u: sum(entry["count"] for entry in u["victories"]) > 50,
+        "condition": lambda u: sum(entry["count"] for entry in u.get("victories", [])) > 50,
         "howto": "Gana 50 duelos."
     },
     "Coleccionista": {
@@ -157,7 +157,7 @@ titles = {
     },
     "Vivido": {
         "description": "Tienes al menos un Pokémon de cada tipo en tu colección. ¡Uno de cada sabor!",
-        "condition": lambda u: len(set([p["type"] for p in u["pokemonsOwned"]])) == 18,
+        "condition": lambda u: len(set([p["types"] for p in u["pokemonsOwned"]])) == 18,
         "howto": "Tienes al menos un Pokémon de cada tipo en tu colección."
     }
 }
@@ -430,17 +430,11 @@ def add_titles_to_user(username):
         user = collection.find_one({"name": username})
         if not user:
             return False  # Usuario no encontrado
-        nuevos_titulos = set(user.get("titles", []))  # Usamos un set para evitar duplicados
-        for titulo, data in titles.items():
-            if data["condition"](user) and titulo not in user["titles"]:
-                nuevos_titulos.add(titulo)
-        # Si se añadieron nuevos títulos, actualizar la base de datos.
-        if nuevos_titulos != set(user.get("titles", [])):
-            all_titles = set(user.get("titles", [])) | nuevos_titulos
-            collection.update_one(
-                {"name": username},
-                {"$set": {"titles": list(all_titles)}}
-            )
+        current_titles = set(user.get("titles", []))
+        new_titles = {titulo for titulo, data in titles.items() if data["condition"](user) and titulo not in current_titles}
+        if new_titles:
+            updated_titles = current_titles | new_titles
+            collection.update_one({"name": username}, {"$set": {"titles": list(updated_titles)}})
         client.close()
         return True
     except Exception as e:
