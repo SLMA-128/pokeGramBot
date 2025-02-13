@@ -9,6 +9,7 @@ config.py
 imgDownload.py
 private_group.py
 users.json
+test.py
 pokemons.json
 import_json_db_mongodb.py
 # Distribution / packaging

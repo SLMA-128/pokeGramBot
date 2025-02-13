@@ -41,7 +41,7 @@ titles = [
         "howto": "Gana 10 duelos."
     },
     {
-        "titles": "Leyenda de los Combates",
+        "title": "Leyenda de los Combates",
         "description": "Has ganado más de 50 duelos. ¡La violencia es una pregunta y la respuesta es si!",
         "condition": lambda u: sum(entry["count"] for entry in u.get("victories", [])) > 50,
         "howto": "Gana 50 duelos."
