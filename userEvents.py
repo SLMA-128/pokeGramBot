@@ -212,7 +212,8 @@ def registerUser(username):
             "total_shiny": 0,
             "pokemonsOwned": [],
             "victories":[],
-            "defeats": []
+            "defeats": [],
+            "titles": []
             }
         collection.insert_one(new_user)
         client.close()
@@ -262,25 +263,6 @@ def getListOfPokemonCapturedByName(username):
     except Exception as e:
         logger.error(f"Error getting user: {str(e)}")
         return None
-
-#Free all the pokemons captured by a user using their username
-def freeAllPokemons(username):
-    try:
-        client = MongoClient(MONGO_URI)
-        db = client['pokemon_bot']
-        collection = db['users']
-        # Buscar el usuario
-        user = collection.find_one({"name": username})
-        if user:
-            # Actualizar la lista de pokemonsOwned
-            collection.update_one({"name": username}, {"$set": {"pokemonsOwned": []}})
-            client.close()
-            return True
-        client.close()
-        return False
-    except Exception as e:
-        logger.error(f"Error freeing pokemons: {str(e)}")
-        return False
 
 #Add a new captured pokemon to a user
 def addPokemonCaptured(pokemon, username):
@@ -358,26 +340,22 @@ def reducePokemonCaptured(loser, loser_pokemon):
         if not user or not user["pokemonsOwned"]:
             client.close()
             return False
+        updated_pokemons = []
+        removed_any = False
         for pkm in user["pokemonsOwned"]:
             if pkm["id"] == loser_pokemon["id"] and pkm["isShiny"] == loser_pokemon["isShiny"]:
-                if pkm["captured"] > 1:
-                    collection.update_one(
-                        {"name": loser, "pokemonsOwned.id": loser_pokemon["id"], "pokemonsOwned.isShiny": loser_pokemon["isShiny"]},
-                        {"$inc": {"pokemonsOwned.$.captured": -1, "total_pokemons": -1}}
-                    )
-                    if loser_pokemon["isShiny"]:
-                        collection.update_one({"name": loser}, {"$inc": {"total_shiny": -1}})
-                else:
-                    collection.update_one(
-                        {"name": loser},
-                        {
-                            "$pull": {"pokemonsOwned": {"id": loser_pokemon["id"], "isShiny": loser_pokemon["isShiny"]}},
-                            "$inc": {"total_pokemons": -1}
-                        }
-                    )
-                    if loser_pokemon["isShiny"]:
-                        collection.update_one({"name": loser}, {"$inc": {"total_shiny": -1}})
-                break  # Salimos del bucle una vez encontrado y actualizado
+                pkm["captured"] -= 1
+                if pkm["captured"] <= 0:
+                    removed_any = True
+                    continue
+            updated_pokemons.append(pkm)
+        update_fields = {"pokemonsOwned": updated_pokemons, "$inc": {"total_pokemons": -1}}
+        if loser_pokemon["isShiny"]:
+            update_fields["$inc"]["total_shiny"] = -1
+        collection.update_one({"name": loser}, {"$set": update_fields})
+        if removed_any:
+            if not updated_pokemons:
+                collection.update_one({"name": loser}, {"$set": {"pokemonsOwned": []}})
         client.close()
         return True
     except Exception as e:
@@ -460,28 +438,18 @@ def add_titles_to_user(username):
         user = collection.find_one({"name": username})
         if not user:
             return False
-        current_titles = set(user.get("titles", []))
+        current_titles = user.get("titles", []) or []
         new_titles = []
         for titulo in titles:
             condition_result = titulo["condition"](user)
-            print(f"Condición para el título '{titulo['title']}': {condition_result}")
             if condition_result and titulo["title"] not in current_titles:
                 new_titles.append(titulo["title"])
-        print("Nuevos títulos a agregar:", new_titles)
         if new_titles:
-            updated_titles = current_titles | set(new_titles)
-            print(f"Actualizando títulos para {username}: {updated_titles}")
-            result = collection.update_one(
+            updated_titles = current_titles + new_titles
+            collection.update_one(
                 {"name": username},
-                {"$set": {"titles": list(updated_titles)}}
+                {"$set": {"titles": updated_titles}}
             )
-            if result.modified_count > 0:
-                print(f"Títulos actualizados correctamente para {username}")
-                print(new_titles)
-            else:
-                print(f"No se actualizaron los títulos para {username}")
-        else:
-            print("No se encontraron títulos nuevos para agregar.")
         client.close()
         return True
     except Exception as e:

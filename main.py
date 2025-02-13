@@ -548,9 +548,7 @@ def accept_duel(call):
 def profile(message):
     try:
         args = message.text.split(maxsplit=1)
-        if message.reply_to_message:
-            username = message.reply_to_message.from_user.username
-        elif len(args) < 2:
+        if len(args) < 2:
             username = message.from_user.username
         else:
             username = args[1].strip()
