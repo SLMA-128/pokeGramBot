@@ -477,7 +477,7 @@ def start_combat(message):
         keyboard.add(duel_button)
         msg = bot.send_message(group_id, f"\u2694 {username} ha iniciado un combate con *{user_pokemon['name']}* Lv.{user_pokemon['level']}!\nPresiona 'Duel' para enfrentarlo!", message_thread_id=topic_id, reply_markup=keyboard, parse_mode="Markdown")
         # Cancelar el combate después de 2 minutos si nadie lo acepta
-        ongoing_combats == True
+        ongoing_combats = True
         def cancel_combat(message_id):
             if ongoing_combats:
                 msg = bot.edit_message_text(
