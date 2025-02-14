@@ -464,10 +464,11 @@ def start_combat(message):
     try:
         if not check_active_hours():
             return
-        username = message.from_user.username
+        global ongoing_combats
         if ongoing_combats:
             bot.reply_to(message, "\u26A0 Ya hay un combate en curso.")
             return
+        username = message.from_user.username
         user_pokemon = userEvents.getRandomPokemonCaptured(username)
         if not user_pokemon:
             bot.reply_to(message, "\u26A0 No tienes Pokémon para combatir.")
@@ -479,6 +480,7 @@ def start_combat(message):
         # Cancelar el combate después de 2 minutos si nadie lo acepta
         ongoing_combats = True
         def cancel_combat(message_id):
+            global ongoing_combats
             if ongoing_combats:
                 msg = bot.edit_message_text(
                     chat_id=group_id,
