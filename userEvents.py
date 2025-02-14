@@ -11,6 +11,12 @@ if not MONGO_URI:
 # List of all the titles and their descriptions
 titles = [
     {
+        "title": "Primerizo",
+        "description": "Has capturado tu primer Pokémon. ¡Bienvenido al juego!",
+        "condition": lambda u: u["total_pokemons"] > 1,
+        "howto": "Captura tu primer Pokémones."
+    },
+    {
         "title": "Entrenador Novato",
         "description": "Has capturado más de 10 Pokémon. ¡Apenas comienzas!",
         "condition": lambda u: u["total_pokemons"] > 10,
@@ -217,10 +223,8 @@ def registerUser(username):
             }
         collection.insert_one(new_user)
         client.close()
-        return True
     except Exception as e:
         logger.error(f"Error registering user: {str(e)}")
-        return False
 
 #Check if the user exists in the database
 def checkUserisRegistered(username):
@@ -309,10 +313,8 @@ def addPokemonCaptured(pokemon, username):
                 {"$push": {"pokemonsOwned": pokemon}}
             )
         client.close()
-        return True
     except Exception as e:
         logger.error(f"Error adding pokemon: {str(e)}")
-        return False
 
 #Get a random pokemon captured by a user using their username
 def getRandomPokemonCaptured(username):
@@ -343,11 +345,11 @@ def reducePokemonCaptured(loser, loser_pokemon):
         updated_pokemons = []
         removed_any = False
         for pkm in user["pokemonsOwned"]:
-            if pkm["id"] == loser_pokemon["id"] and pkm["isShiny"] == loser_pokemon["isShiny"]:
-                pkm["captured"] -= 1
-                if pkm["captured"] <= 0:
-                    removed_any = True
-                    continue
+            if pkm["id"] == loser_pokemon["id"]:
+                if pkm["isShiny"] == loser_pokemon["isShiny"]:
+                    pkm["captured"] -= 1
+                    if pkm["captured"] <= 0:
+                        removed_any = True
             updated_pokemons.append(pkm)
         update_fields = {"pokemonsOwned": updated_pokemons, "$inc": {"total_pokemons": -1}}
         if loser_pokemon["isShiny"]:
@@ -357,10 +359,8 @@ def reducePokemonCaptured(loser, loser_pokemon):
             if not updated_pokemons:
                 collection.update_one({"name": loser}, {"$set": {"pokemonsOwned": []}})
         client.close()
-        return True
     except Exception as e:
         logger.error(f"Error reducing Pokémon count: {str(e)}")
-        return False
 
 #Reduce the capture counter of a pokemon by the loser, considering if it was shiny or not. 
 def deleteRandomPokemon(username):
@@ -441,10 +441,8 @@ def add_titles_to_user(username):
         new_titles = []
         for titulo in titles:
             condition_result = titulo["condition"](user)
-            if condition_result==True:
+            if condition_result==True and titulo["title"] not in current_titles:
                 new_titles.append(titulo["title"])
-                print(titulo["title"])
-        print(new_titles)
         if new_titles:
             updated_titles = current_titles + new_titles
             collection.update_one(
@@ -452,7 +450,5 @@ def add_titles_to_user(username):
                 {"$set": {"titles": updated_titles}}
             )
         client.close()
-        return True
     except Exception as e:
         logger.error(f"Error otorgando títulos: {str(e)}")
-        return False
