@@ -316,7 +316,6 @@ def capture_pokemon_handler(call):
         # Attempt to capture the Pokémon
         if captureCheck(pokemon) <= 80:
             userEvents.addPokemonCaptured(pokemon, username)  # Ensure this function is compatible with MongoDB Atlas
-            userEvents.add_titles_to_user(username)
             if call.message.message_id in capture_timers:
                 capture_timers[call.message.message_id].cancel()
                 del capture_timers[call.message.message_id]
@@ -526,8 +525,6 @@ def accept_duel(call):
             userEvents.addPokemonCaptured(loser_pokemon, winner)
         new_level = min(winner_pokemon['level'] + random.randint(1, 5), 100)
         userEvents.updateCombatResults(winner, loser, winner_pokemon, new_level)
-        userEvents.add_titles_to_user(winner)
-        userEvents.add_titles_to_user(loser)
         response = (
             f"\u2694 {challenger} ({ongoing_combats[challenger]['pokemon']['name']} Lv.{ongoing_combats[challenger]['pokemon']['level']}) vs {opponent} ({opponent_pokemon['name']} Lv.{opponent_pokemon['level']})!\n\n"
             f"\U0001F3C6 {'¡' + opponent + ' wins!' if result else '¡' + challenger + ' wins!'}\n\n"

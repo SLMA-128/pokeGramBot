@@ -189,12 +189,6 @@ titles = [
         "description": "Capturaste al menos 5 Pokémon de tipo Bicho. ¡Cada quien tiene sus gustos!",
         "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Bug" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Bicho."
-    },
-    {
-        "title": "Vivido",
-        "description": "Capturaste al menos un Pokémon de cada tipo en tu colección. ¡Uno de cada sabor!",
-        "condition": lambda u: len(set([p["types"] for p in u["pokemonsOwned"]])) == 18,
-        "howto": "Tienes al menos un Pokémon de cada tipo en tu colección."
     }
 ]
 
@@ -312,6 +306,7 @@ def addPokemonCaptured(pokemon, username):
                 {"name": username},
                 {"$push": {"pokemonsOwned": pokemon}}
             )
+        add_titles_to_user(username)
         client.close()
     except Exception as e:
         logger.error(f"Error adding pokemon: {str(e)}")
@@ -422,11 +417,11 @@ def updateCombatResults(winner, loser, winner_pokemon, new_level):
                 {"name": winner, "pokemonsOwned.id": winner_pokemon['id']},
                 {"$set": {"pokemonsOwned.$.level": new_level}}
             )
+        add_titles_to_user(winner)
+        add_titles_to_user(loser)
         client.close()
-        return True
     except Exception as e:
         logger.error(f"Error updating combat results: {str(e)}")
-        return False
 
 # Add titles to the user
 def add_titles_to_user(username):
@@ -437,14 +432,14 @@ def add_titles_to_user(username):
         user = collection.find_one({"name": username})
         if not user:
             return False
-        current_titles = user.get("titles", []) or []
+        current_titles = user.get("titles", [])
         new_titles = []
         for titulo in titles:
             condition_result = titulo["condition"](user)
             if condition_result==True and titulo["title"] not in current_titles:
                 new_titles.append(titulo["title"])
         if new_titles:
-            updated_titles = current_titles + new_titles
+            updated_titles = list(current_titles) + list(new_titles)
             collection.update_one(
                 {"name": username},
                 {"$set": {"titles": updated_titles}}
