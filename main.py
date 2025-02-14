@@ -44,8 +44,8 @@ capture_locks = {}
 # Dictionary to track last usage times for the spawn command
 last_spawn_times = {}
 spawn_cooldawn = 60  # Cooldown time in seconds
-# Dictionary to track combats
-ongoing_combats = {}
+# Boolean to track combats
+ongoing_combats = False
 # Commands
 commands=[
     {"command": "alltitles", "description": "Show the list of all titles and how to get them."},
@@ -465,30 +465,31 @@ def start_combat(message):
         if not check_active_hours():
             return
         username = message.from_user.username
-        if username in ongoing_combats:
-            bot.reply_to(message, "\u26A0 Ya tienes un combate en curso.")
+        if ongoing_combats:
+            bot.reply_to(message, "\u26A0 Ya hay un combate en curso.")
             return
         user_pokemon = userEvents.getRandomPokemonCaptured(username)
         if not user_pokemon:
             bot.reply_to(message, "\u26A0 No tienes Pokémon para combatir.")
             return
-        ongoing_combats[username] = {"pokemon": user_pokemon, "opponent": None}
         keyboard = InlineKeyboardMarkup()
         duel_button = InlineKeyboardButton("Duel", callback_data=f"duel:{username}")
         keyboard.add(duel_button)
         msg = bot.send_message(group_id, f"\u2694 {username} ha iniciado un combate con *{user_pokemon['name']}* Lv.{user_pokemon['level']}!\nPresiona 'Duel' para enfrentarlo!", message_thread_id=topic_id, reply_markup=keyboard, parse_mode="Markdown")
         # Cancelar el combate después de 2 minutos si nadie lo acepta
-        ongoing_combats[username]["message_id"] = msg.message_id
-        def cancel_combat():
-            if username in ongoing_combats and not ongoing_combats[username]['opponent']:
+        ongoing_combats == True
+        def cancel_combat(message_id):
+            if ongoing_combats:
                 msg = bot.edit_message_text(
-                    "\u23F3 El combate ha expirado.", 
-                    group_id,
-                    ongoing_combats[username]["message_id"]
+                    chat_id=group_id,
+                    message_id=message_id,
+                    text=f"\u26A0 El combate han expirado el combate.",
+                    message_thread_id=topic_id,
+                    parse_mode="Markdown"
                 )
                 threading.Timer(3, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
-                del ongoing_combats[username]
-        threading.Timer(120, cancel_combat).start()
+                ongoing_combats=False
+        threading.Timer(120, cancel_combat, args=(msg.message_id,)).start()
     except Exception as e:
         logger.error(f"Error during startcombat: {e}")
 
