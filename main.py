@@ -49,6 +49,7 @@ ongoing_combats = {}
 # Commands
 commands=[
     {"command": "capturedpokemons", "description": "Show your captured Pokemon with deatails."},
+    {"command": "alltitles", "description": "Show the list of all titles and how to get them."},
     {"command": "chance", "description": "Show the chance to capture pokemons.)"},
     {"command": "chooseyou", "description": "Summon a random pokemon from the user.)"},
     {"command": "help", "description": "Get the list of commands."},
