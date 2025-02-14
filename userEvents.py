@@ -248,6 +248,21 @@ def getUserByName(username):
         logger.error(f"Error getting user: {str(e)}")
         return None
 
+# Get all usernames from the database
+def getAllUsers():
+    try:
+        client = MongoClient(MONGO_URI)
+        db = client['pokemon_bot']
+        collection = db['users']
+        # Obtener solo los nombres de los usuarios
+        users = collection.find({}, {"name": 1, "_id": 0})
+        usernames = [user["name"] for user in users]
+        client.close()
+        return usernames
+    except Exception as e:
+        logger.error(f"Error getting all users: {str(e)}")
+        return []
+
 #Get the list of pokemons captured by a user using its username
 def getListOfPokemonCapturedByName(username):
     try:

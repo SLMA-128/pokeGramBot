@@ -48,14 +48,15 @@ spawn_cooldawn = 60  # Cooldown time in seconds
 ongoing_combats = {}
 # Commands
 commands=[
-    {"command": "capturedpokemons", "description": "Show your captured Pokemon with deatails."},
     {"command": "alltitles", "description": "Show the list of all titles and how to get them."},
+    {"command": "capturedpokemons", "description": "Show your captured Pokemon with deatails."},
     {"command": "chance", "description": "Show the chance to capture pokemons.)"},
     {"command": "chooseyou", "description": "Summon a random pokemon from the user.)"},
     {"command": "help", "description": "Get the list of commands."},
     {"command": "mycollection", "description": "Show how many type of Pokemons you have captured."},
     {"command": "mypokemons", "description": "Show how many Pokemons, normal and shiny, you captured."},
     {"command": "mytitles", "description": "Shows your titles."},
+    {"command": "players", "description": "Shows the list of all players."},
     {"command": "pokedex", "description": "Show the data of a Pokemon using its ID or Name."},
     {"command": "profile", "description": "Shows the profile of a user if given its username, otherwise shows your profile."},
     {"command": "register", "description": "Register your username."},
@@ -659,11 +660,26 @@ def all_titles_handler(message):
         if not check_active_hours():
             return
         titles_list = "\n".join([f"\U0001F3C6 *{title["title"]}*: {title["howto"]}" for title in userEvents.titles])
-        msg = bot.send_message(group_id, f"\U0001F4D2 *Todos los títulos disponibles:*\n{titles_list}", parse_mode="Markdown", message_thread_id=topic_id)
+        msg = bot.send_message(group_id, f"\U0001F4D2 *Títulos Disponibles:*\n{titles_list}", parse_mode="Markdown", message_thread_id=topic_id)
         threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()  # Borrar el mensaje después de 30 segundos
     except Exception as e:
-        logger.error(f"Error en /mytitles: {e}")
-        msg = bot.reply_to(message, "\u274C Ocurrió al intentar obtener los titulos.")
+        logger.error(f"Error en /alltitles: {e}")
+        msg = bot.reply_to(message, "\u274C Ocurrió al intentar obtener los títulos.")
+        threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
+
+# Bot command handler for /players
+@bot.message_handler(commands=['players'])
+def players_handler(message):
+    try:
+        if not check_active_hours():
+            return
+        players = userEvents.getAllUsers()
+        players_list = "\n".join([f"\U0001F464 *{player}*" for player in players])
+        msg = bot.send_message(group_id, f"\U0001F465 *Jugadores Activos:*\n{players_list}", parse_mode="Markdown", message_thread_id=topic_id)
+        threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()  # Borrar el mensaje después de 30 segundos
+    except Exception as e:
+        logger.error(f"Error en /players: {e}")
+        msg = bot.reply_to(message, "\u274C Ocurrió un error al obtener la lista de jugadores.")
         threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
 
 # Mock message class for the auto_spawn_event
