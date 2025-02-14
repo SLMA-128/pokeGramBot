@@ -265,7 +265,7 @@ def spawn_pokemon_handler(message):
             threading.Timer(2, lambda: bot.delete_message(chat_id=group_id, message_id=msg.message_id)).start()
             return
         spawn_check = random.randint(1,100)
-        if spawn_check <= 10:
+        if spawn_check <= 5:
             msg = bot.reply_to(message, "\U0001F4A8 El Pokémon escapó al intentar spawnearlo...")
             threading.Timer(2, lambda: bot.delete_message(chat_id=group_id, message_id=msg.message_id)).start()
             return
@@ -544,6 +544,8 @@ def accept_duel(call):
 @bot.message_handler(commands=['profile'])
 def profile(message):
     try:
+        if not check_active_hours():
+            return
         args = message.text.split(maxsplit=1)
         if len(args) < 2:
             username = message.from_user.username
@@ -564,6 +566,8 @@ def profile(message):
 @bot.message_handler(commands=['pokedex'])
 def pokedex(message):
     try:
+        if not check_active_hours():
+            return
         args = message.text.split(maxsplit=1)  # Obtiene el parámetro después del comando
         if len(args) < 2:
             msg = bot.reply_to(message, "\u26A0 Debes proporcionar un nombre o ID de Pokémon.")
@@ -624,6 +628,8 @@ def pokedex(message):
 @bot.message_handler(commands=['mytitles'])
 def my_titles_handler(message):
     try:
+        if not check_active_hours():
+            return
         username = message.from_user.username
         if checkUserExistence(username):
             return
@@ -645,6 +651,19 @@ def my_titles_handler(message):
         msg = bot.reply_to(message, "\u274C Ocurrió al intentar obtener los titulos.")
         threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
 
+# Bot command handler for /alltitles
+@bot.message_handler(commands=['alltitles'])
+def all_titles_handler(message):
+    try:
+        if not check_active_hours():
+            return
+        titles_list = "\n".join([f"\U0001F3C6 *{title["title"]}*: {title["howto"]}" for title in userEvents.titles])
+        msg = bot.send_message(group_id, f"\U0001F4D2 *Todos los títulos disponibles:*\n{titles_list}", parse_mode="Markdown", message_thread_id=topic_id)
+        threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()  # Borrar el mensaje después de 30 segundos
+    except Exception as e:
+        logger.error(f"Error en /mytitles: {e}")
+        msg = bot.reply_to(message, "\u274C Ocurrió al intentar obtener los titulos.")
+        threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
 
 # Mock message class for the auto_spawn_event
 class MockMessage:
