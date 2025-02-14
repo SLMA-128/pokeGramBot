@@ -44,8 +44,8 @@ capture_locks = {}
 # Dictionary to track last usage times for the spawn command
 last_spawn_times = {}
 spawn_cooldawn = 60  # Cooldown time in seconds
-# Boolean to track combats
-ongoing_combats = False
+# Dictionary to track combats
+ongoing_combats = {}
 # Commands
 commands=[
     {"command": "alltitles", "description": "Show the list of all titles and how to get them."},
@@ -180,6 +180,20 @@ def captureCheck(pokemon):
     if pokemon["isLegendary"]:
         capture_check *= 1.2
     return capture_check
+
+# Function to cancel the ongoing combat
+def cancel_combat():
+    if combat_manager.is_combat_active() and combat_manager.ongoing_combat["opponent"] is None:
+        try:
+            msg = bot.edit_message_text(
+                "\u23F3 El combate ha expirado.",
+                group_id,
+                combat_manager.ongoing_combat["message_id"]
+            )
+            threading.Timer(3, lambda: bot.delete_message(chat_id=group_id, message_id=msg.message_id)).start()
+        except Exception as e:
+            logger.error(f"Error al cancelar combate: {e}")
+        combat_manager.end_combat()
 
 # Functions for the commands of the bot
 #----------------------------------------------------------------
@@ -458,93 +472,6 @@ def summon_pokemon(message):
     except Exception as e:
         logger.error(f"Error during chooseyou: {e}")
 
-# Bot command handler for /startcombat
-@bot.message_handler(commands=['startcombat'])
-def start_combat(message):
-    try:
-        if not check_active_hours():
-            return
-        global ongoing_combats
-        if ongoing_combats:
-            bot.reply_to(message, "\u26A0 Ya hay un combate en curso.")
-            return
-        username = message.from_user.username
-        user_pokemon = userEvents.getRandomPokemonCaptured(username)
-        if not user_pokemon:
-            bot.reply_to(message, "\u26A0 No tienes Pokémon para combatir.")
-            return
-        keyboard = InlineKeyboardMarkup()
-        duel_button = InlineKeyboardButton("Duel", callback_data=f"duel:{username}")
-        keyboard.add(duel_button)
-        msg = bot.send_message(group_id, f"\u2694 {username} ha iniciado un combate con *{user_pokemon['name']}* Lv.{user_pokemon['level']}!\nPresiona 'Duel' para enfrentarlo!", message_thread_id=topic_id, reply_markup=keyboard, parse_mode="Markdown")
-        # Cancelar el combate después de 2 minutos si nadie lo acepta
-        ongoing_combats = True
-        def cancel_combat(message_id):
-            global ongoing_combats
-            if ongoing_combats:
-                msg = bot.edit_message_text(
-                    chat_id=group_id,
-                    message_id=message_id,
-                    text=f"\u26A0 El combate han expirado el combate.",
-                    message_thread_id=topic_id,
-                    parse_mode="Markdown"
-                )
-                threading.Timer(3, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
-                ongoing_combats=False
-        threading.Timer(120, cancel_combat, args=(msg.message_id,)).start()
-    except Exception as e:
-        logger.error(f"Error during startcombat: {e}")
-
-# Callback query handler for "Duel" button
-@bot.callback_query_handler(func=lambda call: call.data.startswith("duel:"))
-def accept_duel(call):
-    try:
-        challenger = call.data.split(":")[1]
-        opponent = call.from_user.username
-        if challenger not in ongoing_combats or ongoing_combats[challenger]["opponent"]:
-            bot.answer_callback_query(call.id, "El duelo ya ha sido aceptado o ha expirado.")
-            return
-        if opponent == challenger:
-            bot.answer_callback_query(call.id, "No puedes luchar contra ti mismo.")
-            return
-        opponent_pokemon = userEvents.getRandomPokemonCaptured(opponent)
-        if not opponent_pokemon:
-            bot.answer_callback_query(call.id, "No tienes Pokémon para combatir.")
-            return
-        ongoing_combats[challenger]["opponent"] = {"username": opponent, "pokemon": opponent_pokemon}
-        # Determinar el resultado del combate
-        combat_roll = random.randint(10, 60)
-        level_check =2 * (ongoing_combats[challenger]['pokemon']['level'] - opponent_pokemon['level'])
-        challenger_advantage = pokemonEvents.get_type_advantage(ongoing_combats[challenger]['pokemon']['types'], opponent_pokemon['types'])
-        opponent_advantage = pokemonEvents.get_type_advantage(opponent_pokemon['types'], ongoing_combats[challenger]['pokemon']['types'])
-        type_modifier = challenger_advantage - opponent_advantage
-        final_score = combat_roll * 0.4 + level_check * 0.3 + type_modifier * 0.3
-        result = final_score < 50
-        winner = opponent if result else challenger
-        loser = challenger if result else opponent
-        loser_pokemon = ongoing_combats[challenger]['pokemon'] if loser==challenger else opponent_pokemon
-        winner_pokemon = ongoing_combats[challenger]['pokemon'] if winner==challenger else opponent_pokemon
-        userEvents.reducePokemonCaptured(loser, loser_pokemon)
-        steal = random.randint(1,100) <= 5
-        if steal:
-            userEvents.addPokemonCaptured(loser_pokemon, winner)
-        new_level = min(winner_pokemon['level'] + random.randint(1, 5), 100)
-        userEvents.updateCombatResults(winner, loser, winner_pokemon, new_level)
-        response = (
-            f"\u2694 {challenger} ({ongoing_combats[challenger]['pokemon']['name']} Lv.{ongoing_combats[challenger]['pokemon']['level']}) vs {opponent} ({opponent_pokemon['name']} Lv.{opponent_pokemon['level']})!\n\n"
-            f"\U0001F3C6 {'¡' + opponent + ' wins!' if result else '¡' + challenger + ' wins!'}\n\n"
-            f"\u274C {loser} loses its {loser_pokemon['name']}!\n\n"
-            f"\U0001F53C {winner}'s {winner_pokemon['name']} has leveled up! Now is Lv.{new_level}!"
-            f"{(f"\n\n\U0001F3C5 {winner} has stolen {loser}'s {loser_pokemon['name']} before it died!") if steal else ''}"
-        )
-        bot.edit_message_text(
-            response,
-            call.message.chat.id, call.message.message_id
-        )
-        del ongoing_combats[challenger]
-    except Exception as e:
-        logger.error(f"Error in duel handling: {e}")
-
 # Bot command handler for /profile
 @bot.message_handler(commands=['profile'])
 def profile(message):
@@ -684,6 +611,122 @@ def players_handler(message):
         logger.error(f"Error en /players: {e}")
         msg = bot.reply_to(message, "\u274C Ocurrió un error al obtener la lista de jugadores.")
         threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
+
+class CombatManager:
+    def __init__(self):
+        self.ongoing_combat = None  # Stores the ongoing combat
+    def is_combat_active(self):
+        return self.ongoing_combat is not None
+    def start_combat(self, username, user_pokemon, msg_id):
+        self.ongoing_combat = {
+            "username": username,
+            "pokemon": user_pokemon,
+            "message_id": msg_id,
+            "opponent": None
+        }
+    def end_combat(self):
+        self.ongoing_combat = None  # Restarts the ongoing combat
+# instance of the combat manager to manage the ongoing combat
+combat_manager = CombatManager()
+
+
+# Bot command handler for /startcombat
+@bot.message_handler(commands=['startcombat'])
+def start_combat(message):
+    try:
+        if not check_active_hours():
+            return
+        if combat_manager.is_combat_active():
+            msg = bot.reply_to(message, "\u26A0 Ya hay un combate en curso. Espera a que termine.")
+            threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
+            return
+        username = message.from_user.username
+        user_pokemon = userEvents.getRandomPokemonCaptured(username)
+        if not user_pokemon:
+            msg = bot.reply_to(message, "\u26A0 No tienes Pokémon para combatir.")
+            threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
+            return
+        keyboard = InlineKeyboardMarkup()
+        duel_button = InlineKeyboardButton("Duel", callback_data=f"duel:{username}")
+        keyboard.add(duel_button)
+        msg = bot.send_message(
+            group_id,
+            f"\u2694 {username} ha iniciado un combate con *{user_pokemon['name']}* Lv.{user_pokemon['level']}!\nPresiona 'Duel' para enfrentarlo!",
+            message_thread_id=topic_id,
+            reply_markup=keyboard,
+            parse_mode="Markdown"
+        )
+        # Registrar el combate en el CombatManager
+        combat_manager.start_combat(username, user_pokemon, msg.message_id)
+        # Temporizador para cancelar el combate en 2 minutos si no es aceptado
+        threading.Timer(120, cancel_combat).start()
+    except Exception as e:
+        logger.error(f"Error durante startcombat: {e}")
+
+# Callback query handler for "Duel" button
+@bot.callback_query_handler(func=lambda call: call.data.startswith("duel:"))
+def accept_duel(call):
+    try:
+        if not combat_manager.is_combat_active():  # Verificar si hay un combate activo
+            bot.answer_callback_query(call.id, "El duelo ya ha sido aceptado o ha expirado.")
+            return
+        challenger = combat_manager.ongoing_combat["username"]
+        opponent = call.from_user.username
+        if combat_manager.ongoing_combat["opponent"]:
+            bot.answer_callback_query(call.id, "El duelo ya ha sido aceptado.")
+            return
+        if opponent == challenger:
+            bot.answer_callback_query(call.id, "No puedes luchar contra ti mismo.")
+            return
+        opponent_pokemon = userEvents.getRandomPokemonCaptured(opponent)
+        if not opponent_pokemon:
+            bot.answer_callback_query(call.id, "No tienes Pokémon para combatir.")
+            return
+        # Set the opponent for the ongoing combat
+        combat_manager.ongoing_combat["opponent"] = {
+            "username": opponent,
+            "pokemon": opponent_pokemon
+        }
+        # Combat result calculation
+        challenger_pokemon = combat_manager.ongoing_combat['pokemon']
+        combat_roll = random.randint(10, 60)
+        level_check = 2 * (challenger_pokemon['level'] - opponent_pokemon['level'])
+        challenger_advantage = pokemonEvents.get_type_advantage(challenger_pokemon['types'], opponent_pokemon['types'])
+        opponent_advantage = pokemonEvents.get_type_advantage(opponent_pokemon['types'], challenger_pokemon['types'])
+        type_modifier = challenger_advantage - opponent_advantage
+        final_score = combat_roll * 0.4 + level_check * 0.3 + type_modifier * 0.3
+        result = final_score < 50
+        # Setting winner and loser
+        winner, loser = (opponent, challenger) if result else (challenger, opponent)
+        loser_pokemon = challenger_pokemon if loser == challenger else opponent_pokemon
+        winner_pokemon = challenger_pokemon if winner == challenger else opponent_pokemon
+        # reduce or delete pokemon
+        userEvents.reducePokemonCaptured(loser, loser_pokemon)
+        # steal chance
+        steal = random.randint(1, 100) <= 5
+        if steal:
+            userEvents.addPokemonCaptured(loser_pokemon, winner)
+        # leveling up pkm
+        new_level = min(winner_pokemon['level'] + random.randint(1, 5), 100)
+        userEvents.updateCombatResults(winner, loser, winner_pokemon, new_level)
+        # responce msg
+        response = (
+            f"\u2694 {challenger} ({challenger_pokemon['name']} Lv.{challenger_pokemon['level']}) vs {opponent} ({opponent_pokemon['name']} Lv.{opponent_pokemon['level']})!\n\n"
+            f"\U0001F3C6 {'¡' + opponent + ' wins!' if result else '¡' + challenger + ' wins!'}\n\n"
+            f"\u274C {loser} pierde a su {loser_pokemon['name']}!\n\n"
+            f"\U0001F53C {winner}'s {winner_pokemon['name']} ha subido de nivel! Ahora es Lv.{new_level}!"
+            f"{(f'\n\n\U0001F3C5 {winner} ha robado a {loser} su {loser_pokemon['name']} antes de que se debilitara!') if steal else ''}"
+        )
+        bot.edit_message_text(
+            response,
+            call.message.chat.id, call.message.message_id
+        )
+        # end the ongoing combat
+        combat_manager.end_combat()
+    except Exception as e:
+        logger.error(f"Error en duelo: {e}")
+
+
 
 # Mock message class for the auto_spawn_event
 class MockMessage:
