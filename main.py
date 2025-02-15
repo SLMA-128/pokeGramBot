@@ -640,7 +640,7 @@ def start_combat(message):
             msg = bot.reply_to(message, "\u26A0 Ya hay un combate en curso. Espera a que termine.")
             threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
             return
-        username = message.from_user.username
+        username = escape_markdown(message.from_user.username)
         user_pokemon = userEvents.getRandomPokemonCaptured(username)
         if not user_pokemon:
             msg = bot.reply_to(message, "\u26A0 No tienes Pokémon para combatir.")
