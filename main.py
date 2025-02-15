@@ -640,7 +640,7 @@ def start_combat(message):
             msg = bot.reply_to(message, "\u26A0 Ya hay un combate en curso. Espera a que termine.")
             threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
             return
-        username = escape_markdown(message.from_user.username)
+        username = message.from_user.username
         user_pokemon = userEvents.getRandomPokemonCaptured(username)
         if not user_pokemon:
             msg = bot.reply_to(message, "\u26A0 No tienes Pokémon para combatir.")
@@ -651,7 +651,7 @@ def start_combat(message):
         keyboard.add(duel_button)
         msg = bot.send_message(
             group_id,
-            f"\u2694 {username} ha iniciado un combate con *{user_pokemon['name']}* Lv.{user_pokemon['level']}!\nPresiona 'Duel' para enfrentarlo!",
+            f"\u2694 {escape_markdown(username)} ha iniciado un combate con *{user_pokemon['name']}* Lv.{user_pokemon['level']}!\nPresiona 'Duel' para enfrentarlo!",
             message_thread_id=topic_id,
             reply_markup=keyboard,
             parse_mode="Markdown"
