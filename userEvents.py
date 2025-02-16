@@ -326,7 +326,7 @@ def addPokemonCaptured(pokemon, username):
     except Exception as e:
         logger.error(f"Error adding pokemon: {str(e)}")
 
-#Get a random pokemon captured by a user using their username
+#Get a random pokemon captured from a user using their username
 def getRandomPokemonCaptured(username):
     try:
         client = MongoClient(MONGO_URI)
@@ -336,6 +336,22 @@ def getRandomPokemonCaptured(username):
         user = collection.find_one({"name": username})
         if user:
             return random.choice(user["pokemonsOwned"])
+        client.close()
+        return None
+    except Exception as e:
+        logger.error(f"Error getting user: {str(e)}")
+        return None
+
+#Get a pokemon captured from a user using their username and id
+def getPokemonCapturedById(username, pokemonId):
+    try:
+        client = MongoClient(MONGO_URI)
+        db = client['pokemon_bot']
+        collection = db['users']
+        # Buscar el usuario y obtener el pokemon
+        pkm = collection.find_one({"name": username, "pokemonsOwned.id": pokemonId}, {"pokemonsOwned.$": 1})
+        if pkm:
+            return pkm
         client.close()
         return None
     except Exception as e:
@@ -353,21 +369,23 @@ def reducePokemonCaptured(loser, loser_pokemon):
             client.close()
             return False
         updated_pokemons = []
-        removed_any = False
         for pkm in user["pokemonsOwned"]:
-            if pkm["id"] == loser_pokemon["id"]:
-                if pkm["isShiny"] == loser_pokemon["isShiny"]:
-                    pkm["captured"] -= 1
-                    if pkm["captured"] <= 0:
-                        removed_any = True
-            updated_pokemons.append(pkm)
-        update_fields = {"pokemonsOwned": updated_pokemons, "$inc": {"total_pokemons": -1}}
-        if loser_pokemon["isShiny"]:
-            update_fields["$inc"]["total_shiny"] = -1
-        collection.update_one({"name": loser}, {"$set": update_fields})
-        if removed_any:
-            if not updated_pokemons:
-                collection.update_one({"name": loser}, {"$set": {"pokemonsOwned": []}})
+            if pkm["id"] == loser_pokemon["id"] and pkm["isShiny"] == loser_pokemon["isShiny"]:
+                pkm["captured"] -= 1
+                if pkm["captured"] > 0:
+                    updated_pokemons.append(pkm)
+            else:
+                updated_pokemons.append(pkm)
+        total_pokemons = sum(pkm["captured"] for pkm in updated_pokemons)
+        total_shiny = sum(pkm["captured"] for pkm in updated_pokemons if pkm["isShiny"])
+        collection.update_one(
+            {"name": loser},
+            {"$set": {
+                "pokemonsOwned": updated_pokemons,
+                "total_pokemons": total_pokemons,
+                "total_shiny": total_shiny
+            }}
+        )
         client.close()
     except Exception as e:
         logger.error(f"Error reducing Pokémon count: {str(e)}")

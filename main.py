@@ -53,6 +53,7 @@ commands=[
     {"command": "chance", "description": "Show the chance to capture pokemons.)"},
     {"command": "chooseyou", "description": "Summon a random pokemon from the user.)"},
     {"command": "help", "description": "Get the list of commands."},
+    {"command": "ichooseyou", "description": "Summon a Pokemon from the user using its ID or Name."},
     {"command": "mycollection", "description": "Show how many type of Pokemons you have captured."},
     {"command": "mypokemons", "description": "Show how many Pokemons, normal and shiny, you captured."},
     {"command": "mytitles", "description": "Shows your titles."},
@@ -121,13 +122,13 @@ def get_user_data(user_data):
         titles_text = "No titles earned yet.\n"
     # Mensaje de respuesta
     profile_text = (
-        f"\U0001F4DC *{user_data['name']} Profile*\n"
+        f"\U0001F4DC *{escape_markdown(user_data['name'])} Profile*\n"
         f"\U0001F4E6 Pokemons Captured: {user_data.get('total_pokemons', 0)}\n"
         f"\U0001F31F Shiny Captured: {user_data.get('total_shiny', 0)}\n"
         f"\U0001F3AF Winrate: {winrate}%\n"
-        f"\U0001F3C6 Total Victories: {total_victories}\n{victories_text}"
+        f"\U0001F3C6 Total Victories: {total_victories}\n{escape_markdown(victories_text)}"
         f"\U0001F947 Most Victories: {most_victories}\n"
-        f"\U0001F480 Total Defeats: {total_defeats}\n{defeats_text}"
+        f"\U0001F480 Total Defeats: {total_defeats}\n{escape_markdown(defeats_text)}"
         f"\U0001F635 Most Defeats: {most_defeats}\n"
         f"\U0001F4D6 Titles:\n{titles_text}"
     )
@@ -458,19 +459,60 @@ def summon_pokemon(message):
                         f"\U0001F3B2 {user_name} se le cayo una pokeball y {random_pkm_name} se salió!",
                         f"\U0001F3B2 {random_pkm_name} salió para ver memes!",
                         f"\U0001F3B2 {user_name} sacó a {random_pkm_name} mientras veia el canal NSFW!"]
-            msg_rp = bot.send_message(
+            msg_p = bot.send_message(
                 group_id,
                 random.choice(msg_list),
                 message_thread_id=topic_id,
                 parse_mode='HTML'
                 )
-            threading.Timer(30, lambda: bot.delete_message(chat_id=group_id, message_id=msg_rp.message_id)).start()
+            threading.Timer(30, lambda: bot.delete_message(chat_id=group_id, message_id=msg_p.message_id)).start()
             threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg_st.message_id)).start()
         else:
             msg = bot.send_message(group_id, "\u26A0 No tienes pokémones capturados.", message_thread_id=topic_id)
             threading.Timer(3, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
     except Exception as e:
         logger.error(f"Error during chooseyou: {e}")
+# Bot command handler for /ichooseyou
+@bot.message_handler(commands=['ichooseyou'])
+def ichooseyou(message):
+    try:
+        if not check_active_hours():
+            return
+        username = message.from_user.username
+        if checkUserExistence(username):
+            return
+        args = message.text.split(maxsplit=1)
+        if len(args) < 2:
+            msg = bot.reply_to(message, "\u26A0 Debes proporcionar un nombre o ID de Pokémon.")
+            threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()  # Borrar el mensaje después de 5 segundos
+            return
+        parametro = args[1].strip()
+        if parametro.isdigit():
+            pokemon = userEvents.getPokemonCapturedById(username, int(parametro))
+        else:
+            pokemon = userEvents.getPokemonCapturedById(username, pokemonEvents.getPokemonByName(parametro.capitalize())['id'])
+        if pokemon:
+            pkm_name = f"<b>{pokemon['name']}</b>"
+            user_name = f"<b>{username}</b>"
+            pkm_image = pokemon["image"]
+            if os.path.exists(pkm_image):
+                with open(pkm_image, 'rb') as photo:
+                    msg_st = bot.send_sticker(
+                        group_id,
+                        photo,
+                        message_thread_id=topic_id
+                    )
+            msg_list = [f"\U0001F3B2 {user_name} ha elegido a {pkm_name}!",
+                        f"\U0001F3B2 {user_name} liberó de su cautiverio a {pkm_name}!",
+                        f"\U0001F3B2 {user_name} se sentia cariñoso de más y sacó a {pkm_name}!"]
+            msg = bot.send_message(group_id, random.choice(msg_list), message_thread_id=topic_id, parse_mode="HTML")
+            threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
+            threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg_st.message_id)).start()
+        else:
+            msg = bot.reply_to(message, "\u274C No tienes a ese Pokémon.")
+            threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
+    except Exception as e:
+        logger.error(f"Error en /ichooseyou: {e}")
 
 # Bot command handler for /profile
 @bot.message_handler(commands=['profile'])
@@ -707,14 +749,17 @@ def accept_duel(call):
         if steal:
             userEvents.addPokemonCaptured(loser_pokemon, winner)
         # leveling up pkm
-        new_level = min(winner_pokemon['level'] + random.randint(1, 5), 100)
+        leveled_up = False
+        if winner_pokemon['level'] < 100:
+            new_level = min(winner_pokemon['level'] + random.randint(1, 5), 100)
+            leveled_up = True
         userEvents.updateCombatResults(winner, loser, winner_pokemon, new_level)
         # responce msg
         response = (
             f"\u2694 {challenger} ({challenger_pokemon['name']} Lv.{challenger_pokemon['level']}) vs {opponent} ({opponent_pokemon['name']} Lv.{opponent_pokemon['level']})!\n\n"
             f"\U0001F3C6 {'¡' + opponent + ' wins!' if result else '¡' + challenger + ' wins!'}\n\n"
             f"\u274C {loser} pierde a su {loser_pokemon['name']}!\n\n"
-            f"\U0001F53C {winner}'s {winner_pokemon['name']} ha subido de nivel! Ahora es Lv.{new_level}!"
+            f"{(f"\U0001F53C {winner}'s {winner_pokemon['name']} ha subido de nivel! Ahora es Lv.{new_level}!") if leveled_up else ''}"
             f"{(f'\n\n\U0001F3C5 {winner} ha robado a {loser} su {loser_pokemon['name']} antes de que se debilitara!') if steal else ''}"
         )
         bot.edit_message_text(
@@ -725,8 +770,6 @@ def accept_duel(call):
         combat_manager.end_combat()
     except Exception as e:
         logger.error(f"Error en duelo: {e}")
-
-
 
 # Mock message class for the auto_spawn_event
 class MockMessage:
