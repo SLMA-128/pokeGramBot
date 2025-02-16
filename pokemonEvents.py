@@ -121,7 +121,7 @@ def generatePokemon():
         pokemon = getPokemonById(random.randint(1, 151))
         if pokemon is None:
             return None  # No existe pokemon con ese ID
-        isShiny_check = random.randint(1, 4096) <= 2
+        isShiny_check = random.randint(1, 1000) <= 5
         pokemon_image = f"./pokemon_sprites{'_shiny' if isShiny_check==True else ''}/{random.choice(pokemon['image'])}"
         pkm_gender = "Female" if pokemon_image.endswith("f") else "Male" if pokemon_image.endswith("m") else random.choice(pokemon['gender'])
         # Generar el pokemon usando los datos de la base de datos
