@@ -472,6 +472,7 @@ def summon_pokemon(message):
             threading.Timer(3, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
     except Exception as e:
         logger.error(f"Error during chooseyou: {e}")
+
 # Bot command handler for /ichooseyou
 @bot.message_handler(commands=['ichooseyou'])
 def ichooseyou(message):

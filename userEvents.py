@@ -350,9 +350,9 @@ def getPokemonCapturedById(username, pokemonId):
         collection = db['users']
         # Buscar el usuario y obtener el pokemon
         pkm = collection.find_one({"name": username, "pokemonsOwned.id": pokemonId}, {"pokemonsOwned.$": 1})
-        if pkm:
-            return pkm
         client.close()
+        if pkm and "pokemonsOwned" in pkm:
+            return pkm["pokemonsOwned"][0]
         return None
     except Exception as e:
         logger.error(f"Error getting user: {str(e)}")
