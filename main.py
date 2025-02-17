@@ -48,22 +48,22 @@ spawn_cooldawn = 60  # Cooldown time in seconds
 ongoing_combats = {}
 # Commands
 commands=[
-    {"command": "alltitles", "description": "Show the list of all titles and how to get them."},
-    {"command": "capturedpokemons", "description": "Show your captured Pokemon with deatails."},
-    {"command": "chance", "description": "Show the chance to capture pokemons.)"},
-    {"command": "chooseyou", "description": "Summon a random pokemon from the user.)"},
-    {"command": "help", "description": "Get the list of commands."},
-    {"command": "ichooseyou", "description": "Summon a Pokemon from the user using its ID or Name."},
-    {"command": "mycollection", "description": "Show how many type of Pokemons you have captured."},
-    {"command": "mypokemons", "description": "Show how many Pokemons, normal and shiny, you captured."},
-    {"command": "mytitles", "description": "Shows your titles."},
-    {"command": "players", "description": "Shows the list of all players."},
-    {"command": "pokedex", "description": "Show the data of a Pokemon using its ID or Name."},
-    {"command": "profile", "description": "Shows the profile of a user if given its username, otherwise shows your profile."},
-    {"command": "register", "description": "Register your username."},
-    {"command": "spawn", "description": "Spawn a random Pokemon. Each user can spawn once a minute."},
-    {"command": "start", "description": "The bot says hi."},
-    {"command": "startcombat", "description": "Start a combat with a random Pokemon. Whoever loses loses a pokemon."}
+    {"command": "ayuda", "description": "Muestra la lista de comandos."},
+    {"command": "captura", "description": "Muestra la probabilidad de captura de los Pokémones.)"},
+    {"command": "capturados", "description": "Te muestra por privado una lista detallada de tus Pokémones."},
+    {"command": "combate", "description": "Inicia un combate con un Pokémon aleatorio tuyo."},
+    {"command": "iniciar", "description": "El bot saludará."},
+    {"command": "jugadores", "description": "Muestra una lista con todos los jugadores del grupo."},
+    {"command": "micoleccion", "description": "Muestra cuantos pokemones vas atrapando."},
+    {"command": "mispokemones", "description": "Muestra cuantos pokemones tienes en total."},
+    {"command": "mistitutlos", "description": "Muestra tus titulos con sus descripciones."},
+    {"command": "perfil", "description": "Muestra tu perfil o el de algun otro jugador."},
+    {"command": "pokedex", "description": "Muestra los datos de Pokémon a partir de su ID o Nombre."},
+    {"command": "registrar", "description": "Registra tu nombre de usuario."},
+    {"command": "spawn", "description": "Spawnea un Pokémon aleatorio."},
+    {"command": "teelijo", "description": "Invoca uno de tus Pokémones de forma aleatoria.)"},
+    {"command": "titulos", "description": "Muestra un listado de todos los titulos y como conseguirlos."},
+    {"command": "yoteelijo", "description": "Invoca un Pokémon a partir de su ID o Nombre."}
 ]
 
 # General functions
@@ -71,18 +71,18 @@ commands=[
 # Generate an inline keyboard with a "Capture!" button
 def generate_capture_button(pokemonId):
     markup = InlineKeyboardMarkup()
-    button = InlineKeyboardButton("Capture!", callback_data=f"capture:{pokemonId}")
+    button = InlineKeyboardButton("Capturar!", callback_data=f"capture:{pokemonId}")
     markup.add(button)
     return markup
 
 # Function to check if the user exists
 def checkUserExistence(username):
     if not username:
-        msg_cd = bot.send_message(group_id, "\u26A0 You don't have a Telegram username. Please set one to see your Pokémon.",message_thread_id=topic_id)
+        msg_cd = bot.send_message(group_id, "\u26A0 No tienes un nombre de usuario en Telegram.",message_thread_id=topic_id)
         threading.Timer(5, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
         return True
     if not userEvents.checkUserisRegistered(username):
-        msg_cd = bot.send_message(group_id, "\u26A0 You didn't register.",message_thread_id=topic_id)
+        msg_cd = bot.send_message(group_id, "\u26A0 No estas registrado.",message_thread_id=topic_id)
         threading.Timer(5, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
         return True
     return False
@@ -110,8 +110,8 @@ def get_user_data(user_data):
             defeats_text += f"\U0001F538 {opponent}: {defeat['count']}\n"
     total_victories = sum(entry["count"] for entry in victories) if victories else 0
     total_defeats = sum(entry["count"] for entry in defeats) if defeats else 0
-    most_victories = max(victories, key=lambda x: x["count"])["opponent"] if victories else "Pacifist"
-    most_defeats = max(defeats, key=lambda x: x["count"])["opponent"] if defeats else "Undefeated"
+    most_victories = max(victories, key=lambda x: x["count"])["opponent"] if victories else "Pacifista"
+    most_defeats = max(defeats, key=lambda x: x["count"])["opponent"] if defeats else "Invicto"
     winrate = round((total_victories / (total_victories + total_defeats)) * 100, 2) if (total_victories + total_defeats) > 0 else 0
     titles = user_data.get("titles", [])
     titles_text = ""
@@ -119,18 +119,18 @@ def get_user_data(user_data):
         for title in titles:
             titles_text += f"\U0001F396 {title}\n"
     else:
-        titles_text = "No titles earned yet.\n"
+        titles_text = "Aun no tienes títulos.\n"
     # Mensaje de respuesta
     profile_text = (
-        f"\U0001F4DC *{escape_markdown(user_data['name'])} Profile*\n"
-        f"\U0001F4E6 Pokemons Captured: {user_data.get('total_pokemons', 0)}\n"
-        f"\U0001F31F Shiny Captured: {user_data.get('total_shiny', 0)}\n"
+        f"\U0001F4DC *Perfil de {escape_markdown(user_data['name'])}*\n"
+        f"\U0001F4E6 Pokémones Capturados: {user_data.get('total_pokemons', 0)}\n"
+        f"\U0001F31F Shiny Capturados: {user_data.get('total_shiny', 0)}\n"
         f"\U0001F3AF Winrate: {winrate}%\n"
-        f"\U0001F3C6 Total Victories: {total_victories}\n{escape_markdown(victories_text)}"
-        f"\U0001F947 Most Victories: {most_victories}\n"
-        f"\U0001F480 Total Defeats: {total_defeats}\n{escape_markdown(defeats_text)}"
-        f"\U0001F635 Most Defeats: {most_defeats}\n"
-        f"\U0001F4D6 Titles:\n{titles_text}"
+        f"\U0001F3C6 Total de Victorias: {total_victories}\n{escape_markdown(victories_text)}"
+        f"\U0001F947 Más Victorias contra: {most_victories}\n"
+        f"\U0001F480 Total Derrotas: {total_defeats}\n{escape_markdown(defeats_text)}"
+        f"\U0001F635 Más Derrotas contra: {most_defeats}\n"
+        f"\U0001F4D6 Titulos:\n{titles_text}"
     )
     return profile_text
 
@@ -144,7 +144,7 @@ def is_active_hours():
 # Function to check if its time for the bot to work
 def check_active_hours():
     if not is_active_hours():
-        msg = bot.send_message(group_id, "\U0001F4E2 Sorry, the bot is not active at the moment. It works from 10:00 to 22:59.",message_thread_id=topic_id)
+        msg = bot.send_message(group_id, "\U0001F4E2 Lo siento, el bot no está activo en estos momentos. Estará activo entre las 10:00 AM y 22:59 PM (GMT-3).",message_thread_id=topic_id)
         threading.Timer(5, lambda: bot.delete_message(chat_id=group_id, message_id=msg.message_id)).start()
         return False
     return True
@@ -152,16 +152,16 @@ def check_active_hours():
 # Function for the escaping pokemon
 def pokemon_escape(pokemon, group_id, message_id):
     try:
-        escape_msgs = [f"\U0001F4A8 The wild Lv.{pokemon['level']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} has escaped!",
-                       f"\U0001F4A8 Someone throw a rock and made the Lv.{pokemon['level']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} escape!",
-                       f"\U0001F4A8 The wild Lv.{pokemon['level']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} saw a bad meme and escaped!",
-                       f"\U0001F4A8 The wild Lv.{pokemon['level']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} is a little scared and escaped!",
-                       f"\U0001F4A8 The wild Lv.{pokemon['level']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} saw someone taking down their pants and escaped!",
-                       f"\U0001F4A8 The wild Lv.{pokemon['level']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} dodged a pokeball and escaped!",
-                       f"\U0001F4A8 The wild Lv.{pokemon['level']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} was in reality a fake doll!",
-                       f"\U0001F4A8 The wild Lv.{pokemon['level']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} was in reality a Ditto and has escaped!",
-                       f"\U0001F480 A pokeball was thrown too hard and killed the Lv.{pokemon['level']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''}!",
-                       f"\U0001F480 The wild Lv.{pokemon['level']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} killed itself to not be captured!"]
+        escape_msgs = [f"¡\U0001F4A8 El Nv.{pokemon['level']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} salvaje se ha escapado!",
+                       f"¡\U0001F4A8 Alguien tiro uan piedra e hizo que el Nv.{pokemon['level']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} salvaje se escapará!",
+                       f"¡\U0001F4A8 El Nv.{pokemon['level']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} salvaje vio un mal meme y se escapó!",
+                       f"¡\U0001F4A8 El Nv.{pokemon['level']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} salvaje estaba un poco asustado y se escapó!",
+                       f"¡\U0001F4A8 El Nv.{pokemon['level']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} salvaje vio a alguien bajarse los pantalones y se escapó!",
+                       f"¡\U0001F4A8 El Nv.{pokemon['level']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} salvaje esquivo una pokebola y se escapó!",
+                       f"¡\U0001F4A8 El Nv.{pokemon['level']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} salvaje era en realidad un muñeco falso!",
+                       f"¡\U0001F4A8 El Nv.{pokemon['level']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} salvaje era en realidad un Ditto y se escapó!",
+                       f"¡\U0001F480 Una pokebola fue arrojada tan fuerte que mato al Nv.{pokemon['level']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''}!",
+                       f"¡\U0001F480 El Nv.{pokemon['level']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''} salvaje se suicidó para que no lo capturaran!"]
         # Notify the group that the Pokémon escaped
         bot.edit_message_text(
             random.choice(escape_msgs),
@@ -171,7 +171,7 @@ def pokemon_escape(pokemon, group_id, message_id):
         if message_id in spawned_pokemons:
             del spawned_pokemons[message_id]
     except Exception as e:
-        logger.error(f"Error during escape notification: {e}")
+        logger.error(f"Error durante la notificacion de escape: {e}")
 
 # Function to generate the capture chance
 def captureCheck(pokemon):
@@ -198,8 +198,8 @@ def cancel_combat():
 
 # Functions for the commands of the bot
 #----------------------------------------------------------------
-# Bot command handler for /start
-@bot.message_handler(commands=['start'])
+# Bot command handler for /iniciar
+@bot.message_handler(commands=['iniciar'])
 def start(message):
     try:
         if not check_active_hours():
@@ -207,37 +207,37 @@ def start(message):
         bot.set_my_commands(commands)
         bot.reply_to(message, "\U0001F4AC Hola, soy PokeGramBot!")
     except Exception as e:
-        logger.error(f"Error during start: {e}")
+        logger.error(f"Error durante /iniciar: {e}")
 
-# Bot command handler for /help
-@bot.message_handler(commands=['help'])
+# Bot command handler for /ayuda
+@bot.message_handler(commands=['ayuda'])
 def generate_help_message(message):
     try:
         if not check_active_hours():
             return
-        help_text = "Here are the commands you can use:\n\n"
+        help_text = "Lista de los comandos del bot:\n\n"
         for command in commands:
             help_text += f"/{command['command']}@pokegrambotbot - {command['description']}\n"
         help_text += f"\n\u26A0 Este bot es No Inclusivo, cualquier caso que pueda indicar lo contrario es un bug y será corregido."
         msg_cd = bot.reply_to(message, help_text)
         threading.Timer(60, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
     except Exception as e:
-        logger.error(f"Error during help: {e}")
+        logger.error(f"Error durante /ayuda: {e}")
 
-# Bot command handler for /chance
-@bot.message_handler(commands=['chance'])
+# Bot command handler for /captura
+@bot.message_handler(commands=['captura'])
 def generate_help_message(message):
     try:
         if not check_active_hours():
             return
-        help_text = "\U0001F4DC Chance to Capture Pokemons\n\U0001F538Level 1:\nBase: 80%\nShiny:56%\nLegendary:64%\n\n\U0001F539Level 100:\nBase: 39%\nShiny:30%\nLegendary: 33%\nLegendary and Shiny: 25%\n\n\u26A0IMPORTANT: This value can be used as reference but said chance is affected by a random value which lowers the rate!"
+        help_text = "\U0001F4DC Probabilidad de captura de Pokémones\n\U0001F538Nivel 1:\nComún: 80%\nShiny:56%\nLegendario:64%\n\n\U0001F539Nivel 100:\nComún: 39%\nShiny:30%\nLegendario: 33%\nLegendario y Shiny: 25%\n\n\u26A0IMPORTANTe: Este valor solo puede usarse como referencia. La probabilidad real es afectada por un valor aleatorio que puede disminuir la probabilidad de captura!"
         msg_cd = bot.reply_to(message, help_text)
         threading.Timer(90, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
     except Exception as e:
-        logger.error(f"Error during help: {e}")
+        logger.error(f"Error durante /captura: {e}")
 
-# Bot command handler for /register
-@bot.message_handler(commands=['register'])
+# Bot command handler for /registrar
+@bot.message_handler(commands=['registrar'])
 def register_command(message):
     try:
         if not check_active_hours():
@@ -255,7 +255,7 @@ def register_command(message):
             msg_cd = bot.reply_to(message, f"\U0001F514 Usuario @{username} registrado con éxito.")
             threading.Timer(10, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
     except Exception as e:
-        logger.error(f"Error during registration: {e}")
+        logger.error(f"Error durante /registrar: {e}")
 
 # Bot command handler for /spawn
 @bot.message_handler(commands=['spawn'])
@@ -271,7 +271,7 @@ def spawn_pokemon_handler(message):
                 remaining_time = spawn_cooldawn - elapsed_time
                 msg_cd = bot.reply_to(
                     message,
-                    f"\u26A0 You're on cooldown! Please wait {int(remaining_time)} seconds before spawning another Pokémon."
+                    f"\u26A0 ¡Estás en cooldown! Por favor espera {int(remaining_time)} segundos antes de spawnear otro Pokémon."
                 )
                 threading.Timer(2, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
                 return
@@ -299,7 +299,7 @@ def spawn_pokemon_handler(message):
             pokemon_name = f"***{pokemon['name']}***" if pokemon['isLegendary'] else pokemon['name']
             msg = bot.send_message(
                 group_id,
-                f"\U0001F514 A wild {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon_name}{'\U0001F31F' if pokemon['isShiny'] else ''} appeared! What will you do?\nGender: {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else pokemon['gender']}\nLevel: {pokemon['level']}",
+                f"\U0001F514 ¡Un {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon_name}{'\U0001F31F' if pokemon['isShiny'] else ''} salvaje apareció! ¿Qué vas a hacer?\nGenero: {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else 'Desconocido'}\nNivel: {pokemon['level']}",
                 reply_markup=generate_capture_button(pokemon["id"]),
                 message_thread_id=topic_id,
                 parse_mode='Markdown'
@@ -309,11 +309,11 @@ def spawn_pokemon_handler(message):
             capture_timers[msg.message_id] = timer
             timer.start()
         else:
-            bot.reply_to(message, "\u26A0 Failed to spawn a Pokémon.")
+            bot.reply_to(message, "\u26A0 Fallo al spawnear un Pokémon.")
     except Exception as e:
-        logger.error(f"Error during spawn: {e}")
+        logger.error(f"Error durante /spawn: {e}")
 
-# Callback query handler for "Capture!" button
+# Callback query handler for "Capturar!" button
 @bot.callback_query_handler(func=lambda call: call.data.startswith("capture:"))
 def capture_pokemon_handler(call):
     try:
@@ -322,11 +322,11 @@ def capture_pokemon_handler(call):
             return
         pokemon = spawned_pokemons.get(call.message.message_id)
         if pokemon is None:
-            bot.answer_callback_query(call.id, "No Pokémon found.")
+            bot.answer_callback_query(call.id, "Pokémon no encontrado.")
             return
         message_id = call.message.message_id
         if message_id in capture_locks:
-            bot.answer_callback_query(call.id, random.choice(["Too late! Someone else captured the Pokémon.", "Yasper, otro lo agarró!"]))
+            bot.answer_callback_query(call.id, random.choice(["¡Muy tarde! Alguien más capturó al Pokémon.", "¡Yasper, otro lo agarró!"]))
             return
         user_id = call.from_user.id
         capture_locks[message_id] = user_id
@@ -337,7 +337,7 @@ def capture_pokemon_handler(call):
                 capture_timers[call.message.message_id].cancel()
                 del capture_timers[call.message.message_id]
             bot.edit_message_text(
-                f"\U0001F3C6 {call.from_user.first_name} captured a Lv.{pokemon['level']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''}!",
+                f"\U0001F3C6 ¡{call.from_user.first_name} capturó un Nv.{pokemon['level']} {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642 ' if pokemon['gender']=='Male' else '\u2640 ' if pokemon['gender']=='Female' else ''}!",
                 call.message.chat.id,
                 call.message.message_id,
                 parse_mode="Markdown"
@@ -350,10 +350,10 @@ def capture_pokemon_handler(call):
         if "query is too old" in str(e):  # Handle expired callback queries gracefully
             logger.error("Expired callback query: ignoring outdated interaction.")
         else:
-            logger.error(f"Error during capture: {e}")
+            logger.error(f"Error durante capture: {e}")
 
-# Bot command handler for /mypokemons
-@bot.message_handler(commands=['mypokemons'])
+# Bot command handler for /mispokemones
+@bot.message_handler(commands=['mispokemones'])
 def get_my_pokemons_by_user(message):
     try:
         if not check_active_hours():
@@ -366,17 +366,17 @@ def get_my_pokemons_by_user(message):
         if pokemons:
             total_pokemons = user['total_pokemons']
             total_shiny = user['total_shiny']
-            response = f"\U0001F4DC Your Pokémon Collection:\n\U0001F3C6 Pokemons: {total_pokemons} (\U0001F31FShiny: {total_shiny})\n"
+            response = f"\U0001F4DC Tus Pokémones:\n\U0001F3C6 Pokémones: {total_pokemons} (\U0001F31FShiny: {total_shiny})\n"
             msg = bot.reply_to(message, response)
             threading.Timer(30, lambda: bot.delete_message(chat_id=group_id, message_id=msg.message_id)).start()
         else:
-            msg = bot.reply_to(message, "\u26A0 You don't have any Pokémon captured.")
+            msg = bot.reply_to(message, "\u26A0 No tienes Pokémones.")
             threading.Timer(3, lambda: bot.delete_message(chat_id=group_id, message_id=msg.message_id)).start()
     except Exception as e:
-        logger.error(f"Error during mypokemons: {e}")
+        logger.error(f"Error durante /mispokemones: {e}")
 
-# Bot command handler for /capturedpokemons
-@bot.message_handler(commands=['capturedpokemons'])
+# Bot command handler for /capturados
+@bot.message_handler(commands=['capturados'])
 def get_captured_pokemons_by_user(message):
     try:
         if not check_active_hours():
@@ -396,15 +396,15 @@ def get_captured_pokemons_by_user(message):
             response += f"\U0001F4E6 *Total Shiny:* {total_shiny}\n\n"
             for pkm in pokemons:
                 shiny_status = "\u2705" if pkm["isShiny"] else "\u274C"
-                response += f"\U0001F538 #{pkm['id']} - {'\U0001F48E' if pkm['isLegendary'] else ''}*{pkm['name']}*: {pkm['captured']}x (Shiny: {shiny_status}) (Lv.: {pkm['level']})\n"
+                response += f"\U0001F538 #{pkm['id']} - {'\U0001F48E' if pkm['isLegendary'] else ''}*{pkm['name']}*: {pkm['captured']}x (Shiny: {shiny_status}) (Nv.: {pkm['level']})\n"
             bot.send_message(user_id, response, parse_mode="Markdown")
         else:
-            bot.send_message(user_id, "\u26A0 You don't have any Pokémon captured.")
+            bot.send_message(user_id, "\u26A0 No tienes Pokémones.")
     except Exception as e:
-        logger.error(f"Error during capturedpokemons: {e}")
+        logger.error(f"Error durante /capturados: {e}")
 
-# Bot command handler for /mycollection
-@bot.message_handler(commands=['mycollection'])
+# Bot command handler for /micoleccion
+@bot.message_handler(commands=['micoleccion'])
 def get_pokemons_collection_by_user(message):
     try:
         if not check_active_hours():
@@ -423,17 +423,17 @@ def get_pokemons_collection_by_user(message):
                     legendary_counts[pokemon["name"]] = pokemon["id"]
                 if pokemon["name"] not in shiny_counts and pokemon["isShiny"] == True:
                     shiny_counts[pokemon["name"]] = pokemon["id"]
-            response = f"\U0001F3C6 Pokémons Collected: {total_pokemons}/151\n\U0001F31F Shiny: {shiny_counts}/151\n\U0001F48E Legendary: {len(legendary_counts)}/5\n"
+            response = f"\U0001F3C6 Coleccipon de Pokémones: {total_pokemons}/151\n\U0001F31F Shiny: {shiny_counts}/151\n\U0001F48E Legendarios: {len(legendary_counts)}/5\n"
             msg = bot.reply_to(message, response)
             threading.Timer(30, lambda: bot.delete_message(chat_id=group_id, message_id=msg.message_id)).start()
         else:
-            msg = bot.reply_to(message, "\u26A0 You don't have any Pokémon captured.")
+            msg = bot.reply_to(message, "\u26A0 No tienes Pokémones.")
             threading.Timer(3, lambda: bot.delete_message(chat_id=group_id, message_id=msg.message_id)).start()
     except Exception as e:
-        logger.error(f"Error during mycollection: {e}")
+        logger.error(f"Error durante /micoleccion: {e}")
 
-# Bot command handler for /chooseyou
-@bot.message_handler(commands=['chooseyou'])
+# Bot command handler for /teelijo
+@bot.message_handler(commands=['teelijo'])
 def summon_pokemon(message):
     try:
         if not check_active_hours():
@@ -456,7 +456,7 @@ def summon_pokemon(message):
                         message_thread_id=topic_id
                     )
             msg_list = [f"\U0001F3B2 {user_name} ha elegido a {random_pkm_name}!",
-                        f"\U0001F3B2 {user_name} se le cayo una pokeball y {random_pkm_name} se salió!",
+                        f"\U0001F3B2 {user_name} se le cayó una pokeball y {random_pkm_name} se salió!",
                         f"\U0001F3B2 {random_pkm_name} salió para ver memes!",
                         f"\U0001F3B2 {user_name} sacó a {random_pkm_name} mientras veia el canal NSFW!"]
             msg_p = bot.send_message(
@@ -471,10 +471,10 @@ def summon_pokemon(message):
             msg = bot.send_message(group_id, "\u26A0 No tienes pokémones capturados.", message_thread_id=topic_id)
             threading.Timer(3, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
     except Exception as e:
-        logger.error(f"Error during chooseyou: {e}")
+        logger.error(f"Error durante /teelijo: {e}")
 
-# Bot command handler for /ichooseyou
-@bot.message_handler(commands=['ichooseyou'])
+# Bot command handler for /yoteelijo
+@bot.message_handler(commands=['yoteelijo'])
 def ichooseyou(message):
     try:
         if not check_active_hours():
@@ -513,10 +513,10 @@ def ichooseyou(message):
             msg = bot.reply_to(message, "\u274C No tienes a ese Pokémon.")
             threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
     except Exception as e:
-        logger.error(f"Error en /ichooseyou: {e}")
+        logger.error(f"Error durante /yoteelijo: {e}")
 
-# Bot command handler for /profile
-@bot.message_handler(commands=['profile'])
+# Bot command handler for /perfil
+@bot.message_handler(commands=['perfil'])
 def profile(message):
     try:
         if not check_active_hours():
@@ -533,9 +533,7 @@ def profile(message):
         msg = bot.reply_to(message, profile_text, parse_mode="Markdown")
         threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
     except Exception as e:
-        logger.error(f"Error mostrando perfil: {e}")
-        msg = bot.reply_to(message, "\u26A0 Ocurrió un error al obtener tu perfil.")
-        threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
+        logger.error(f"Error durante /perfil: {e}")
 
 # Bot command handler for /pokedex
 @bot.message_handler(commands=['pokedex'])
@@ -560,47 +558,45 @@ def pokedex(message):
         gender_symbols = {
             "Male": "\u2642",
             "Female": "\u2640",
-            "Genderless": "Unknown"
+            "Genderless": "Desconocido"
         }
         type_symbols = {
             "Normal": "\u26AA",      
-            "Fire": "\U0001F525",    
-            "Water": "\U0001F4A7",   
-            "Electric": "\u26A1",    
-            "Grass": "\U0001F33F",   
-            "Ice": "\u2744",         
-            "Fighting": "\U0001F94A",
-            "Poison": "\u2620",      
-            "Ground": "\U0001F30E",  
-            "Flying": "\U0001F54A",  
-            "Psychic": "\U0001F52E", 
-            "Bug": "\U0001F41B",     
-            "Rock": "\U0001FAA8",    
-            "Ghost": "\U0001F47B",   
+            "Fuego": "\U0001F525",    
+            "Agua": "\U0001F4A7",   
+            "Electrico": "\u26A1",    
+            "Planta": "\U0001F33F",   
+            "Hielo": "\u2744",         
+            "Lucha": "\U0001F94A",
+            "Veneno": "\u2620",      
+            "Tierra": "\U0001F30E",  
+            "Volador": "\U0001F54A",  
+            "Pisiquico": "\U0001F52E", 
+            "Bicho": "\U0001F41B",     
+            "Roca": "\U0001FAA8",    
+            "Fantasma": "\U0001F47B",   
             "Dragon": "\U0001F409",  
-            "Dark": "\U0001F311",    
-            "Steel": "\u2699",       
-            "Fairy": "\u2728"        
+            "Siniestro": "\U0001F311",    
+            "Acero": "\u2699",       
+            "Hada": "\u2728"        
         }
         gender_display = ", ".join([gender_symbols.get(g, g) for g in pokemon.get("gender", ["Genderless"])])
         types_text = ", ".join([f"{type_symbols.get(t, '')} {t}" for t in pokemon["types"]])
-        legendary_text = "\U0001F48E Legendary" if pokemon.get("isLegendary", False) else "\U0001F4A0 Common"
+        legendary_text = "\U0001F48E Legendario" if pokemon.get("isLegendary", False) else "\U0001F4A0 Común"
         pokemon_text = (
             f"\U0001F4D6 *Pokedex #{pokemon['id']}*\n"
-            f"\U0001F535 *Name:* {pokemon['name']}\n"
-            f"\U0001F300 *Types:* {types_text}\n"
-            f"\U0001F538 *Gender:* {gender_display}\n"
+            f"\U0001F535 *Nombre:* {pokemon['name']}\n"
+            f"\U0001F300 *Tipos:* {types_text}\n"
+            f"\U0001F538 *Generos:* {gender_display}\n"
             f"{legendary_text}"
         )
         msg = bot.send_message(group_id, pokemon_text, message_thread_id=topic_id, parse_mode="Markdown")
         threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()  # Borrar el mensaje después de 30 segundos
     except Exception as e:
-        logger.error(f"Error en /pokedex: {e}")
-        msg = bot.reply_to(message, "\u274C Ocurrió un error al obtener la información del Pokémon.")
-        threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
+        logger.error(f"Error durante /pokedex: {e}")
 
-# Bot command handler for /mytitles
-@bot.message_handler(commands=['mytitles'])
+# Bot command handler for /mistitutlos
+@bot.message_handler(commands=['mistitutlos'])
 def my_titles_handler(message):
     try:
         if not check_active_hours():
@@ -622,12 +618,10 @@ def my_titles_handler(message):
         msg = bot.send_message(group_id, f"\U0001F451 *Tus títulos obtenidos:*\n{titles_list}", parse_mode="Markdown", message_thread_id=topic_id)
         threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
     except Exception as e:
-        logger.error(f"Error en /mytitles: {e}")
-        msg = bot.reply_to(message, "\u274C Ocurrió al intentar obtener los titulos.")
-        threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
+        logger.error(f"Error durante /mistitutlos: {e}")
 
-# Bot command handler for /alltitles
-@bot.message_handler(commands=['alltitles'])
+# Bot command handler for /titulos
+@bot.message_handler(commands=['titulos'])
 def all_titles_handler(message):
     try:
         if not check_active_hours():
@@ -636,12 +630,10 @@ def all_titles_handler(message):
         msg = bot.send_message(group_id, f"\U0001F4D2 *Títulos Disponibles:*\n{titles_list}", parse_mode="Markdown", message_thread_id=topic_id)
         threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()  # Borrar el mensaje después de 30 segundos
     except Exception as e:
-        logger.error(f"Error en /alltitles: {e}")
-        msg = bot.reply_to(message, "\u274C Ocurrió al intentar obtener los títulos.")
-        threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
+        logger.error(f"Error durante /titulos: {e}")
 
-# Bot command handler for /players
-@bot.message_handler(commands=['players'])
+# Bot command handler for /jugadores
+@bot.message_handler(commands=['jugadores'])
 def players_handler(message):
     try:
         if not check_active_hours():
@@ -651,7 +643,7 @@ def players_handler(message):
         msg = bot.send_message(group_id, f"\U0001F465 *Jugadores Activos:*\n{players_list}", parse_mode="Markdown", message_thread_id=topic_id)
         threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()  # Borrar el mensaje después de 30 segundos
     except Exception as e:
-        logger.error(f"Error en /players: {e}")
+        logger.error(f"Error durante /jugadores: {e}")
         msg = bot.reply_to(message, "\u274C Ocurrió un error al obtener la lista de jugadores.")
         threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
 
@@ -673,8 +665,8 @@ class CombatManager:
 combat_manager = CombatManager()
 
 
-# Bot command handler for /startcombat
-@bot.message_handler(commands=['startcombat'])
+# Bot command handler for /combate
+@bot.message_handler(commands=['combate'])
 def start_combat(message):
     try:
         if not check_active_hours():
@@ -690,11 +682,11 @@ def start_combat(message):
             threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
             return
         keyboard = InlineKeyboardMarkup()
-        duel_button = InlineKeyboardButton("Duel", callback_data=f"duel:{username}")
+        duel_button = InlineKeyboardButton("Luchar", callback_data=f"duel:{username}")
         keyboard.add(duel_button)
         msg = bot.send_message(
             group_id,
-            f"\u2694 {escape_markdown(username)} ha iniciado un combate con *{user_pokemon['name']}* Lv.{user_pokemon['level']}!\nPresiona 'Duel' para enfrentarlo!",
+            f"\u2694 ¡{escape_markdown(username)} ha iniciado un combate con *{user_pokemon['name']}* Nv.{user_pokemon['level']}!\n¡Presiona 'Luchar' para enfrentarlo!",
             message_thread_id=topic_id,
             reply_markup=keyboard,
             parse_mode="Markdown"
@@ -704,7 +696,7 @@ def start_combat(message):
         # Temporizador para cancelar el combate en 2 minutos si no es aceptado
         threading.Timer(120, cancel_combat).start()
     except Exception as e:
-        logger.error(f"Error durante startcombat: {e}")
+        logger.error(f"Error durante /combate: {e}")
 
 # Callback query handler for "Duel" button
 @bot.callback_query_handler(func=lambda call: call.data.startswith("duel:"))
@@ -757,11 +749,11 @@ def accept_duel(call):
         userEvents.updateCombatResults(winner, loser, winner_pokemon, new_level)
         # responce msg
         response = (
-            f"\u2694 {challenger} ({challenger_pokemon['name']} Lv.{challenger_pokemon['level']}) vs {opponent} ({opponent_pokemon['name']} Lv.{opponent_pokemon['level']})!\n\n"
-            f"\U0001F3C6 {'¡' + opponent + ' wins!' if result else '¡' + challenger + ' wins!'}\n\n"
+            f"\u2694 {challenger} ({challenger_pokemon['name']} Nv.{challenger_pokemon['level']}) vs {opponent} ({opponent_pokemon['name']} Nv.{opponent_pokemon['level']})!\n\n"
+            f"\U0001F3C6 {'¡' + opponent + ' gana!' if result else '¡' + challenger + ' gana!'}\n\n"
             f"\u274C {loser} pierde a su {loser_pokemon['name']}!\n\n"
-            f"{(f"\U0001F53C {winner}'s {winner_pokemon['name']} ha subido de nivel! Ahora es Lv.{new_level}!") if leveled_up else ''}"
-            f"{(f'\n\n\U0001F3C5 {winner} ha robado a {loser} su {loser_pokemon['name']} antes de que se debilitara!') if steal else ''}"
+            f"{(f"\U0001F53C {winner}'s {winner_pokemon['name']} ha subido de nivel! Ahora es Nv.{new_level}!") if leveled_up else ''}"
+            f"{(f'\n\n\U0001F3C5 {winner} ha robado a {loser} su {loser_pokemon['name']} antes de que se muriera!') if steal else ''}"
         )
         bot.edit_message_text(
             response,
@@ -770,7 +762,7 @@ def accept_duel(call):
         # end the ongoing combat
         combat_manager.end_combat()
     except Exception as e:
-        logger.error(f"Error en duelo: {e}")
+        logger.error(f"Error durante duel: {e}")
 
 # Mock message class for the auto_spawn_event
 class MockMessage:
@@ -787,7 +779,7 @@ def auto_spawn_event():
                 spawn_pokemon_handler(mock_message)  # call spawn_pokemon_handler
             time.sleep(1200)  # wait 10 minutes
         except Exception as e:
-            logger.error(f"Error in auto-spawn: {e}")
+            logger.error(f"Error durante auto-spawn: {e}")
 # start the event in a different thread
 spawn_thread = threading.Thread(target=auto_spawn_event, daemon=True)
 spawn_thread.start()
@@ -804,7 +796,7 @@ def monitor_messages(message):
             username = message.from_user.username or message.from_user.first_name
             userEvents.deleteRandomPokemon(username)
     except Exception as e:
-        logger.error(f"Error monitoring message: {e}")
+        logger.error(f"Error monitoreando mensajes: {e}")
 
 def replace_message(message):
     try:
@@ -827,7 +819,7 @@ def replace_message(message):
             message_thread_id=message.message_thread_id
         )
     except Exception as e:
-        logger.error(f"Error replacing message: {e}")
+        logger.error(f"Error reemplazando mensajes: {e}")
 #----------------------------------------------------------------------------------------------------
 # Initialization of the bot.
 bot.infinity_polling()

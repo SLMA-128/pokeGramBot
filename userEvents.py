@@ -13,7 +13,7 @@ titles = [
     {
         "title": "Primerizo",
         "description": "Has capturado tu primer Pokémon. ¡Bienvenido al juego!",
-        "condition": lambda u: u["total_pokemons"] > 1,
+        "condition": lambda u: u["total_pokemons"] > 0,
         "howto": "Captura tu primer Pokémones."
     },
     {
@@ -25,13 +25,13 @@ titles = [
     {
         "title": "Entrenador Experimentado",
         "description": "Has capturado más de 50 Pokémon. ¡Sigue creciendo!",
-        "condition": lambda u: u["total_pokemons"] > 50,
+        "condition": lambda u: u["total_pokemons"] >= 50,
         "howto": "Captura 50 Pokémones."
     },
     {
         "title": "Maestro Pokémon",
         "description": "Has capturado más de 100 Pokémon. ¡Tampoco te abuses!",
-        "condition": lambda u: u["total_pokemons"] > 100,
+        "condition": lambda u: u["total_pokemons"] >= 100,
         "howto": "Captura 100 Pokémones."
     },
     {
@@ -43,19 +43,19 @@ titles = [
     {
         "title": "Duelista",
         "description": "Has ganado al menos 10 duelos contra otros entrenadores. ¡Como te encanta el bardo!",
-        "condition": lambda u: sum(entry["count"] for entry in u.get("victories", [])) > 10,
+        "condition": lambda u: sum(entry["count"] for entry in u.get("victories", [])) >= 10,
         "howto": "Gana 10 duelos."
     },
     {
         "title": "Leyenda de los Combates",
         "description": "Has ganado más de 50 duelos. ¡La violencia es una pregunta y la respuesta es si!",
-        "condition": lambda u: sum(entry["count"] for entry in u.get("victories", [])) > 50,
+        "condition": lambda u: sum(entry["count"] for entry in u.get("victories", [])) >= 50,
         "howto": "Gana 50 duelos."
     },
     {
         "title": "Coleccionista",
         "description": "Capturaste al menos 50 especies diferentes de Pokémon. ¡Vas bastante bien!",
-        "condition": lambda u: len(u["pokemonsOwned"]) > 50,
+        "condition": lambda u: len(u["pokemonsOwned"]) >= 50,
         "howto": "Ten al menos 50 especies diferentes de Pokémon."
     },
     {
@@ -91,19 +91,19 @@ titles = [
     {
         "title": "Metalero",
         "description": "Capturaste al menos 5 Pokémon de tipo Acero. ¡Pegale con el fierro!",
-        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Steel" in p["types"]) >= 5,
+        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Acero" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Acero."
     },
     {
         "title": "Piromano",
         "description": "Capturaste al menos 5 Pokémon de tipo Fuego. ¡A cocinar esos Pokémones!",
-        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Fire" in p["types"]) >= 5,
+        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Fuego" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Fuego."
     },
     {
         "title": "Hidrofilico",
         "description": "Capturaste al menos 5 Pokémon de tipo Agua. ¡Glu glu glu!",
-        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Water" in p["types"]) >= 5,
+        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Agua" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Agua."
     },
     {
@@ -115,79 +115,79 @@ titles = [
     {
         "title": "Vegano",
         "description": "Capturaste al menos 5 Pokémon de tipo Planta. ¡Metele hasta la raíz!",
-        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Grass" in p["types"]) >= 5,
+        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Planta" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Planta."
     },
     {
         "title": "Edgy",
         "description": "Capturaste al menos 5 Pokémon de tipo Siniestro. ¡Sigue cultivando esa aura!",
-        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Dark" in p["types"]) >= 5,
+        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Siniestro" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Siniestro."
     },
     {
-        "title": "Electricista",
+        "title": "Electricoista",
         "description": "Capturaste al menos 5 Pokémon de tipo Eléctrico. ¡Tira esos Pokémones a la bañera!",
-        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Electric" in p["types"]) >= 5,
+        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Electrico" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Eléctrico."
     },
     {
         "title": "Kamikaze",
         "description": "Capturaste al menos 5 Pokémon de tipo Volador. ¡Contra las torres!",
-        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Flying" in p["types"]) >= 5,
+        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Volador" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Volador."
     },
     {
-        "title": "Hard Rock",
+        "title": "Hard Roca",
         "description": "Capturaste al menos 5 Pokémon de tipo Roca. ¡Ya te gustaria tenerla así!",
-        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Rock" in p["types"]) >= 5,
+        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Roca" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Roca."
     },
     {
         "title": "Sucio",
         "description": "Capturaste al menos 5 Pokémon de tipo Tierra. ¡Te encanta que te den en el barro!",
-        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Ground" in p["types"]) >= 5,
+        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Tierra" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Tierra."
     },
     {
         "title": "Hechicero",
         "description": "Capturaste al menos 5 Pokémon de tipo Psíquico. ¡No te inmutas!",
-        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Psychic" in p["types"]) >= 5,
+        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Pisiquico" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Psíquico."
     },
     {
         "title": "Cazador de Hadas",
         "description": "Capturaste al menos 5 Pokémon de tipo Hada. ¡No cuentan como padrinos-magicos!",
-        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Fairy" in p["types"]) >= 5,
+        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Hada" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Hada."
     },
     {
         "title": "Ghostbuster",
         "description": "Capturaste al menos 5 Pokémon de tipo Fantasma. ¡Haz plata con esos fantasmas!",
-        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Ghost" in p["types"]) >= 5,
+        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Fantasma" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Fantasma."
     },
     {
         "title": "Maltratador",
         "description": "Capturaste al menos 5 Pokémon de tipo Lucha. ¡Hazlos luchar por las buenas o por las malas!",
-        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Fighting" in p["types"]) >= 5,
+        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Lucha" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Lucha."
     },
     {
         "title": "Toxico",
         "description": "Capturaste al menos 5 Pokémon de tipo Veneno. ¡Esto dice mucho de ti!",
-        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Poison" in p["types"]) >= 5,
+        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Veneno" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Veneno."
     },
     {
         "title": "Blue Balls",
         "description": "Capturaste al menos 5 Pokémon de tipo Hielo. ¡Siempre los dejas frios!",
-        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Ice" in p["types"]) >= 5,
+        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Hielo" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Hielo."
     },
     {
         "title": "Bichero",
         "description": "Capturaste al menos 5 Pokémon de tipo Bicho. ¡Cada quien tiene sus gustos!",
-        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Bug" in p["types"]) >= 5,
+        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Bicho" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Bicho."
     }
 ]
@@ -218,7 +218,7 @@ def registerUser(username):
         collection.insert_one(new_user)
         client.close()
     except Exception as e:
-        logger.error(f"Error registering user: {str(e)}")
+        logger.error(f"Error al registrar usuario: {str(e)}")
 
 #Check if the user exists in the database
 def checkUserisRegistered(username):
@@ -231,7 +231,7 @@ def checkUserisRegistered(username):
         client.close()
         return user is not None
     except Exception as e:
-        logger.error(f"Error checking user: {str(e)}")
+        logger.error(f"Error comprobando al usuario: {str(e)}")
         return False
 
 #Get user from database by username
@@ -245,7 +245,7 @@ def getUserByName(username):
         client.close()
         return user
     except Exception as e:
-        logger.error(f"Error getting user: {str(e)}")
+        logger.error(f"Error obteniendo el usuario: {str(e)}")
         return None
 
 # Get all usernames from the database
@@ -260,7 +260,7 @@ def getAllUsers():
         client.close()
         return usernames
     except Exception as e:
-        logger.error(f"Error getting all users: {str(e)}")
+        logger.error(f"Error obteniendo los usuarios: {str(e)}")
         return []
 
 #Get the list of pokemons captured by a user using its username
@@ -274,7 +274,7 @@ def getListOfPokemonCapturedByName(username):
         client.close()
         return user["pokemonsOwned"] if user else None
     except Exception as e:
-        logger.error(f"Error getting user: {str(e)}")
+        logger.error(f"Error obteniendo los pokemones del usuario: {str(e)}")
         return None
 
 #Add a new captured pokemon to a user
@@ -324,7 +324,7 @@ def addPokemonCaptured(pokemon, username):
         add_titles_to_user(username)
         client.close()
     except Exception as e:
-        logger.error(f"Error adding pokemon: {str(e)}")
+        logger.error(f"Error agregando pokemon: {str(e)}")
 
 #Get a random pokemon captured from a user using their username
 def getRandomPokemonCaptured(username):
@@ -339,7 +339,7 @@ def getRandomPokemonCaptured(username):
         client.close()
         return None
     except Exception as e:
-        logger.error(f"Error getting user: {str(e)}")
+        logger.error(f"Error obteniendo pokemon: {str(e)}")
         return None
 
 #Get a pokemon captured from a user using their username and id
@@ -355,7 +355,7 @@ def getPokemonCapturedById(username, pokemonId):
             return pkm["pokemonsOwned"][0]
         return None
     except Exception as e:
-        logger.error(f"Error getting user: {str(e)}")
+        logger.error(f"Error obteniendo pokemon: {str(e)}")
         return None
 
 # Reduce the capture counter of a Pokémon by the loser, considering if it was shiny or not.
@@ -388,7 +388,7 @@ def reducePokemonCaptured(loser, loser_pokemon):
         )
         client.close()
     except Exception as e:
-        logger.error(f"Error reducing Pokémon count: {str(e)}")
+        logger.error(f"Error durante la reduccion de pokemon: {str(e)}")
 
 #Reduce the capture counter of a pokemon by the loser, considering if it was shiny or not. 
 def deleteRandomPokemon(username):
@@ -421,7 +421,7 @@ def deleteRandomPokemon(username):
         client.close()
         return True
     except Exception as e:
-        logger.error(f"Error reducing pokemon count: {str(e)}")
+        logger.error(f"Error eliminando pokemon: {str(e)}")
         return False
 
 # combat results incresing victories for the winner and defeats for the loser
@@ -454,7 +454,7 @@ def updateCombatResults(winner, loser, winner_pokemon, new_level):
         add_titles_to_user(loser)
         client.close()
     except Exception as e:
-        logger.error(f"Error updating combat results: {str(e)}")
+        logger.error(f"Error actualizando datos del combate: {str(e)}")
 
 # Add titles to the user
 def add_titles_to_user(username):
@@ -479,4 +479,4 @@ def add_titles_to_user(username):
             )
         client.close()
     except Exception as e:
-        logger.error(f"Error otorgando títulos: {str(e)}")
+        logger.error(f"Error otorgando titulos: {str(e)}")
