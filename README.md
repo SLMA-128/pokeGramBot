@@ -1,37 +1,43 @@
 # PokeGramBot
-# Telegram Bot - Pokémon Capture Game
+# Telegram Bot - Juego de Captura de Pokémon
 
-This is a Telegram bot that allows users to capture, view, and interact with virtual Pokémon. The bot provides various commands to interact with the game, including capturing random Pokémon, viewing your collection, and more.
+Este es un bot de Telegram que permite a los usuarios capturar, ver e interactuar con Pokémones virtuales. El bot tiene varios comandos para interactuar con el juego, incluyendo capturar Pokémones aleatorios, ver tu colección, una pokedex, y más.
 
-## Features
+## Características
 
-- **/capturedpokemons**: Show your captured Pokémon along with their details.
-- **/chance**: Show your chances of capturing Pokémon.
-- **/chooseyou**: Summon a random Pokémon from your collection.
-- **/help**: Get a list of available commands.
-- **/mycollection**: Show the number of different Pokémon types you've captured.
-- **/mypokemons**: Show the number of Pokémon you have captured (normal and shiny).
-- **/profile**: Shows the profile of the user.
-- **/register**: Register your username to start using the bot.
-- **/spawn**: Spawn a random Pokémon. Each user can spawn once per minute.
-- **/start**: The bot and greets the user.
-- **/startcombat**: Start a combat with a random Pokemon. Whoever loses loses a pokemon. There is a chance that the winner keeps the loser's pokemon
+- **/ayuda**: Muestra la lista de comandos.
+- **/captura**: Muestra la probabilidad de captura de los Pokémones..
+- **/capturados**: Te muestra por privado una lista detallada de tus Pokémones.
+- **/combate**: Inicia un combate con un Pokémon aleatorio tuyo. El perdedor pierde su Pokémon. Hay una chance de que el ganador se quede con el pokémon del perdedor.
+- **/iniciar**: El bot saludará.
+- **/jugadores**: Muestra una lista con todos los jugadores del grupo.
+- **/micoleccion**: Muestra cuantos pokemones vas atrapando.
+- **/mispokemones**: Muestra cuantos pokemones tienes en total.
+- **/mistitutlos**: Muestra tus títulos con sus descripciones.
+- **/perfil**: Muestra tu perfil o el de algún otro jugador.
+- **/pokedex**: Muestra los datos de Pokémon a partir de su ID o Nombre.
+- **/registrar**: Registra tu nombre de usuario.
+- **/spawn**: Spawnea un Pokémon aleatorio.
+- **/teelijo**: Invoca uno de tus Pokémones de forma aleatoria.
+- **/titulos**: Muestra un listado de todos los títulos y cómo conseguirlos.
+- **/yoteelijo**: Invoca un Pokémon a partir de su ID o Nombre.
 
-Aside of those, the bot functions only between 10 AM and 23 PM (GMT-3). It also sends automatically a spawn command every 10 minutes.
+Además de eso, el bot solamente funciona entre las 10:00 AM y las 22:59 PM (GMT-3). También manda un spawn automático cada 10 minutos.
 
-## Important
-The bot contains some functions that should be deleted by the user in case they dont want it. Such as th function to replace '(?' with mean messages. And a function to delete a random Pokemon if using '( ?'
+## Importante
+El bot tiene algunas funciones que el usuario que desee usarlo debería eliminar en caso de que no las quiera. Como la función de reemplazar '(?' con un mensaje inapropiado. También hay una función que elimina un pokémon aleatorio de un usuario que escriba '( ?'.
 
-## Requirements
+Se espera que el usuario que desee utilizar el bot tenga conocimientos de programación suficientes para poder implementarlo en su propio grupo.
+## Requisitos
 
 - Python 3.8+
-- `python-telegram-bot` library
-- `pytz` for timezone handling (optional, if using time-based features)
-- MongoDB for storing user and Pokémon data
+- `python-telegram-bot` libreria
+- `pytz` para el manejo de timezone
+- MongoDB para el almacenamiento de las bases de datos
 
-### Install the dependencies
+### Instalación de dependencias
 
-To install the necessary libraries, run the following command:
+Para instalar las librerias necesarias, ejecute el siguiente comando:
 
 ```bash
 pip install -r requirements.txt
