@@ -125,7 +125,7 @@ def get_user_data(user_data):
         f"\U0001F4DC *Perfil de {user_data['name']}*\n"
         f"\U0001F4E6 Pokémones Capturados: {user_data.get('total_pokemons', 0)}\n"
         f"\U0001F31F Shiny Capturados: {user_data.get('total_shiny', 0)}\n"
-        f"\U0001F3AF Winrate: {escape_markdown(winrate)}%\n"
+        f"\U0001F3AF Winrate: {escape_markdown(str(winrate))}%\n"
         f"\U0001F3C6 Total de Victorias: {total_victories}\n{escape_markdown(victories_text)}"
         f"\U0001F947 Más Victorias contra: {most_victories}\n"
         f"\U0001F480 Total Derrotas: {total_defeats}\n{escape_markdown(defeats_text)}"
@@ -423,7 +423,7 @@ def get_pokemons_collection_by_user(message):
                     legendary_counts[pokemon["name"]] = pokemon["id"]
                 if pokemon["name"] not in shiny_counts and pokemon["isShiny"] == True:
                     shiny_counts[pokemon["name"]] = pokemon["id"]
-            response = f"\U0001F3C6 Coleccipon de Pokémones: {total_pokemons}/151\n\U0001F31F Shiny: {len(shiny_counts)}/151\n\U0001F48E Legendarios: {len(legendary_counts)}/5\n"
+            response = f"\U0001F3C6 Colección de Pokémones: {total_pokemons}/151\n\U0001F31F Shiny: {len(shiny_counts)}/151\n\U0001F48E Legendarios: {len(legendary_counts)}/5\n"
             msg = bot.reply_to(message, response)
             threading.Timer(30, lambda: bot.delete_message(chat_id=group_id, message_id=msg.message_id)).start()
         else:
