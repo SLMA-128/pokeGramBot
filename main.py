@@ -530,7 +530,7 @@ def profile(message):
             return
         user_data = userEvents.getUserByName(username)
         profile_text = get_user_data(user_data)
-        msg = bot.reply_to(message, profile_text, parse_mode="MarkdownV2")
+        msg = bot.reply_to(message, profile_text, parse_mode="Markdown")
         threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
     except Exception as e:
         logger.error(f"Error durante /perfil: {e}")
