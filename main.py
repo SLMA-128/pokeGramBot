@@ -122,15 +122,15 @@ def get_user_data(user_data):
         titles_text = "Aun no tienes títulos.\n"
     # Mensaje de respuesta
     profile_text = (
-        f"\U0001F4DC *Perfil de {escape_markdown(user_data['name'])}*\n"
-        f"\U0001F4E6 Pokémones Capturados: {str(user_data.get('total_pokemons', 0))}\n"
-        f"\U0001F31F Shiny Capturados: {str(user_data.get('total_shiny', 0))}\n"
-        f"\U0001F3AF Winrate: {str(winrate)}%\n"
-        f"\U0001F3C6 Total de Victorias: {str(total_victories)}\n{escape_markdown(victories_text)}"
-        f"\U0001F947 Más Victorias contra: {str(most_victories)}\n"
-        f"\U0001F480 Total Derrotas: {str(total_defeats)}\n{escape_markdown(defeats_text)}"
-        f"\U0001F635 Más Derrotas contra: {str(most_defeats)}\n"
-        f"\U0001F4D6 Titulos:\n{str(titles_text)}"
+        f"\U0001F4DC *Perfil de {user_data['name']}*\n"
+        f"\U0001F4E6 Pokémones Capturados: {user_data.get('total_pokemons', 0)}\n"
+        f"\U0001F31F Shiny Capturados: {user_data.get('total_shiny', 0)}\n"
+        f"\U0001F3AF Winrate: {winrate}%\n"
+        f"\U0001F3C6 Total de Victorias: {total_victories}\n{victories_text}"
+        f"\U0001F947 Más Victorias contra: {most_victories}\n"
+        f"\U0001F480 Total Derrotas: {total_defeats}\n{defeats_text}"
+        f"\U0001F635 Más Derrotas contra: {most_defeats}\n"
+        f"\U0001F4D6 Titulos:\n{titles_text}"
     )
     return profile_text
 
@@ -527,15 +527,12 @@ def profile(message):
             username = message.from_user.username
         else:
             username = args[1].strip()
-        print(username)
         if checkUserExistence(username):
             return
-        print('existe')
         user_data = userEvents.getUserByName(username)
-        print(user_data)
         profile_text = get_user_data(user_data)
         print(profile_text)
-        msg = bot.reply_to(message, profile_text, parse_mode="Markdown")
+        msg = bot.reply_to(message, profile_text, parse_mode="MarkdownV2")
         threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
     except Exception as e:
         logger.error(f"Error durante /perfil: {e}")
@@ -577,7 +574,7 @@ def pokedex(message):
             "Veneno": "\u2620",      
             "Tierra": "\U0001F30E",  
             "Volador": "\U0001F54A",  
-            "Pisiquico": "\U0001F52E", 
+            "Psiquico": "\U0001F52E", 
             "Bicho": "\U0001F41B",     
             "Roca": "\U0001FAA8",    
             "Fantasma": "\U0001F47B",   

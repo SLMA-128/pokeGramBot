@@ -5,7 +5,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["1.webp"],
-        "types": ["Grass", "Poison"]
+        "types": ["Planta", "Veneno"]
     },
     {
         "id": 2,
@@ -13,7 +13,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["2.webp"],
-        "types": ["Grass", "Poison"]
+        "types": ["Planta", "Veneno"]
     },
     {
         "id": 3,
@@ -21,7 +21,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["3.webp"],
-        "types": ["Grass", "Poison"]
+        "types": ["Planta", "Veneno"]
     },
     {
         "id": 4,
@@ -29,7 +29,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["4.webp"],
-        "types": ["Fire"]
+        "types": ["Fuego"]
     },
     {
         "id": 5,
@@ -37,7 +37,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["5.webp"],
-        "types": ["Fire"]
+        "types": ["Fuego"]
     },
     {
         "id": 6,
@@ -45,7 +45,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["6.webp"],
-        "types": ["Fire", "Flying"]
+        "types": ["Fuego", "Volador"]
     },
     {
         "id": 7,
@@ -53,7 +53,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["7.webp"],
-        "types": ["Water"]
+        "types": ["Agua"]
     },
     {
         "id": 8,
@@ -61,7 +61,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["8.webp"],
-        "types": ["Water"]
+        "types": ["Agua"]
     },
     {
         "id": 9,
@@ -69,7 +69,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["9.webp"],
-        "types": ["Water"]
+        "types": ["Agua"]
     },
     {
         "id": 10,
@@ -77,7 +77,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["10.webp"],
-        "types": ["Bug"]
+        "types": ["Bicho"]
     },
     {
         "id": 11,
@@ -85,7 +85,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["11.webp"],
-        "types": ["Bug"]
+        "types": ["Bicho"]
     },
     {
         "id": 12,
@@ -93,7 +93,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["12.webp"],
-        "types": ["Bug", "Flying"]
+        "types": ["Bicho", "Volador"]
     },
     {
         "id": 13,
@@ -101,7 +101,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["13.webp"],
-        "types": ["Bug", "Poison"]
+        "types": ["Bicho", "Veneno"]
     },
     {
         "id": 14,
@@ -109,7 +109,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["14.webp"],
-        "types": ["Bug", "Poison"]
+        "types": ["Bicho", "Veneno"]
     },
     {
         "id": 15,
@@ -117,7 +117,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["15.webp"],
-        "types": ["Bug", "Poison"]
+        "types": ["Bicho", "Veneno"]
     },
     {
         "id": 16,
@@ -125,7 +125,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["16.webp"],
-        "types": ["Normal", "Flying"]
+        "types": ["Normal", "Volador"]
     },
     {
         "id": 17,
@@ -133,7 +133,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["17.webp"],
-        "types": ["Normal", "Flying"]
+        "types": ["Normal", "Volador"]
     },
     {
         "id": 18,
@@ -141,7 +141,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["18.webp"],
-        "types": ["Normal", "Flying"]
+        "types": ["Normal", "Volador"]
     },
     {
         "id": 19,
@@ -165,7 +165,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["21.webp"],
-        "types": ["Normal", "Flying"]
+        "types": ["Normal", "Volador"]
     },
     {
         "id": 22,
@@ -173,7 +173,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["22.webp"],
-        "types": ["Normal", "Flying"]
+        "types": ["Normal", "Volador"]
     },
     {
         "id": 23,
@@ -181,7 +181,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["23.webp"],
-        "types": ["Poison"]
+        "types": ["Veneno"]
     },
     {
         "id": 24,
@@ -189,7 +189,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["24.webp"],
-        "types": ["Poison"]
+        "types": ["Veneno"]
     },
     {
         "id": 25,
@@ -197,7 +197,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["25.webp"],
-        "types": ["Electric"]
+        "types": ["Electrico"]
     },
     {
         "id": 26,
@@ -205,7 +205,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["26.webp"],
-        "types": ["Electric"]
+        "types": ["Electrico"]
     },
     {
         "id": 27,
@@ -213,7 +213,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["27.webp"],
-        "types": ["Ground"]
+        "types": ["Tierra"]
     },
     {
         "id": 28,
@@ -221,7 +221,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["28.webp"],
-        "types": ["Ground"]
+        "types": ["Tierra"]
     },
     {
         "id": 29,
@@ -229,7 +229,7 @@
         "isLegendary": false,
         "gender": ["Female"],
         "image": ["29.webp"],
-        "types": ["Poison"]
+        "types": ["Veneno"]
     },
     {
         "id": 30,
@@ -237,7 +237,7 @@
         "isLegendary": false,
         "gender": ["Female"],
         "image": ["30.webp"],
-        "types": ["Poison"]
+        "types": ["Veneno"]
     },
     {
         "id": 31,
@@ -245,7 +245,7 @@
         "isLegendary": false,
         "gender": ["Female"],
         "image": ["31.webp"],
-        "types": ["Poison", "Ground"]
+        "types": ["Veneno", "Tierra"]
     },
     {
         "id": 32,
@@ -253,7 +253,7 @@
         "isLegendary": false,
         "gender": ["Male"],
         "image": ["32.webp"],
-        "types": ["Poison"]
+        "types": ["Veneno"]
     },
     {
         "id": 33,
@@ -261,7 +261,7 @@
         "isLegendary": false,
         "gender": ["Male"],
         "image": ["33.webp"],
-        "types": ["Poison"]
+        "types": ["Veneno"]
     },
     {
         "id": 34,
@@ -269,7 +269,7 @@
         "isLegendary": false,
         "gender": ["Male"],
         "image": ["34.webp"],
-        "types": ["Poison", "Ground"]
+        "types": ["Veneno", "Tierra"]
     },
     {
         "id": 35,
@@ -277,7 +277,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["35.webp"],
-        "types": ["Fairy"]
+        "types": ["Hada"]
     },
     {
         "id": 36,
@@ -285,7 +285,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["36.webp"],
-        "types": ["Fairy"]
+        "types": ["Hada"]
     },
     {
         "id": 37,
@@ -293,7 +293,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["37.webp"],
-        "types": ["Fire"]
+        "types": ["Fuego"]
     },
     {
         "id": 38,
@@ -301,7 +301,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["38.webp"],
-        "types": ["Fire"]
+        "types": ["Fuego"]
     },
     {
         "id": 39,
@@ -309,7 +309,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["39.webp"],
-        "types": ["Normal", "Fairy"]
+        "types": ["Normal", "Hada"]
     },
     {
         "id": 40,
@@ -317,7 +317,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["40.webp"],
-        "types": ["Normal", "Fairy"]
+        "types": ["Normal", "Hada"]
     },
     {
         "id": 41,
@@ -325,7 +325,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["41.webp"],
-        "types": ["Poison", "Flying"]
+        "types": ["Veneno", "Volador"]
     },
     {
         "id": 42,
@@ -333,7 +333,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["42.webp"],
-        "types": ["Poison", "Flying"]
+        "types": ["Veneno", "Volador"]
     },
     {
         "id": 43,
@@ -341,7 +341,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["43.webp"],
-        "types": ["Grass", "Poison"]
+        "types": ["Planta", "Veneno"]
     },
     {
         "id": 44,
@@ -349,7 +349,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["44.webp"],
-        "types": ["Grass", "Poison"]
+        "types": ["Planta", "Veneno"]
     },
     {
         "id": 45,
@@ -357,7 +357,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["45.webp"],
-        "types": ["Grass", "Poison"]
+        "types": ["Planta", "Veneno"]
     },
     {
         "id": 46,
@@ -365,7 +365,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["46.webp"],
-        "types": ["Bug", "Grass"]
+        "types": ["Bicho", "Planta"]
     },
     {
         "id": 47,
@@ -373,7 +373,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["47.webp"],
-        "types": ["Bug", "Grass"]
+        "types": ["Bicho", "Planta"]
     },
     {
         "id": 48,
@@ -381,7 +381,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["48.webp"],
-        "types": ["Bug", "Poison"]
+        "types": ["Bicho", "Veneno"]
     },
     {
         "id": 49,
@@ -389,7 +389,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["49.webp"],
-        "types": ["Bug", "Poison"]
+        "types": ["Bicho", "Veneno"]
     },
     {
         "id": 50,
@@ -397,7 +397,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["50.webp"],
-        "types": ["Ground"]
+        "types": ["Tierra"]
     },
     {
         "id": 51,
@@ -405,7 +405,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["51.webp"],
-        "types": ["Ground"]
+        "types": ["Tierra"]
     },
     {
         "id": 52,
@@ -429,7 +429,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["54.webp"],
-        "types": ["Water"]
+        "types": ["Agua"]
     },
     {
         "id": 55,
@@ -437,7 +437,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["55.webp"],
-        "types": ["Water"]
+        "types": ["Agua"]
     },
     {
         "id": 56,
@@ -445,7 +445,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["56.webp"],
-        "types": ["Fighting"]
+        "types": ["Lucha"]
     },
     {
         "id": 57,
@@ -453,7 +453,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["57.webp"],
-        "types": ["Fighting"]
+        "types": ["Lucha"]
     },
     {
         "id": 58,
@@ -461,7 +461,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["58.webp"],
-        "types": ["Fire"]
+        "types": ["Fuego"]
     },
     {
         "id": 59,
@@ -469,7 +469,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["59.webp"],
-        "types": ["Fire"]
+        "types": ["Fuego"]
     },
     {
         "id": 60,
@@ -477,7 +477,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["60.webp"],
-        "types": ["Water"]
+        "types": ["Agua"]
     },
     {
         "id": 61,
@@ -485,7 +485,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["61.webp"],
-        "types": ["Water", "Fighting"]
+        "types": ["Agua", "Lucha"]
     },
     {
         "id": 62,
@@ -493,7 +493,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["62.webp"],
-        "types": ["Water", "Fighting"]
+        "types": ["Agua", "Lucha"]
     },
     {
         "id": 63,
@@ -501,7 +501,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["63.webp"],
-        "types": ["Psychic"]
+        "types": ["Psiquico"]
     },
     {
         "id": 64,
@@ -509,7 +509,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["64.webp"],
-        "types": ["Psychic"]
+        "types": ["Psiquico"]
     },
     {
         "id": 65,
@@ -517,7 +517,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["65.webp"],
-        "types": ["Psychic"]
+        "types": ["Psiquico"]
     },
     {
         "id": 66,
@@ -525,7 +525,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["66.webp"],
-        "types": ["Fighting"]
+        "types": ["Lucha"]
     },
     {
         "id": 67,
@@ -533,7 +533,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["67.webp"],
-        "types": ["Fighting"]
+        "types": ["Lucha"]
     },
     {
         "id": 68,
@@ -541,7 +541,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["68.webp"],
-        "types": ["Fighting"]
+        "types": ["Lucha"]
     },
     {
         "id": 69,
@@ -549,7 +549,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["69.webp"],
-        "types": ["Grass", "Poison"]
+        "types": ["Planta", "Veneno"]
     },
     {
         "id": 70,
@@ -557,7 +557,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["70.webp"],
-        "types": ["Grass", "Poison"]
+        "types": ["Planta", "Veneno"]
     },
     {
         "id": 71,
@@ -565,7 +565,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["71.webp"],
-        "types": ["Grass", "Poison"]
+        "types": ["Planta", "Veneno"]
     },
     {
         "id": 72,
@@ -573,7 +573,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["72.webp"],
-        "types": ["Water", "Poison"]
+        "types": ["Agua", "Veneno"]
     },
     {
         "id": 73,
@@ -581,7 +581,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["73.webp"],
-        "types": ["Water", "Poison"]
+        "types": ["Agua", "Veneno"]
     },
     {
         "id": 74,
@@ -589,7 +589,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["74.webp"],
-        "types": ["Rock", "Ground"]
+        "types": ["Roca", "Tierra"]
     },
     {
         "id": 75,
@@ -597,7 +597,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["75.webp"],
-        "types": ["Rock", "Ground"]
+        "types": ["Roca", "Tierra"]
     },
     {
         "id": 76,
@@ -605,7 +605,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["76.webp"],
-        "types": ["Rock", "Ground"]
+        "types": ["Roca", "Tierra"]
     },
     {
         "id": 77,
@@ -613,7 +613,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["77.webp"],
-        "types": ["Fire"]
+        "types": ["Fuego"]
     },
     {
         "id": 78,
@@ -621,7 +621,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["78.webp"],
-        "types": ["Fire"]
+        "types": ["Fuego"]
     },
     {
         "id": 79,
@@ -629,7 +629,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["79.webp"],
-        "types": ["Water", "Psychic"]
+        "types": ["Agua", "Psiquico"]
     },
     {
         "id": 80,
@@ -637,7 +637,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["80.webp"],
-        "types": ["Water", "Psychic"]
+        "types": ["Agua", "Psiquico"]
     },
     {
         "id": 81,
@@ -645,7 +645,7 @@
         "isLegendary": false,
         "gender": ["Genderless"],
         "image": ["81.webp"],
-        "types": ["Electric", "Steel"]
+        "types": ["Electrico", "Acero"]
     },
     {
         "id": 82,
@@ -653,7 +653,7 @@
         "isLegendary": false,
         "gender": ["Genderless"],
         "image": ["82.webp"],
-        "types": ["Electric", "Steel"]
+        "types": ["Electrico", "Acero"]
     },
     {
         "id": 83,
@@ -661,7 +661,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["83.webp"],
-        "types": ["Normal", "Flying"]
+        "types": ["Normal", "Volador"]
     },
     {
         "id": 84,
@@ -669,7 +669,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["84.webp"],
-        "types": ["Flying", "Normal"]
+        "types": ["Volador", "Normal"]
     },
     {
         "id": 85,
@@ -677,7 +677,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["85.webp"],
-        "types": ["Flying", "Ghost"]
+        "types": ["Volador", "Fantasma"]
     },
     {
         "id": 86,
@@ -685,7 +685,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["86.webp"],
-        "types": ["Water"]
+        "types": ["Agua"]
     },
     {
         "id": 87,
@@ -693,7 +693,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["87.webp"],
-        "types": ["Water", "Ice"]
+        "types": ["Agua", "Hielo"]
     },
     {
         "id": 88,
@@ -701,7 +701,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["88.webp"],
-        "types": ["Poison"]
+        "types": ["Veneno"]
     },
     {
         "id": 89,
@@ -709,7 +709,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["89.webp"],
-        "types": ["Poison"]
+        "types": ["Veneno"]
     },
     {
         "id": 90,
@@ -717,7 +717,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["90.webp"],
-        "types": ["Water"]
+        "types": ["Agua"]
     },
     {
         "id": 91,
@@ -725,7 +725,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["91.webp"],
-        "types": ["Water", "Ice"]
+        "types": ["Agua", "Hielo"]
     },
     {
         "id": 92,
@@ -733,7 +733,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["92.webp"],
-        "types": ["Ghost", "Poison"]
+        "types": ["Fantasma", "Veneno"]
     },
     {
         "id": 93,
@@ -741,7 +741,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["93.webp"],
-        "types": ["Ghost", "Poison"]
+        "types": ["Fantasma", "Veneno"]
     },
     {
         "id": 94,
@@ -749,7 +749,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["94.webp"],
-        "types": ["Ghost", "Poison"]
+        "types": ["Fantasma", "Veneno"]
     },
     {
         "id": 95,
@@ -757,7 +757,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["95.webp"],
-        "types": ["Rock", "Ground"]
+        "types": ["Roca", "Tierra"]
     },
     {
         "id": 96,
@@ -765,7 +765,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["96.webp"],
-        "types": ["Psychic"]
+        "types": ["Psiquico"]
     },
     {
         "id": 97,
@@ -773,7 +773,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["97.webp"],
-        "types": ["Psychic"]
+        "types": ["Psiquico"]
     },
     {
         "id": 98,
@@ -781,7 +781,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["98.webp"],
-        "types": ["Water"]
+        "types": ["Agua"]
     },
     {
         "id": 99,
@@ -789,7 +789,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["99.webp"],
-        "types": ["Water"]
+        "types": ["Agua"]
     },
     {
         "id": 100,
@@ -797,7 +797,7 @@
         "isLegendary": false,
         "gender": ["Genderless"],
         "image": ["100.webp"],
-        "types": ["Electric"]
+        "types": ["Electrico"]
     },
     {
         "id": 101,
@@ -805,7 +805,7 @@
         "isLegendary": false,
         "gender": ["Genderless"],
         "image": ["101.webp"],
-        "types": ["Electric"]
+        "types": ["Electrico"]
     },
     {
         "id": 102,
@@ -813,7 +813,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["102.webp"],
-        "types": ["Normal", "Psychic"]
+        "types": ["Normal", "Psiquico"]
     },
     {
         "id": 103,
@@ -821,7 +821,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["103.webp"],
-        "types": ["Normal", "Psychic"]
+        "types": ["Normal", "Psiquico"]
     },
     {
         "id": 104,
@@ -829,7 +829,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["104.webp"],
-        "types": ["Ground"]
+        "types": ["Tierra"]
     },
     {
         "id": 105,
@@ -837,7 +837,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["105.webp"],
-        "types": ["Ground"]
+        "types": ["Tierra"]
     },
     {
         "id": 106,
@@ -845,7 +845,7 @@
         "isLegendary": false,
         "gender": ["Male"],
         "image": ["106.webp"],
-        "types": ["Fighting"]
+        "types": ["Lucha"]
     },
     {
         "id": 107,
@@ -853,7 +853,7 @@
         "isLegendary": false,
         "gender": ["Male"],
         "image": ["107.webp"],
-        "types": ["Fighting"]
+        "types": ["Lucha"]
     },
     {
         "id": 108,
@@ -869,7 +869,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["109.webp"],
-        "types": ["Poison"]
+        "types": ["Veneno"]
     },
     {
         "id": 110,
@@ -877,7 +877,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["110.webp"],
-        "types": ["Poison"]
+        "types": ["Veneno"]
     },
     {
         "id": 111,
@@ -885,7 +885,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["111.webp"],
-        "types": ["Rock", "Ground"]
+        "types": ["Roca", "Tierra"]
     },
     {
         "id": 112,
@@ -893,7 +893,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["112.webp"],
-        "types": ["Rock", "Ground"]
+        "types": ["Roca", "Tierra"]
     },
     {
         "id": 113,
@@ -909,7 +909,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["114.webp"],
-        "types": ["Grass"]
+        "types": ["Planta"]
     },
     {
         "id": 115,
@@ -925,7 +925,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["116.webp"],
-        "types": ["Water"]
+        "types": ["Agua"]
     },
     {
         "id": 117,
@@ -933,7 +933,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["117.webp"],
-        "types": ["Water"]
+        "types": ["Agua"]
     },
     {
         "id": 118,
@@ -941,7 +941,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["118.webp"],
-        "types": ["Water"]
+        "types": ["Agua"]
     },
     {
         "id": 119,
@@ -949,7 +949,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["119.webp"],
-        "types": ["Water"]
+        "types": ["Agua"]
     },
     {
         "id": 120,
@@ -957,7 +957,7 @@
         "isLegendary": false,
         "gender": ["Genderless"],
         "image": ["120.webp"],
-        "types": ["Water"]
+        "types": ["Agua"]
     },
     {
         "id": 121,
@@ -965,7 +965,7 @@
         "isLegendary": false,
         "gender": ["Genderless"],
         "image": ["121.webp"],
-        "types": ["Water", "Psychic"]
+        "types": ["Agua", "Psiquico"]
     },
     {
         "id": 122,
@@ -973,7 +973,7 @@
         "isLegendary": false,
         "gender": ["Male"],
         "image": ["122.webp"],
-        "types": ["Fairy", "Psychic"]
+        "types": ["Hada", "Psiquico"]
     },
     {
         "id": 123,
@@ -981,7 +981,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["123.webp"],
-        "types": ["Bug", "Flying"]
+        "types": ["Bicho", "Volador"]
     },
     {
         "id": 124,
@@ -989,7 +989,7 @@
         "isLegendary": false,
         "gender": ["Female"],
         "image": ["124.webp"],
-        "types": ["Ice", "Psychic"]
+        "types": ["Hielo", "Psiquico"]
     },
     {
         "id": 125,
@@ -997,7 +997,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["125.webp"],
-        "types": ["Electric"]
+        "types": ["Electrico"]
     },
     {
         "id": 126,
@@ -1005,7 +1005,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["126.webp"],
-        "types": ["Fire"]
+        "types": ["Fuego"]
     },
     {
         "id": 127,
@@ -1013,7 +1013,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["127.webp"],
-        "types": ["Bug"]
+        "types": ["Bicho"]
     },
     {
         "id": 128,
@@ -1029,7 +1029,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["129.webp"],
-        "types": ["Water"]
+        "types": ["Agua"]
     },
     {
         "id": 130,
@@ -1037,7 +1037,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["130.webp"],
-        "types": ["Water", "Flying"]
+        "types": ["Agua", "Volador"]
     },
     {
         "id": 131,
@@ -1045,7 +1045,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["131.webp"],
-        "types": ["Ice", "Water"]
+        "types": ["Hielo", "Agua"]
     },
     {
         "id": 132,
@@ -1069,7 +1069,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["134.webp"],
-        "types": ["Water"]
+        "types": ["Agua"]
     },
     {
         "id": 135,
@@ -1077,7 +1077,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["135.webp"],
-        "types": ["Electric"]
+        "types": ["Electrico"]
     },
     {
         "id": 136,
@@ -1085,7 +1085,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["136.webp"],
-        "types": ["Fire"]
+        "types": ["Fuego"]
     },
     {
         "id": 137,
@@ -1101,7 +1101,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["138.webp"],
-        "types": ["Water", "Rock"]
+        "types": ["Agua", "Roca"]
     },
     {
         "id": 139,
@@ -1109,7 +1109,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["139.webp"],
-        "types": ["Water", "Rock"]
+        "types": ["Agua", "Roca"]
     },
     {
         "id": 140,
@@ -1117,7 +1117,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["140.webp"],
-        "types": ["Water", "Rock"]
+        "types": ["Agua", "Roca"]
     },
     {
         "id": 141,
@@ -1125,7 +1125,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["141.webp"],
-        "types": ["Water", "Rock"]
+        "types": ["Agua", "Roca"]
     },
     {
         "id": 142,
@@ -1133,7 +1133,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["142.webp"],
-        "types": ["Flying", "Rock"]
+        "types": ["Volador", "Roca"]
     },
     {
         "id": 143,
@@ -1149,7 +1149,7 @@
         "isLegendary": true,
         "gender": ["Genderless"],
         "image": ["144.webp"],
-        "types": ["Ice", "Flying"]
+        "types": ["Hielo", "Volador"]
     },
     {
         "id": 145,
@@ -1157,7 +1157,7 @@
         "isLegendary": true,
         "gender": ["Genderless"],
         "image": ["145.webp"],
-        "types": ["Electric", "Flying"]
+        "types": ["Electrico", "Volador"]
     },
     {
         "id": 146,
@@ -1165,7 +1165,7 @@
         "isLegendary": true,
         "gender": ["Genderless"],
         "image": ["146.webp"],
-        "types": ["Fire", "Flying"]
+        "types": ["Fuego", "Volador"]
     },
     {
         "id": 147,
@@ -1189,7 +1189,7 @@
         "isLegendary": false,
         "gender": ["Male", "Female"],
         "image": ["149.webp"],
-        "types": ["Dragon", "Flying"]
+        "types": ["Dragon", "Volador"]
     },
     {
         "id": 150,
@@ -1197,7 +1197,7 @@
         "isLegendary": true,
         "gender": ["Genderless"],
         "image": ["150.webp"],
-        "types": ["Psychic"]
+        "types": ["Psiquico"]
     },
     {
         "id": 151,
@@ -1205,6 +1205,6 @@
         "isLegendary": true,
         "gender": ["Genderless"],
         "image": ["151.webp"],
-        "types": ["Psychic"]
+        "types": ["Psiquico"]
     }
 ]

@@ -151,7 +151,7 @@ titles = [
     {
         "title": "Hechicero",
         "description": "Capturaste al menos 5 Pokémon de tipo Psíquico. ¡No te inmutas!",
-        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Pisiquico" in p["types"]) >= 5,
+        "condition": lambda u: sum(1 for p in u["pokemonsOwned"] if "Psiquico" in p["types"]) >= 5,
         "howto": "Ten al menos 5 Pokémon de tipo Psíquico."
     },
     {
