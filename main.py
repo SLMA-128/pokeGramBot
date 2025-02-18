@@ -123,14 +123,14 @@ def get_user_data(user_data):
     # Mensaje de respuesta
     profile_text = (
         f"\U0001F4DC *Perfil de {escape_markdown(user_data['name'])}*\n"
-        f"\U0001F4E6 Pokémones Capturados: {user_data.get('total_pokemons', 0)}\n"
-        f"\U0001F31F Shiny Capturados: {user_data.get('total_shiny', 0)}\n"
-        f"\U0001F3AF Winrate: {winrate}%\n"
-        f"\U0001F3C6 Total de Victorias: {total_victories}\n{escape_markdown(victories_text)}"
-        f"\U0001F947 Más Victorias contra: {most_victories}\n"
-        f"\U0001F480 Total Derrotas: {total_defeats}\n{escape_markdown(defeats_text)}"
-        f"\U0001F635 Más Derrotas contra: {most_defeats}\n"
-        f"\U0001F4D6 Titulos:\n{titles_text}"
+        f"\U0001F4E6 Pokémones Capturados: {str(user_data.get('total_pokemons', 0))}\n"
+        f"\U0001F31F Shiny Capturados: {str(user_data.get('total_shiny', 0))}\n"
+        f"\U0001F3AF Winrate: {str(winrate)}%\n"
+        f"\U0001F3C6 Total de Victorias: {str(total_victories)}\n{escape_markdown(victories_text)}"
+        f"\U0001F947 Más Victorias contra: {str(most_victories)}\n"
+        f"\U0001F480 Total Derrotas: {str(total_defeats)}\n{escape_markdown(defeats_text)}"
+        f"\U0001F635 Más Derrotas contra: {str(most_defeats)}\n"
+        f"\U0001F4D6 Titulos:\n{str(titles_text)}"
     )
     return profile_text
 
