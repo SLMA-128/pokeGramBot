@@ -12,6 +12,7 @@ from pymongo import MongoClient
 from logger_config import logger
 from datetime import datetime
 import pytz
+import re
 
 # Environment variables
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
@@ -94,6 +95,10 @@ def escape_markdown(text):
         text = text.replace(char, f"\\{char}")
     return text
 
+def escape_markdown_v2(text):
+    escape_chars = r'\_*[]()~`>#+-=|{}.!'
+    return re.sub(f'([{re.escape(escape_chars)}])', r'\\\1', text)
+
 # Function to get profile data using user_data from a user
 def get_user_data(user_data):
     victories = user_data.get("victories", [])
@@ -101,12 +106,12 @@ def get_user_data(user_data):
     victories_text = ""
     if victories:
         for victory in victories:
-            opponent = escape_markdown(str(victory["opponent"]))
+            opponent = str(victory["opponent"])
             victories_text += f"\U0001F539 {opponent}: {victory['count']}\n"
     defeats_text = ""
     if defeats:
         for defeat in defeats:
-            opponent = escape_markdown(str(defeat["opponent"]))
+            opponent = str(defeat["opponent"])
             defeats_text += f"\U0001F538 {opponent}: {defeat['count']}\n"
     total_victories = sum(entry["count"] for entry in victories) if victories else 0
     total_defeats = sum(entry["count"] for entry in defeats) if defeats else 0
@@ -132,7 +137,7 @@ def get_user_data(user_data):
         f"\U0001F635 Más Derrotas contra: {most_defeats}\n"
         f"\U0001F4D6 Titulos:\n{titles_text}"
     )
-    return escape_markdown(profile_text)
+    return escape_markdown_v2(profile_text)
 
 # Function to set the schedule for the bot to operate
 def is_active_hours():
