@@ -125,14 +125,14 @@ def get_user_data(user_data):
         f"\U0001F4DC *Perfil de {user_data['name']}*\n"
         f"\U0001F4E6 Pokémones Capturados: {user_data.get('total_pokemons', 0)}\n"
         f"\U0001F31F Shiny Capturados: {user_data.get('total_shiny', 0)}\n"
-        f"\U0001F3AF Winrate: {escape_markdown(str(winrate))}%\n"
-        f"\U0001F3C6 Total de Victorias: {total_victories}\n{escape_markdown(victories_text)}"
+        f"\U0001F3AF Winrate: {str(winrate)}%\n"
+        f"\U0001F3C6 Total de Victorias: {total_victories}\n{victories_text}"
         f"\U0001F947 Más Victorias contra: {most_victories}\n"
-        f"\U0001F480 Total Derrotas: {total_defeats}\n{escape_markdown(defeats_text)}"
+        f"\U0001F480 Total Derrotas: {total_defeats}\n{defeats_text}"
         f"\U0001F635 Más Derrotas contra: {most_defeats}\n"
         f"\U0001F4D6 Titulos:\n{titles_text}"
     )
-    return profile_text
+    return escape_markdown(profile_text)
 
 # Function to set the schedule for the bot to operate
 def is_active_hours():
@@ -530,7 +530,7 @@ def profile(message):
             return
         user_data = userEvents.getUserByName(username)
         profile_text = get_user_data(user_data)
-        msg = bot.reply_to(message, profile_text, parse_mode="Markdown")
+        msg = bot.reply_to(message, profile_text, parse_mode="MarkdownV2")
         threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
     except Exception as e:
         logger.error(f"Error durante /perfil: {e}")
