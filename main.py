@@ -423,7 +423,7 @@ def get_pokemons_collection_by_user(message):
                     legendary_counts[pokemon["name"]] = pokemon["id"]
                 if pokemon["name"] not in shiny_counts and pokemon["isShiny"] == True:
                     shiny_counts[pokemon["name"]] = pokemon["id"]
-            response = f"\U0001F3C6 Coleccipon de Pokémones: {total_pokemons}/151\n\U0001F31F Shiny: {shiny_counts}/151\n\U0001F48E Legendarios: {len(legendary_counts)}/5\n"
+            response = f"\U0001F3C6 Coleccipon de Pokémones: {total_pokemons}/151\n\U0001F31F Shiny: {len(shiny_counts)}/151\n\U0001F48E Legendarios: {len(legendary_counts)}/5\n"
             msg = bot.reply_to(message, response)
             threading.Timer(30, lambda: bot.delete_message(chat_id=group_id, message_id=msg.message_id)).start()
         else:
@@ -519,6 +519,7 @@ def ichooseyou(message):
 @bot.message_handler(commands=['perfil'])
 def profile(message):
     try:
+        print('entro')
         if not check_active_hours():
             return
         args = message.text.split(maxsplit=1)
@@ -526,14 +527,19 @@ def profile(message):
             username = message.from_user.username
         else:
             username = args[1].strip()
+        print(username)
         if checkUserExistence(username):
             return
+        print('existe')
         user_data = userEvents.getUserByName(username)
+        print(user_data)
         profile_text = get_user_data(user_data)
+        print(profile_text)
         msg = bot.reply_to(message, profile_text, parse_mode="Markdown")
         threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
     except Exception as e:
         logger.error(f"Error durante /perfil: {e}")
+        print(f"Error durante /perfil: {e}")
 
 # Bot command handler for /pokedex
 @bot.message_handler(commands=['pokedex'])
