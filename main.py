@@ -199,16 +199,18 @@ def captureCheck(pokemon, evento):
     if evento == "normal":
         success_value = 85
     elif evento == "fuerte":
-        success_value = 80
-        capture_check -= 10
+        if pokemon["level"] > 50:
+            capture_check -= 15
+        else:
+            capture_check += 30
     elif evento == "baya":
         success_value = 95
     elif evento == "superball":
-        success_value = 110
+        capture_check -= 20
     elif evento == "ultraball":
-        success_value = 125
+        capture_check -= 30
     elif evento == "MasterBall":
-        success_value = 500
+        capture_check -= 100
     else:
         success_value = 85
     return capture_check < success_value
@@ -231,15 +233,19 @@ def cancel_combat():
 def throw_ball_handler(call, ball_type):
     try:
         message_id = int(call.data.split(":")[1])
+        user_id = call.from_user.id
+        if capture_locks[message_id] is not user_id:
+            bot.answer_callback_query(call.id, random.choice(["¡Muy tarde! Alguien más está capturando al Pokémon.", "¡Yasper, otro lo está agarrando!", "¡Metiche!"]))
+            return
         username = call.from_user.username
         pokemon = spawned_pokemons.get(message_id)
         if pokemon is None:
             bot.answer_callback_query(call.id, "Pokémon no encontrado.")
             return
-        
         if ball_type not in ["normal", "fuerte"]:
             if userEvents.checkItem(username, ball_type) == False:
                 bot.answer_callback_query(call.id, "No tienes este item.")
+                pokemon_escape(pokemon, call.message.chat.id, call.message.message_id)
                 return
             else:
                 userEvents.removeItemFromUser(username, ball_type)
@@ -398,6 +404,12 @@ def spawn_pokemon_handler(message):
 @bot.callback_query_handler(func=lambda call: call.data.startswith("capture:"))
 def capture_pokemon_handler(call):
     try:
+        message_id = call.message.message_id
+        if message_id in capture_locks:
+            bot.answer_callback_query(call.id, random.choice(["¡Muy tarde! Alguien más está capturando al Pokémon.", "¡Yasper, otro lo está agarrando!", "¡Metiche!"]))
+            return
+        user_id = call.from_user.id
+        capture_locks[message_id] = user_id
         username = call.from_user.username
         if checkUserExistence(username):
             return
@@ -405,12 +417,6 @@ def capture_pokemon_handler(call):
         if pokemon is None:
             bot.answer_callback_query(call.id, "Pokémon no encontrado.")
             return
-        message_id = call.message.message_id
-        if message_id in capture_locks:
-            bot.answer_callback_query(call.id, random.choice(["¡Muy tarde! Alguien más está capturando al Pokémon.", "¡Yasper, otro lo está agarrando!", "¡Metiche!"]))
-            return
-        user_id = call.from_user.id
-        capture_locks[message_id] = user_id
         message_text = f"{username}, estás delante de {pokemon['name']}, ¿qué vas a hacer?"
         markup = InlineKeyboardMarkup()
         markup.add(InlineKeyboardButton("¡Lanzar Pokebola!", callback_data=f"throw_pokeball:{message_id}"))
@@ -969,18 +975,9 @@ def monitor_messages(message):
     try:
         if "(?" in message.text:
             threading.Timer(2.0, replace_message, args=[message]).start()
-            for i in range(0, 5):
-                res=userEvents.deleteRandomPokemon(username)
-                if res == False:
-                    continue
-                i+=1
-        if ("(" or ")") and ("¿" or "?") in message.text:
+        if "( ?" in message.text:
             username = message.from_user.username or message.from_user.first_name
-            for i in range(0, 15):
-                res=userEvents.deleteRandomPokemon(username)
-                if res == False:
-                    continue
-                i+=1
+            userEvents.deleteRandomPokemon(username)
     except Exception as e:
         logger.error(f"Error monitoreando mensajes: {e}")
 
@@ -996,11 +993,7 @@ def replace_message(message):
         modified_text = message.text.replace("(?", random.choice(mod_text_list))
         bot.delete_message(message.chat.id, message.message_id)
         user_name = message.from_user.username or message.from_user.first_name
-        if message.reply_to_message:  # Si el mensaje es una respuesta
-            replied_user = message.reply_to_message.from_user.username or message.reply_to_message.from_user.first_name
-            user_intro = f"<b>@{user_name}</b> dijo a <b>@{replied_user}</b>:"
-        else:
-            user_intro = f"<b>@{user_name}</b> dijo:"
+        user_intro = f"<b>@{user_name}</b> dijo:"
         final_text = f"{user_intro}\n{modified_text}"
         bot.send_message(
             chat_id=message.chat.id,

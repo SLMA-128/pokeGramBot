@@ -26,7 +26,7 @@ Este es un bot de Telegram que permite a los usuarios capturar, ver e interactua
 Además de eso, el bot solamente funciona entre las 10:00 AM y las 22:59 PM (GMT-3). También manda un spawn automático cada 10 minutos.
 
 ## Importante
-El bot tiene algunas funciones que el usuario que desee usarlo debería eliminar en caso de que no las quiera. Como la función de reemplazar '(?' con un mensaje inapropiado que, además, borra 5 pokémones. También hay una función que elimina 15 pokémones aleatorios de un usuario que escriba '(' o ')' y '¿' o '?' en el mismo mensaje.
+El bot tiene algunas funciones que el usuario que desee usarlo debería eliminar en caso de que no las quiera. Como la función de reemplazar '(?' con un mensaje inapropiado que. También hay una función que elimina un pokémon aleatorio de un usuario que escriba '( ?' en un mensaje.
 
 Se espera que el usuario que desee utilizar el bot tenga conocimientos de programación suficientes para poder implementarlo en su propio grupo.
 ## Requisitos
