@@ -5,6 +5,8 @@
         "total_pokemons": 0,
         "total_shiny": 0,
         "pokemonsOwned": [],
+        "trainerPoints": 1000,
+        "items": [{"item":"nombreItem", "amount": 1}],
         "victories":[],
         "defeats": [],
         "titles": ["title1","titles2"]

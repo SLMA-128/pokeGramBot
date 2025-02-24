@@ -192,6 +192,25 @@ titles = [
     }
 ]
 
+items = [
+    {
+        "name": "Baya",
+        "price": 100
+    },
+    {
+        "name": "SuperBall",
+        "price": 500
+    },
+    {
+        "name": "UltraBall",
+        "price": 1000
+    },
+    {
+        "name": "MasterBall",
+        "price": 10000
+    }
+]
+
 #Register a new user to the users database, checking if the username already exists.
 def registerUser(username):
     try:
@@ -211,6 +230,8 @@ def registerUser(username):
             "total_pokemons": 0,
             "total_shiny": 0,
             "pokemonsOwned": [],
+            "trainerPoints": 0,
+            "items": [],
             "victories":[],
             "defeats": [],
             "titles": []
@@ -285,8 +306,9 @@ def addPokemonCaptured(pokemon, username):
         collection = db['users']
         # Buscar el usuario y agregar el pokemon
         # Incrementar el contador total de Pokémon atrapados
+        trainer_points = int(pokemon["level"] // 5 + 10)
         update_user_stats = {
-            "$inc": {"total_pokemons": 1}  # Se incrementa con cada captura
+            "$inc": {"total_pokemons": 1, "trainerPoints": trainer_points}  # Se incrementa con cada captura
         }
         # Si el Pokémon capturado es shiny, también incrementamos total_shiny
         if pokemon["isShiny"]:
@@ -387,8 +409,10 @@ def reducePokemonCaptured(loser, loser_pokemon):
             }}
         )
         client.close()
+        return True
     except Exception as e:
         logger.error(f"Error durante la reduccion de pokemon: {str(e)}")
+        return False
 
 #Reduce the capture counter of a pokemon by the loser, considering if it was shiny or not. 
 def deleteRandomPokemon(username):
@@ -445,6 +469,8 @@ def updateCombatResults(winner, loser, winner_pokemon, new_level):
                 )
         update_record(winner, "victories", loser)
         update_record(loser, "defeats", winner)
+        collection.update_one({"name": winner}, {"$inc": {"trainerPoints": 50}})
+        collection.update_one({"name": loser}, {"$inc": {"trainerPoints": 15}})
         if winner_pokemon:
             collection.update_one(
                 {"name": winner, "pokemonsOwned.id": winner_pokemon['id']},
@@ -475,8 +501,142 @@ def add_titles_to_user(username):
             updated_titles = list(current_titles) + list(new_titles)
             collection.update_one(
                 {"name": username},
-                {"$set": {"titles": updated_titles}}
+                {
+                    "$set": {"titles": updated_titles},
+                    "$inc": {"trainerPoints": 100 * len(new_titles)}
+                }
             )
         client.close()
+        return True
     except Exception as e:
         logger.error(f"Error otorgando titulos: {str(e)}")
+        return False
+
+# Get all items from the user
+def getItemsFromUser(username):
+    try:
+        client = MongoClient(MONGO_URI)
+        db = client['pokemon_bot']
+        collection = db['users']
+        user = collection.find_one({"name": username})
+        client.close()
+        if not user:
+            return []
+        return user.get("items", [])
+    except Exception as e:
+        logger.error(f"Error obteniendo items: {str(e)}")
+        return []
+
+# Function to check if a user has a specific item
+def checkItem(username, itemName):
+    try:
+        client = MongoClient(MONGO_URI)
+        db = client['pokemon_bot']
+        collection = db['users']
+        query = {"name": username, "items.item": itemName}
+        user = collection.find_one(query)
+        client.close()
+        return user is not None  # Retorna True si el item existe, False si no
+    except Exception as e:
+        logger.error(f"Error verificando item '{itemName}' en {username}: {str(e)}")
+        return False
+
+# Function to get all the items
+def getItems():
+    return items
+
+# Function to add an item to a user
+def addItemToUser(username, itemName):
+    try:
+        client = MongoClient(MONGO_URI)
+        db = client['pokemon_bot']
+        collection = db['users']
+        # Verificar si el item existe en la lista de items disponibles
+        item = next((item for item in items if item["name"] == itemName), None)
+        if not item:
+            logger.warning(f"El item '{itemName}' no existe.")
+            return False
+        # Buscar si el usuario ya tiene el item en su inventario
+        query = {"name": username, "items.item": itemName}
+        existing_item = collection.find_one(query)
+        if existing_item:
+            # Si el item ya existe, incrementar la cantidad
+            collection.update_one(
+                {"name": username, "items.item": itemName},
+                {"$inc": {"items.$.amount": 1}}
+            )
+        else:
+            # Si el item no existe, agregarlo con cantidad 1
+            collection.update_one(
+                {"name": username},
+                {"$push": {"items": {"item": itemName, "amount": 1}}}
+            )
+        client.close()
+        return True
+    except Exception as e:
+        logger.error(f"Error agregando item '{itemName}' a {username}: {str(e)}")
+        return False
+
+# Function to remove an item from a user
+def removeItemFromUser(username, itemName):
+    try:
+        client = MongoClient(MONGO_URI)
+        db = client['pokemon_bot']
+        collection = db['users']
+        # Buscar si el usuario tiene el item en su inventario
+        query = {"name": username, "items.item": itemName}
+        user = collection.find_one(query)
+        if not user:
+            logger.warning(f"El usuario '{username}' no tiene el item '{itemName}'.")
+        # Buscar el item en la lista de items del usuario
+        for item in user.get("items", []):
+            if item["item"] == itemName:
+                if item["amount"] > 1:
+                    # Reducir la cantidad en 1
+                    collection.update_one(
+                        {"name": username, "items.item": itemName},
+                        {"$inc": {"items.$.amount": -1}}
+                    )
+                else:
+                    # Eliminar el item completamente si la cantidad es 1
+                    collection.update_one(
+                        {"name": username},
+                        {"$pull": {"items": {"item": itemName}}}
+                    )
+                client.close()
+                return True
+        logger.warning(f"Item '{itemName}' no encontrado en el inventario de '{username}'.")
+        return False
+    except Exception as e:
+        logger.error(f"Error eliminando item '{itemName}' de {username}: {str(e)}")
+        return False
+
+# Get trainer points from the user
+def getTrainerPoints(username):
+    try:
+        client = MongoClient(MONGO_URI)
+        db = client['pokemon_bot']
+        collection = db['users']
+        user = collection.find_one({"name": username}, {"trainerPoints": 1, "_id": 0})
+        client.close()
+        if not user:
+            return 0  # Si el usuario no existe, retorna 0 por defecto
+        return user.get("trainerPoints", 0)
+    except Exception as e:
+        logger.error(f"Error obteniendo trainerPoints de {username}: {str(e)}")
+        return 0
+
+# Function to reduce trainerPoints from a user
+def reduceTrainerPoints(username, amount):
+    try:
+        client = MongoClient(MONGO_URI)
+        db = client['pokemon_bot']
+        collection = db['users']
+        # Evita que los trainerPoints bajen de 0
+        collection.update_one(
+            {"name": username, "trainerPoints": {"$gte": amount}}, 
+            {"$inc": {"trainerPoints": -amount}}
+        )
+        client.close()
+    except Exception as e:
+        logger.error(f"Error reduciendo trainerPoints a {username}: {str(e)}")

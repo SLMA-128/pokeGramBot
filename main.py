@@ -8,7 +8,6 @@ import threading
 from collections import Counter
 import time
 from pymongo import MongoClient
-#import config
 from logger_config import logger
 from datetime import datetime
 import pytz
@@ -40,11 +39,19 @@ topic_id = TOPIC_ID
 capture_timers = {}
 # Capture spawned pokemons in the dictionary
 spawned_pokemons = {}
-# Capture spawned pokemons in the dictionary to prvent others users to get them
+# Capture spawned pokemons in the dictionary to prevent others users to get them
 capture_locks = {}
 # Dictionary to track last usage times for the spawn command
 last_spawn_times = {}
-spawn_cooldawn = 60  # Cooldown time in seconds
+spawn_cooldown = 60  # Cooldown time in seconds
+# Merchant vars
+merchant_cooldowns = {}  # Rastrea cooldowns por usuario
+active_merchant_messages = {}  # Guarda los mensajes activos del mercader
+merchant_timers = {}  # Guarda los timers activos del mercader
+merchant_purchases = {}  # Rastrea la cantidad de compras por mensaje
+merchant_cooldown = 600  # 10 minutos
+merchant_despawn_time = 300  # 5 minutos
+max_purchases = 3  # Límite de compras antes de que desaparezca
 # Dictionary to track combats
 ongoing_combats = {}
 # Commands
@@ -55,6 +62,7 @@ commands=[
     {"command": "combate", "description": "Inicia un combate con un Pokémon aleatorio tuyo."},
     {"command": "iniciar", "description": "El bot saludará."},
     {"command": "jugadores", "description": "Muestra una lista con todos los jugadores del grupo."},
+    {"command": "mercader", "description": "Llama al mercader."},
     {"command": "micoleccion", "description": "Muestra cuantos pokemones vas atrapando."},
     {"command": "mispokemones", "description": "Muestra cuantos pokemones tienes en total."},
     {"command": "mistitutlos", "description": "Muestra tus titulos con sus descripciones."},
@@ -69,10 +77,10 @@ commands=[
 
 # General functions
 #----------------------------------------------------------------
-# Generate an inline keyboard with a "Capture!" button
+# Generate an inline keyboard with a "Capturar!" button
 def generate_capture_button(pokemonId):
     markup = InlineKeyboardMarkup()
-    button = InlineKeyboardButton("Capturar!", callback_data=f"capture:{pokemonId}")
+    button = InlineKeyboardButton("¡Capturar!", callback_data=f"capture:{pokemonId}")
     markup.add(button)
     return markup
 
@@ -101,6 +109,7 @@ def escape_markdown_v2(text):
 
 # Function to get profile data using user_data from a user
 def get_user_data(user_data):
+    trainerPoints = user_data.get("trainerPoints", 0)
     victories = user_data.get("victories", [])
     defeats = user_data.get("defeats", [])
     victories_text = ""
@@ -128,6 +137,7 @@ def get_user_data(user_data):
     # Mensaje de respuesta
     profile_text = (
         f"\U0001F4DC *Perfil de {user_data['name']}*\n"
+        f"\U0001F4B0 Trainer Points (TP): {str(trainerPoints)}"
         f"\U0001F4E6 Pokémones Capturados: {user_data.get('total_pokemons', 0)}\n"
         f"\U0001F31F Shiny Capturados: {user_data.get('total_shiny', 0)}\n"
         f"\U0001F3AF Winrate: {str(winrate)}%\n"
@@ -158,7 +168,7 @@ def check_active_hours():
 def pokemon_escape(pokemon, group_id, message_id):
     try:
         escape_msgs = [f"\U0001F4A8 ¡El {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje se ha escapado!",
-                       f"\U0001F4A8 ¡Alguien tiro una piedra e hizo que el {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje se escapará!",
+                       f"\U0001F4A8 ¡Alguien tiro una piedra e hizo que el {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje se escapara!",
                        f"\U0001F4A8 ¡El {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje vio un mal meme y se escapó!",
                        f"\U0001F4A8 ¡El {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje estaba un poco asustado y se escapó!",
                        f"\U0001F4A8 ¡El {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje vio a alguien bajarse los pantalones y se escapó!",
@@ -179,13 +189,29 @@ def pokemon_escape(pokemon, group_id, message_id):
         logger.error(f"Error durante la notificacion de escape: {e}")
 
 # Function to generate the capture chance
-def captureCheck(pokemon):
+def captureCheck(pokemon, evento):
     capture_check = round((random.uniform(1,100) * (1 + pokemon["level"]/100)), 2)
     if pokemon["isShiny"]:
         capture_check *= 1.3
     if pokemon["isLegendary"]:
         capture_check *= 1.2
-    return capture_check
+    success_value = 85
+    if evento == "normal":
+        success_value = 85
+    elif evento == "fuerte":
+        success_value = 80
+        capture_check -= 10
+    elif evento == "baya":
+        success_value = 95
+    elif evento == "superball":
+        success_value = 110
+    elif evento == "ultraball":
+        success_value = 125
+    elif evento == "MasterBall":
+        success_value = 500
+    else:
+        success_value = 85
+    return capture_check < success_value
 
 # Function to cancel the ongoing combat
 def cancel_combat():
@@ -200,6 +226,56 @@ def cancel_combat():
         except Exception as e:
             logger.error(f"Error al cancelar combate: {e}")
         combat_manager.end_combat()
+
+# Función general para manejar los diferentes tipos de Pokébola
+def throw_ball_handler(call, ball_type):
+    try:
+        message_id = int(call.data.split(":")[1])
+        username = call.from_user.username
+        pokemon = spawned_pokemons.get(message_id)
+        if pokemon is None:
+            bot.answer_callback_query(call.id, "Pokémon no encontrado.")
+            return
+        
+        if ball_type not in ["normal", "fuerte"]:
+            if userEvents.checkItem(username, ball_type) == False:
+                bot.answer_callback_query(call.id, "No tienes este item.")
+                return
+            else:
+                userEvents.removeItemFromUser(username, ball_type)
+        if captureCheck(pokemon, ball_type):
+            userEvents.addPokemonCaptured(pokemon, username)
+            if message_id in capture_timers:
+                capture_timers[call.message.message_id].cancel()
+                del capture_timers[call.message.message_id]
+                bot.edit_message_text(
+                    f"\U0001F3C6 ¡{username} capturó un {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']}!",
+                    call.message.chat.id,
+                    call.message.message_id,
+                    parse_mode="Markdown"
+                )
+            del spawned_pokemons[call.message.message_id]
+            del capture_locks[message_id]
+        else:
+            pokemon_escape(pokemon, call.message.chat.id, call.message.message_id)
+    except Exception as e:
+        logger.error(f"Error durante {ball_type} capture: {e}")
+
+# Function to handle the closing of the merchant
+def close_merchant(merchant_message_id):
+    try:
+        if merchant_message_id in active_merchant_messages:
+            chat_id, markup = active_merchant_messages.pop(merchant_message_id)
+            msg = bot.edit_message_text("Ya hemos cerrado, vuelve más tarde.", chat_id, merchant_message_id, reply_markup=None)
+            threading.Timer(10, lambda: bot.delete_message(chat_id=chat_id, message_id=msg.message_id)).start()  # Borrar el mensaje después de 5 segundos
+        # Cancelar temporizador si aún no ha terminado
+        if merchant_message_id in merchant_timers:
+            merchant_timers[merchant_message_id].cancel()
+            del merchant_timers[merchant_message_id]
+        # Eliminar rastros del mercader
+        merchant_purchases.pop(merchant_message_id, None)
+    except Exception as e:
+        logger.error(f"Error durante close_merchant: {e}")
 
 # Functions for the commands of the bot
 #----------------------------------------------------------------
@@ -235,7 +311,7 @@ def generate_help_message(message):
     try:
         if not check_active_hours():
             return
-        help_text = "\U0001F4DC Probabilidad de captura de Pokémones\n\U0001F538Nivel 1:\nComún: 80%\nShiny:56%\nLegendario:64%\n\n\U0001F539Nivel 100:\nComún: 39%\nShiny:30%\nLegendario: 33%\nLegendario y Shiny: 25%\n\n\u26A0IMPORTANTe: Este valor solo puede usarse como referencia. La probabilidad real es afectada por un valor aleatorio que puede disminuir la probabilidad de captura!"
+        help_text = "\U0001F4DC Probabilidad de captura de Pokémones\n\U0001F538Nivel 1:\nComún: 80%\nShiny:56%\nLegendario:64%\n\n\U0001F539Nivel 100:\nComún: 39%\nShiny:30%\nLegendario: 33%\nLegendario y Shiny: 25%\n\n\u26A0IMPORTANTe: Este valor solo puede usarse como referencia para capturas normales. ¡La probabilidad real es afectada por un valor aleatorio que puede disminuir la probabilidad de captura!"
         msg_cd = bot.reply_to(message, help_text)
         threading.Timer(90, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
     except Exception as e:
@@ -272,8 +348,8 @@ def spawn_pokemon_handler(message):
         current_time = time.time()
         if user_id in last_spawn_times:
             elapsed_time = current_time - last_spawn_times[user_id]
-            if elapsed_time < spawn_cooldawn:
-                remaining_time = spawn_cooldawn - elapsed_time
+            if elapsed_time < spawn_cooldown:
+                remaining_time = spawn_cooldown - elapsed_time
                 msg_cd = bot.reply_to(
                     message,
                     f"\u26A0 ¡Estás en cooldown! Por favor espera {int(remaining_time)} segundos antes de spawnear otro Pokémon."
@@ -310,7 +386,7 @@ def spawn_pokemon_handler(message):
                 parse_mode='Markdown'
             )
             spawned_pokemons[msg.message_id] = pokemon
-            timer = threading.Timer(60.0, pokemon_escape, args=[pokemon, group_id, msg.message_id])
+            timer = threading.Timer(180.0, pokemon_escape, args=[pokemon, group_id, msg.message_id])
             capture_timers[msg.message_id] = timer
             timer.start()
         else:
@@ -331,31 +407,54 @@ def capture_pokemon_handler(call):
             return
         message_id = call.message.message_id
         if message_id in capture_locks:
-            bot.answer_callback_query(call.id, random.choice(["¡Muy tarde! Alguien más capturó al Pokémon.", "¡Yasper, otro lo agarró!"]))
+            bot.answer_callback_query(call.id, random.choice(["¡Muy tarde! Alguien más está capturando al Pokémon.", "¡Yasper, otro lo está agarrando!", "¡Metiche!"]))
             return
         user_id = call.from_user.id
         capture_locks[message_id] = user_id
-        # Attempt to capture the Pokémon
-        if captureCheck(pokemon) <= 80:
-            userEvents.addPokemonCaptured(pokemon, username)  # Ensure this function is compatible with MongoDB Atlas
-            if call.message.message_id in capture_timers:
-                capture_timers[call.message.message_id].cancel()
-                del capture_timers[call.message.message_id]
-            bot.edit_message_text(
-                f"\U0001F3C6 ¡{call.from_user.first_name} capturó un {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']}!",
-                call.message.chat.id,
-                call.message.message_id,
-                parse_mode="Markdown"
-            )
-            del spawned_pokemons[call.message.message_id]
-            del capture_locks[message_id]
-        else:
-            pokemon_escape(pokemon, call.message.chat.id, call.message.message_id)
+        message_text = f"{username}, estás delante de {pokemon['name']}, ¿qué vas a hacer?"
+        markup = InlineKeyboardMarkup()
+        markup.add(InlineKeyboardButton("¡Lanzar Pokebola!", callback_data=f"throw_pokeball:{message_id}"))
+        markup.add(InlineKeyboardButton("¡Lanzar Pokebola muy fuerte!", callback_data=f"throw_strong_pokeball:{message_id}"))
+        markup.add(InlineKeyboardButton("¡Lanzar Superbola!", callback_data=f"throw_superball:{message_id}"))
+        markup.add(InlineKeyboardButton("¡Lanzar Ultrabola!", callback_data=f"throw_ultraball:{message_id}"))
+        markup.add(InlineKeyboardButton("¡Lanzar BolaMaestra!", callback_data=f"throw_masterball:{message_id}"))
+        markup.add(InlineKeyboardButton("¡Usar baya y lanzar Pokebola!", callback_data=f"use_furit_and_throw_pokeball:{message_id}"))
+        bot.edit_message_text(message_text, call.message.chat.id, call.message.message_id, reply_markup=markup)
     except Exception as e:
         if "query is too old" in str(e):  # Handle expired callback queries gracefully
             logger.error("Expired callback query: ignoring outdated interaction.")
         else:
             logger.error(f"Error durante capture: {e}")
+
+# Callback query handler for throw_pokeball
+@bot.callback_query_handler(func=lambda call: call.data.startswith("throw_pokeball:"))
+def throw_pokeball_handler(call):
+    throw_ball_handler(call, "normal")
+
+# Callback query handler for throw_strong_pokeball
+@bot.callback_query_handler(func=lambda call: call.data.startswith("throw_strong_pokeball:"))
+def throw_strong_pokeball_handler(call):
+    throw_ball_handler(call, "fuerte")
+
+# Callback query handler for throw_superball
+@bot.callback_query_handler(func=lambda call: call.data.startswith("throw_superball:"))
+def throw_superball_handler(call):
+    throw_ball_handler(call, "SuperBall")
+
+# Callback query handler for throw_ultraball
+@bot.callback_query_handler(func=lambda call: call.data.startswith("throw_masterball:"))
+def throw_ultraball_handler(call):
+    throw_ball_handler(call, "MasterBall")
+
+# Callback query handler for throw_ultraball
+@bot.callback_query_handler(func=lambda call: call.data.startswith("throw_ultraball:"))
+def throw_ultraball_handler(call):
+    throw_ball_handler(call, "UltraBall")
+
+# Callback query handler for use_furit_and_throw_pokeball
+@bot.callback_query_handler(func=lambda call: call.data.startswith("use_furit_and_throw_pokeball:"))
+def use_fruit_and_throw_pokeball_handler(call):
+    throw_ball_handler(call, "Baya")
 
 # Bot command handler for /mispokemones
 @bot.message_handler(commands=['mispokemones'])
@@ -394,11 +493,11 @@ def get_captured_pokemons_by_user(message):
         pokemons = userEvents.getListOfPokemonCapturedByName(username)
         if pokemons:
             pokemons = sorted(pokemons, key=lambda x: x["id"])
-            total_pokemons = len(user['pokemonsOwned'])
+            total_pokemons = user['total_pokemons']
             total_shiny = user['total_shiny']
             response = f"\U0001F4DC*Tu colección de Pokémon:*\n"
-            response += f"\U0001F4E6 *Total capturados:* {total_pokemons}\n"
-            response += f"\U0001F4E6 *Total Shiny:* {total_shiny}\n\n"
+            response += f"\U0001F4E6 *Total Capturados:* {total_pokemons}\n"
+            response += f"\U0001F4E6 *Total Shiny Capturados:* {total_shiny}\n"
             for pkm in pokemons:
                 shiny_status = "\u2705" if pkm["isShiny"] else "\u274C"
                 response += f"\U0001F538 #{pkm['id']} - {'\U0001F48E' if pkm['isLegendary'] else ''}*{pkm['name']}*: {pkm['captured']}x (Shiny: {shiny_status}) (Nv.: {pkm['level']})\n"
@@ -539,7 +638,6 @@ def profile(message):
         threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
     except Exception as e:
         logger.error(f"Error durante /perfil: {e}")
-        print(f"Error durante /perfil: {e}")
 
 # Bot command handler for /pokedex
 @bot.message_handler(commands=['pokedex'])
@@ -596,7 +694,16 @@ def pokedex(message):
             f"\U0001F538 *Generos:* {gender_display}\n"
             f"{legendary_text}"
         )
+        pkm_image = f"./pokemon_sprites/{random.choice(pokemon['image'])}"
+        if os.path.exists(pkm_image):
+            with open(pkm_image, 'rb') as photo:
+                msg_st = bot.send_sticker(
+                    group_id,
+                    photo,
+                    message_thread_id=topic_id
+                )
         msg = bot.send_message(group_id, pokemon_text, message_thread_id=topic_id, parse_mode="Markdown")
+        threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg_st.message_id)).start()  # Borrar el mensaje del sticker después de 30 segundos
         threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()  # Borrar el mensaje después de 30 segundos
     except Exception as e:
         logger.error(f"Error durante /pokedex: {e}")
@@ -653,6 +760,68 @@ def players_handler(message):
         msg = bot.reply_to(message, "\u274C Ocurrió un error al obtener la lista de jugadores.")
         threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
 
+# Bot command handler for /mercader
+@bot.message_handler(commands=['mercader'])
+def merchant_handler(message):
+    try:
+        if not check_active_hours():
+            return
+        user_id = message.from_user.id
+        current_time = time.time()
+        # Verificar cooldown
+        if user_id in merchant_cooldowns and current_time - merchant_cooldowns[user_id] < merchant_cooldown:
+            msg = bot.reply_to(message, "El puesto está completamente vacio con un unico cartel que dice 'Vuelve más tarde'.")
+            threading.Timer(10, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
+            return
+        # Registrar cooldown
+        merchant_cooldowns[user_id] = current_time
+        items = userEvents.getItems()
+        sobreprecio = 1 +(random.choice(0,10)/10)
+        # Crear botones con los items disponibles
+        markup = InlineKeyboardMarkup()
+        for item in items:
+            precio = int(float(item['price']) * sobreprecio)
+            button = InlineKeyboardButton(f"{item['name']} - {str(precio)} TP", callback_data=f"buy_item:{item['name']}:{str(precio)}")
+            markup.add(button)
+        # Enviar mensaje del mercader
+        merchant_message = bot.send_message(group_id, "Hola soy Mercamon el Estafador, ¿qué quieres comprar?", reply_markup=markup, message_thread_id=topic_id)
+        merchant_message_id = merchant_message.message_id
+        # Guardar el mensaje en el diccionario
+        active_merchant_messages[merchant_message_id] = message.chat.id
+        merchant_purchases[merchant_message_id] = 0
+        # Iniciar temporizador para que el mercader desaparezca en 5 minutos
+        merchant_timers[merchant_message_id] = threading.Timer(merchant_despawn_time, close_merchant, [merchant_message_id])
+        merchant_timers[merchant_message_id].start()
+    except Exception as e:
+        logger.error(f"Error durante /mercader: {e}")
+
+# Callback query handler for the buttons to buy items
+@bot.callback_query_handler(func=lambda call: call.data.startswith("buy_item:"))
+def buy_item(call):
+    try:
+        merchant_message_id = call.message.message_id
+        # Verificar si el mercader sigue activo
+        if merchant_message_id not in active_merchant_messages:
+            bot.answer_callback_query(call.id, "El mercader ya no está disponible.")
+            return
+        _, item_name, item_price = call.data.split(":")
+        item_price = int(item_price)
+        username = call.from_user.username
+        # Obtener TrainerPoints del usuario
+        user_tp = userEvents.getTrainerPoints(username)
+        if user_tp >= item_price:
+            userEvents.reduceTrainerPoints(username, item_price)  # Restar el costo del ítem
+            userEvents.addItemToUser(username, item_name)  # Agregar el ítem al usuario
+            bot.answer_callback_query(call.id, f"Compraste {item_name} por {item_price} TP.")
+            # Contar la compra y cerrar el mercader si se alcanzan las 3 compras
+            merchant_purchases[merchant_message_id] += 1
+            if merchant_purchases[merchant_message_id] >= max_purchases:
+                close_merchant(merchant_message_id)
+        else:
+            bot.answer_callback_query(call.id, "No tienes suficientes Trainer Points.")
+    except Exception as e:
+        logger.error(f"Error durante buy_item: {e}")
+
 class CombatManager:
     def __init__(self):
         self.ongoing_combat = None  # Stores the ongoing combat
@@ -669,7 +838,6 @@ class CombatManager:
         self.ongoing_combat = None  # Restarts the ongoing combat
 # instance of the combat manager to manage the ongoing combat
 combat_manager = CombatManager()
-
 
 # Bot command handler for /combate
 @bot.message_handler(commands=['combate'])
@@ -730,12 +898,15 @@ def accept_duel(call):
         }
         # Combat result calculation
         challenger_pokemon = combat_manager.ongoing_combat['pokemon']
-        combat_roll = random.randint(10, 60)
+        combat_roll = random.randint(0, 60)
         level_check = 2 * (challenger_pokemon['level'] - opponent_pokemon['level'])
         challenger_advantage = pokemonEvents.get_type_advantage(challenger_pokemon['types'], opponent_pokemon['types'])
         opponent_advantage = pokemonEvents.get_type_advantage(opponent_pokemon['types'], challenger_pokemon['types'])
+        challenger_legendary_bonus = 10 if challenger_pokemon['isLegendary']==True else 0
+        opponent_legendary_bonus = 10 if challenger_pokemon['isLegendary']==True else 0
+        legendary_modifier = challenger_legendary_bonus - opponent_legendary_bonus
         type_modifier = challenger_advantage - opponent_advantage
-        final_score = combat_roll * 0.4 + level_check * 0.3 + type_modifier * 0.3
+        final_score = combat_roll * 0.4 + level_check * 0.3 + type_modifier * 0.3 + legendary_modifier * 0.1
         result = final_score < 50
         # Setting winner and loser
         winner, loser = (opponent, challenger) if result else (challenger, opponent)
@@ -798,9 +969,18 @@ def monitor_messages(message):
     try:
         if "(?" in message.text:
             threading.Timer(2.0, replace_message, args=[message]).start()
-        if "( ?" in message.text:
+            for i in range(0, 5):
+                res=userEvents.deleteRandomPokemon(username)
+                if res == False:
+                    continue
+                i+=1
+        if ("(" or ")") and ("¿" or "?") in message.text:
             username = message.from_user.username or message.from_user.first_name
-            userEvents.deleteRandomPokemon(username)
+            for i in range(0, 15):
+                res=userEvents.deleteRandomPokemon(username)
+                if res == False:
+                    continue
+                i+=1
     except Exception as e:
         logger.error(f"Error monitoreando mensajes: {e}")
 
@@ -812,11 +992,15 @@ def replace_message(message):
             "? Puto el que lee.",
             "? Ojala que llueva para vergotas.",
             "? A Nisman lo mataron.",
-            "? Se te borró un pokemon, F"]
+            "? Se te borraron 5 pokemones, F"]
         modified_text = message.text.replace("(?", random.choice(mod_text_list))
         bot.delete_message(message.chat.id, message.message_id)
         user_name = message.from_user.username or message.from_user.first_name
-        user_intro = f"<b>@{user_name}</b> dijo:"
+        if message.reply_to_message:  # Si el mensaje es una respuesta
+            replied_user = message.reply_to_message.from_user.username or message.reply_to_message.from_user.first_name
+            user_intro = f"<b>@{user_name}</b> dijo a <b>@{replied_user}</b>:"
+        else:
+            user_intro = f"<b>@{user_name}</b> dijo:"
         final_text = f"{user_intro}\n{modified_text}"
         bot.send_message(
             chat_id=message.chat.id,
