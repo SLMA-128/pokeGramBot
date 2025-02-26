@@ -271,9 +271,12 @@ def throw_ball_handler(call, ball_type):
 def close_merchant(merchant_message_id):
     try:
         if merchant_message_id in active_merchant_messages:
-            chat_id, markup = active_merchant_messages.pop(merchant_message_id)
-            msg = bot.edit_message_text("Ya hemos cerrado, vuelve más tarde.", chat_id, merchant_message_id, reply_markup=None)
-            threading.Timer(10, lambda: bot.delete_message(chat_id=chat_id, message_id=msg.message_id)).start()  # Borrar el mensaje después de 5 segundos
+            chat_id = active_merchant_messages.pop(merchant_message_id)
+            try:
+                msg = bot.edit_message_text("Ya hemos cerrado, vuelve más tarde.", chat_id, merchant_message_id)
+                threading.Timer(10, lambda: bot.delete_message(chat_id=chat_id, message_id=msg.message_id)).start()
+            except Exception as e:
+                logger.warning(f"No se pudo editar o eliminar el mensaje del mercader: {e}")
         # Cancelar temporizador si aún no ha terminado
         if merchant_message_id in merchant_timers:
             merchant_timers[merchant_message_id].cancel()
@@ -772,6 +775,10 @@ def merchant_handler(message):
     try:
         if not check_active_hours():
             return
+        if any(merchant_timers.values()):
+            msg = bot.reply_to(message, "El mercader ya fue llamado, espera a que se vaya o buscalo.")
+            threading.Timer(10, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
+            return
         user_id = message.from_user.id
         current_time = time.time()
         # Verificar cooldown
@@ -782,7 +789,7 @@ def merchant_handler(message):
         # Registrar cooldown
         merchant_cooldowns[user_id] = current_time
         items = userEvents.getItems()
-        sobreprecio = 1 +(random.choice(0,10)/10)
+        sobreprecio = 1 + (random.randint(0,10)/10)
         # Crear botones con los items disponibles
         markup = InlineKeyboardMarkup()
         for item in items:
@@ -820,7 +827,7 @@ def buy_item(call):
             userEvents.addItemToUser(username, item_name)  # Agregar el ítem al usuario
             bot.answer_callback_query(call.id, f"Compraste {item_name} por {item_price} TP.")
             # Contar la compra y cerrar el mercader si se alcanzan las 3 compras
-            merchant_purchases[merchant_message_id] += 1
+            merchant_purchases[merchant_message_id] = merchant_purchases.get(merchant_message_id, 2) + 1
             if merchant_purchases[merchant_message_id] >= max_purchases:
                 close_merchant(merchant_message_id)
         else:
