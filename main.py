@@ -234,7 +234,7 @@ def throw_ball_handler(call, ball_type):
     try:
         message_id = int(call.data.split(":")[1])
         user_id = call.from_user.id
-        if capture_locks[message_id] is not user_id:
+        if capture_locks[message_id] != user_id:
             bot.answer_callback_query(call.id, random.choice(["¡Muy tarde! Alguien más está capturando al Pokémon.", "¡Yasper, otro lo está agarrando!", "¡Metiche!"]))
             return
         username = call.from_user.username
