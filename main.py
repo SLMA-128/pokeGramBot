@@ -62,7 +62,7 @@ commands=[
     {"command": "combate", "description": "Inicia un combate con un Pokémon aleatorio tuyo."},
     {"command": "iniciar", "description": "El bot saludará."},
     {"command": "jugadores", "description": "Muestra una lista con todos los jugadores del grupo."},
-    {"command": "mercader", "description": "Llama al mercader."},
+    {"command": "mercader", "description": "Llama al mercader. Ten cuidado con ese estafador."},
     {"command": "micoleccion", "description": "Muestra cuantos pokemones vas atrapando."},
     {"command": "mispokemones", "description": "Muestra cuantos pokemones tienes en total."},
     {"command": "mistitutlos", "description": "Muestra tus titulos con sus descripciones."},
@@ -273,7 +273,7 @@ def close_merchant(merchant_message_id):
         if merchant_message_id in active_merchant_messages:
             chat_id = active_merchant_messages.pop(merchant_message_id)
             try:
-                msg = bot.edit_message_text("Ya hemos cerrado, vuelve más tarde.", chat_id, merchant_message_id)
+                msg = bot.edit_message_text("Volveré más tarde con mas mercancía.", chat_id, merchant_message_id)
                 threading.Timer(10, lambda: bot.delete_message(chat_id=chat_id, message_id=msg.message_id)).start()
             except Exception as e:
                 logger.warning(f"No se pudo editar o eliminar el mensaje del mercader: {e}")
@@ -776,14 +776,14 @@ def merchant_handler(message):
         if not check_active_hours():
             return
         if any(merchant_timers.values()):
-            msg = bot.reply_to(message, "El mercader ya fue llamado, espera a que se vaya o buscalo.")
+            msg = bot.reply_to(message, "El mercader ya está aquí, búscalo o espera a que se vaya.")
             threading.Timer(10, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
             return
         user_id = message.from_user.id
         current_time = time.time()
         # Verificar cooldown
         if user_id in merchant_cooldowns and current_time - merchant_cooldowns[user_id] < merchant_cooldown:
-            msg = bot.reply_to(message, "El puesto está completamente vacio con un unico cartel que dice 'Vuelve más tarde'.")
+            msg = bot.reply_to(message, "El puesto está completamente vacío con un único cartel que dice 'Vuelve más tarde'.")
             threading.Timer(10, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
             return
         # Registrar cooldown
