@@ -138,7 +138,7 @@ def get_user_data(user_data):
     # Mensaje de respuesta
     profile_text = (
         f"\U0001F4DC *Perfil de {user_data['name']}*\n"
-        f"\U0001F4B0 Trainer Points (TP): {str(trainerPoints)}"
+        f"\U0001F4B0 Trainer Points (TP): {str(trainerPoints)}\n"
         f"\U0001F4E6 Pokémones Capturados: {user_data.get('total_pokemons', 0)}\n"
         f"\U0001F31F Shiny Capturados: {user_data.get('total_shiny', 0)}\n"
         f"\U0001F3AF Winrate: {str(winrate)}%\n"
@@ -321,7 +321,7 @@ def generate_help_message(message):
     try:
         if not check_active_hours():
             return
-        help_text = "\U0001F4DC Probabilidad de captura de Pokémones\n\U0001F538 Nivel 1:\nComún: 80%\nShiny:56%\nLegendario:64%\n\n\U0001F4E6 Items y Acciones:\n\U0001F352 Baya: Incrementa la probabilidad de atrapar el bicho en 17.65%.\n\U0001F4AA Arrojar Pokebola con fuerza: Facilita captura de bichos que tengan con un nivel entre 50 y 70 en un 15%. De lo contrario la aumenta la dificultad un 30%.\n\U0001F535 SuperBola: Facilita la captura de bichos en un 20%.\n\U0001F7E1 Ultrabola: Facilita la captura de bichos en un 30%.\n\U0001F7E3 BolaMaestra: Facilita la captura de bichos en un 100%.\n\n\u26A0IMPORTANTe: Este valor solo puede usarse como referencia. ¡La probabilidad real es afectada por un valor aleatorio que puede disminuir la probabilidad de captura!"
+        help_text = "\U0001F4DC Probabilidad de captura de Pokémones\n\U0001F538 Nivel 1:\n\U0001F4A0 Común: 80%\n\U0001F31F Shiny: 56%\n\U0001F48E Legendario: 64%\n\n\U0001F4E6 Items y Acciones:\n\U0001F352 Baya: Incrementa la probabilidad de atrapar el bicho en 17.65%.\n\U0001F4AA Arrojar Pokebola con fuerza: Facilita captura de bichos que tengan con un nivel entre 50 y 70 en un 15%. De lo contrario la aumenta la dificultad un 30%.\n\U0001F535 SuperBola: Facilita la captura de bichos en un 20%.\n\U0001F7E1 Ultrabola: Facilita la captura de bichos en un 30%.\n\U0001F7E3 BolaMaestra: Facilita la captura de bichos en un 100%.\n\n\u26A0IMPORTANTE: Este valor solo puede usarse como referencia. ¡La probabilidad real es afectada por un valor aleatorio que puede disminuir la probabilidad de captura!"
         msg_cd = bot.reply_to(message, help_text)
         threading.Timer(90, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
     except Exception as e:
@@ -790,12 +790,18 @@ def merchant_handler(message):
         # Registrar cooldown
         merchant_cooldowns[user_id] = current_time
         items = userEvents.getItems()
+        item_icons = {
+            "Baya" : "\U0001F352",
+            "SuperBall" : "\U0001F535",
+            "UltraBall" : "\U0001F7E1",
+            "MasterBall" : "\U0001F7E3"
+        }
         sobreprecio = 1 + (random.randint(0,10)/10)
         # Crear botones con los items disponibles
         markup = InlineKeyboardMarkup()
         for item in items:
             precio = int(float(item['price']) * sobreprecio)
-            button = InlineKeyboardButton(f"{item['name']} - {str(precio)} TP", callback_data=f"buy_item:{item['name']}:{str(precio)}")
+            button = InlineKeyboardButton(f"{item_icons.get(item['name'], '\U0001F4E6')} {item['name']} - {str(precio)} TP", callback_data=f"buy_item:{item['name']}:{str(precio)}")
             markup.add(button)
         # Enviar mensaje del mercader
         merchant_message = bot.send_message(group_id, "Hola soy Mercamon el Estafador, ¿qué quieres comprar?", reply_markup=markup, message_thread_id=topic_id)
@@ -964,7 +970,7 @@ def accept_duel(call):
         userEvents.updateCombatResults(winner, loser, winner_pokemon, new_level)
         # responce msg
         response = (
-            f"\u2694 {challenger} ({challenger_pokemon['name']} Nv.{challenger_pokemon['level']}) vs {opponent} ({opponent_pokemon['name']} Nv.{opponent_pokemon['level']})!\n\n"
+            f"\u2694 {challenger} ({'\U0001F48E' if challenger_pokemon['isLegendary'] else ''}{challenger_pokemon['name']}{'\U0001F31F' if challenger_pokemon['isShiny'] else ''} Nv.{challenger_pokemon['level']}) vs {opponent} ({'\U0001F48E' if opponent_pokemon['isLegendary'] else ''}{opponent_pokemon['name']}{'\U0001F31F' if opponent_pokemon['isShiny'] else ''} Nv.{opponent_pokemon['level']})!\n\n"
             f"\U0001F3C6 {'¡' + opponent + ' gana!' if result else '¡' + challenger + ' gana!'}\n\n"
             f"\u274C {loser} pierde a su {loser_pokemon['name']}!\n\n"
             f"{(f"\U0001F53C {winner}'s {winner_pokemon['name']} ha subido de nivel! Ahora es Nv.{new_level}!") if leveled_up else ''}"
