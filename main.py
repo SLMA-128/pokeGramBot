@@ -66,6 +66,7 @@ commands=[
     {"command": "micoleccion", "description": "Muestra cuantos pokemones vas atrapando."},
     {"command": "mispokemones", "description": "Muestra cuantos pokemones tienes en total."},
     {"command": "mistitutlos", "description": "Muestra tus titulos con sus descripciones."},
+    {"command": "mochila", "description": "Muestra tus items y la cantidad de cada uno."},
     {"command": "perfil", "description": "Muestra tu perfil o el de algun otro jugador."},
     {"command": "pokedex", "description": "Muestra los datos de Pokémon a partir de su ID o Nombre."},
     {"command": "registrar", "description": "Registra tu nombre de usuario."},
@@ -199,12 +200,12 @@ def captureCheck(pokemon, evento):
     if evento == "normal":
         success_value = 85
     elif evento == "fuerte":
-        if pokemon["level"] > 50:
+        if pokemon["level"] > 50 and pokemon["level"] < 70:
             capture_check -= 15
         else:
             capture_check += 30
     elif evento == "baya":
-        success_value = 95
+        success_value = 100
     elif evento == "superball":
         capture_check -= 20
     elif evento == "ultraball":
@@ -320,7 +321,7 @@ def generate_help_message(message):
     try:
         if not check_active_hours():
             return
-        help_text = "\U0001F4DC Probabilidad de captura de Pokémones\n\U0001F538Nivel 1:\nComún: 80%\nShiny:56%\nLegendario:64%\n\n\U0001F539Nivel 100:\nComún: 39%\nShiny:30%\nLegendario: 33%\nLegendario y Shiny: 25%\n\n\u26A0IMPORTANTe: Este valor solo puede usarse como referencia para capturas normales. ¡La probabilidad real es afectada por un valor aleatorio que puede disminuir la probabilidad de captura!"
+        help_text = "\U0001F4DC Probabilidad de captura de Pokémones\n\U0001F538 Nivel 1:\nComún: 80%\nShiny:56%\nLegendario:64%\n\n\U0001F4E6 Items y Acciones:\n\U0001F352 Baya: Incrementa la probabilidad de atrapar el bicho en 17.65%.\n\U0001F4AA Arrojar Pokebola con fuerza: Facilita captura de bichos que tengan con un nivel entre 50 y 70 en un 15%. De lo contrario la aumenta la dificultad un 30%.\n\U0001F535 SuperBola: Facilita la captura de bichos en un 20%.\n\U0001F7E1 Ultrabola: Facilita la captura de bichos en un 30%.\n\U0001F7E3 BolaMaestra: Facilita la captura de bichos en un 100%.\n\n\u26A0IMPORTANTe: Este valor solo puede usarse como referencia. ¡La probabilidad real es afectada por un valor aleatorio que puede disminuir la probabilidad de captura!"
         msg_cd = bot.reply_to(message, help_text)
         threading.Timer(90, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
     except Exception as e:
@@ -422,12 +423,12 @@ def capture_pokemon_handler(call):
             return
         message_text = f"{username}, estás delante de {pokemon['name']}, ¿qué vas a hacer?"
         markup = InlineKeyboardMarkup()
-        markup.add(InlineKeyboardButton("¡Lanzar Pokebola!", callback_data=f"throw_pokeball:{message_id}"))
-        markup.add(InlineKeyboardButton("¡Lanzar Pokebola muy fuerte!", callback_data=f"throw_strong_pokeball:{message_id}"))
-        markup.add(InlineKeyboardButton("¡Lanzar Superbola!", callback_data=f"throw_superball:{message_id}"))
-        markup.add(InlineKeyboardButton("¡Lanzar Ultrabola!", callback_data=f"throw_ultraball:{message_id}"))
-        markup.add(InlineKeyboardButton("¡Lanzar BolaMaestra!", callback_data=f"throw_masterball:{message_id}"))
-        markup.add(InlineKeyboardButton("¡Usar baya y lanzar Pokebola!", callback_data=f"use_furit_and_throw_pokeball:{message_id}"))
+        markup.add(InlineKeyboardButton("\U0001F534 ¡Lanzar Pokebola!", callback_data=f"throw_pokeball:{message_id}"))
+        markup.add(InlineKeyboardButton("\U0001F4AA ¡Lanzar Pokebola muy fuerte!", callback_data=f"throw_strong_pokeball:{message_id}"))
+        markup.add(InlineKeyboardButton("\U0001F352 ¡Usar baya y lanzar Pokebola!", callback_data=f"use_furit_and_throw_pokeball:{message_id}"))
+        markup.add(InlineKeyboardButton("\U0001F535 ¡Lanzar Superbola!", callback_data=f"throw_superball:{message_id}"))
+        markup.add(InlineKeyboardButton("\U0001F7E1 ¡Lanzar Ultrabola!", callback_data=f"throw_ultraball:{message_id}"))
+        markup.add(InlineKeyboardButton("\U0001F7E3 ¡Lanzar BolaMaestra!", callback_data=f"throw_masterball:{message_id}"))
         bot.edit_message_text(message_text, call.message.chat.id, call.message.message_id, reply_markup=markup)
     except Exception as e:
         if "query is too old" in str(e):  # Handle expired callback queries gracefully
@@ -807,6 +808,30 @@ def merchant_handler(message):
         merchant_timers[merchant_message_id].start()
     except Exception as e:
         logger.error(f"Error durante /mercader: {e}")
+
+# Bot command handler for /mochila
+@bot.message_handler(commands=['mochila'])
+def inventory_handler(message):
+    try:
+        if not check_active_hours():
+            return
+        username = message.from_user.username
+        if checkUserExistence(username):
+            return
+        user_inventory = userEvents.getItemsFromUser(username)
+        item_icons = {
+            "Baya" : "\U0001F352",
+            "SuperBall" : "\U0001F535",
+            "UltraBall" : "\U0001F7E1",
+            "MasterBall" : "\U0001F7E3"
+        }
+        items_list = "\n".join([f"{item_icons.get(item['item'], '\U0001F4E6')} {item['item']}: {item['amount']}" for item in user_inventory])
+        response = f"\U0001F392 *Mochila de {username}:*\n{items_list}"
+        escape_markdown(response)
+        msg = bot.send_message(group_id, response, parse_mode="Markdown", message_thread_id=topic_id)
+        threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()  # Borrar el mensaje después de 30 segundos
+    except Exception as e:
+        logger.error(f"Error durante /mochila: {e}")
 
 # Callback query handler for the buttons to buy items
 @bot.callback_query_handler(func=lambda call: call.data.startswith("buy_item:"))
