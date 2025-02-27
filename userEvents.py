@@ -307,6 +307,10 @@ def addPokemonCaptured(pokemon, username):
         # Buscar el usuario y agregar el pokemon
         # Incrementar el contador total de Pokémon atrapados
         trainer_points = int(pokemon["level"] // 5 + 10)
+        if pokemon['isShiny']:
+            trainer_points += 20  # Aumentar puntos por shiny
+        if pokemon['isLegendary']:
+            trainer_points *= 3  # Aumentar puntos por legendario
         update_user_stats = {
             "$inc": {"total_pokemons": 1, "trainerPoints": trainer_points}  # Se incrementa con cada captura
         }
