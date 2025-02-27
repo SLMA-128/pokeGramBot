@@ -166,21 +166,30 @@ def check_active_hours():
     return True
 
 # Function for the escaping pokemon
-def pokemon_escape(pokemon, group_id, message_id):
+def pokemon_escape(pokemon, group_id, message_id, username):
     try:
-        escape_msgs = [f"\U0001F4A8 ¡El {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje se ha escapado!",
-                       f"\U0001F4A8 ¡Alguien tiro una piedra e hizo que el {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje se escapara!",
-                       f"\U0001F4A8 ¡El {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje vio un mal meme y se escapó!",
-                       f"\U0001F4A8 ¡El {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje estaba un poco asustado y se escapó!",
-                       f"\U0001F4A8 ¡El {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje vio a alguien bajarse los pantalones y se escapó!",
-                       f"\U0001F4A8 ¡El {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje esquivo una pokebola y se escapó!",
-                       f"\U0001F4A8 ¡El {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje era en realidad un muñeco falso!",
-                       f"\U0001F4A8 ¡El {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje era en realidad un Ditto y se escapó!",
-                       f"\U0001F480 ¡Una pokebola fue arrojada tan fuerte que mato al {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']}!",
-                       f"\U0001F480 ¡El {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje se suicidó para que no lo capturaran!"]
+        escape_msgs = [
+            f"\U0001F4A8 ¡El {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje se ha escapado!",
+            f"\U0001F4A8 ¡El {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje vio un mal meme y se escapó!",
+            f"\U0001F480 ¡El {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje se ha escapado porque no le prestaban atención!",
+            f"\U0001F480 ¡El {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje se suicidó porque no le prestaban atención!"
+        ]
+        escape_msgs_with_username = [
+            f"\U0001F4A8 ¡A {username} se le ha escapado el {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje!",
+            f"\U0001F4A8 ¡{username} tiro una piedra e hizo que el {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje se escapara!",
+            f"\U0001F4A8 ¡{username} le mostró un mal meme al {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje y se escapó!",
+            f"\U0001F4A8 ¡{username} asustó al {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje y se escapó!",
+            f"\U0001F4A8 ¡El {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje vio a {username} bajarse los pantalones y se escapó!",
+            f"\U0001F4A8 ¡El {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje esquivo una pokebola de {username} y se escapó!",
+            f"\U0001F4A8 ¡El {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje era en realidad un muñeco falso!",
+            f"\U0001F4A8 ¡El {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje era en realidad un Ditto y se escapó!",
+            f"\U0001F480 ¡{username} arrojó una pokebola tan fuerte que mató al {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje!",
+            f"\U0001F480 ¡El {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']} salvaje se suicidó para que {username} no lo capturara!"
+        ]
         # Notify the group that the Pokémon escaped
+        response = random.choice(escape_msgs) if username=='' else random.choice(escape_msgs_with_username)
         bot.edit_message_text(
-            random.choice(escape_msgs),
+            response,
             chat_id=group_id,
             message_id=message_id
         )
@@ -264,7 +273,7 @@ def throw_ball_handler(call, ball_type):
             del spawned_pokemons[call.message.message_id]
             del capture_locks[message_id]
         else:
-            pokemon_escape(pokemon, call.message.chat.id, call.message.message_id)
+            pokemon_escape(pokemon, call.message.chat.id, call.message.message_id, username)
     except Exception as e:
         logger.error(f"Error durante {ball_type} capture: {e}")
 
@@ -396,7 +405,7 @@ def spawn_pokemon_handler(message):
                 parse_mode='Markdown'
             )
             spawned_pokemons[msg.message_id] = pokemon
-            timer = threading.Timer(180.0, pokemon_escape, args=[pokemon, group_id, msg.message_id])
+            timer = threading.Timer(180.0, pokemon_escape, args=[pokemon, group_id, msg.message_id, ''])
             capture_timers[msg.message_id] = timer
             timer.start()
         else:
