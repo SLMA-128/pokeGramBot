@@ -54,6 +54,8 @@ merchant_despawn_time = 300  # 5 minutos
 max_purchases = 3  # Límite de compras antes de que desaparezca
 # Dictionary to track combats
 ongoing_combats = {}
+combat_cooldowns = {}
+combat_cooldown = 60
 # Commands
 commands=[
     {"command": "ayuda", "description": "Muestra la lista de comandos."},
@@ -215,7 +217,7 @@ def captureCheck(pokemon, evento):
         else:
             capture_check += 30
     elif evento == "baya":
-        success_value = 100
+        success_value = 95
     elif evento == "superball":
         capture_check -= 20
     elif evento == "ultraball":
@@ -331,7 +333,7 @@ def generate_help_message(message):
     try:
         if not check_active_hours():
             return
-        help_text = "\U0001F4DC Probabilidad de captura de Pokémones\n\U0001F538 Nivel 1:\n\U0001F4A0 Común: 80%\n\U0001F31F Shiny: 56%\n\U0001F48E Legendario: 64%\n\n\U0001F4E6 Items y Acciones:\n\U0001F352 Baya: Incrementa la probabilidad de atrapar el bicho en 17.65%.\n\U0001F4AA Arrojar Pokebola con fuerza: Facilita captura de bichos que tengan con un nivel entre 50 y 70 en un 15%. De lo contrario la aumenta la dificultad un 30%.\n\U0001F535 SuperBola: Facilita la captura de bichos en un 20%.\n\U0001F7E1 Ultrabola: Facilita la captura de bichos en un 30%.\n\U0001F7E3 BolaMaestra: Facilita la captura de bichos en un 100%.\n\n\u26A0IMPORTANTE: Este valor solo puede usarse como referencia. ¡La probabilidad real es afectada por un valor aleatorio que puede disminuir la probabilidad de captura!"
+        help_text = "\U0001F4DC Probabilidad de captura de Pokémones\n\U0001F538 Nivel 1:\n\U0001F4A0 Común: 80%\n\U0001F31F Shiny: 56%\n\U0001F48E Legendario: 64%\n\n\U0001F4E6 Items y Acciones:\n\U0001F352 Baya: Incrementa la probabilidad de atrapar el bicho en 5%.\n\U0001F4AA Arrojar Pokebola con fuerza: Facilita captura de bichos que tengan con un nivel entre 50 y 70 en un 15%. De lo contrario la aumenta la dificultad un 30%.\n\U0001F535 SuperBola: Facilita la captura de bichos en un 20%.\n\U0001F7E1 Ultrabola: Facilita la captura de bichos en un 30%.\n\U0001F7E3 BolaMaestra: Facilita la captura de bichos en un 100%.\n\n\u26A0IMPORTANTE: Este valor solo puede usarse como referencia. ¡La probabilidad real es afectada por un valor aleatorio que puede disminuir la probabilidad de captura!"
         msg_cd = bot.reply_to(message, help_text)
         threading.Timer(90, lambda: bot.delete_message(chat_id=group_id, message_id=msg_cd.message_id)).start()
     except Exception as e:
@@ -806,10 +808,10 @@ def merchant_handler(message):
             "UltraBall" : "\U0001F7E1",
             "MasterBall" : "\U0001F7E3"
         }
-        sobreprecio = 1 + (random.randint(0,10)/10)
         # Crear botones con los items disponibles
         markup = InlineKeyboardMarkup()
         for item in items:
+            sobreprecio = 1 + (random.randint(0,10)/10)
             precio = int(float(item['price']) * sobreprecio)
             button = InlineKeyboardButton(f"{item_icons.get(item['name'], '\U0001F4E6')} {item['name']} - {str(precio)} TP", callback_data=f"buy_item:{item['name']}:{str(precio)}")
             markup.add(button)
@@ -843,7 +845,7 @@ def inventory_handler(message):
             "MasterBall" : "\U0001F7E3"
         }
         items_list = "\n".join([f"{item_icons.get(item['item'], '\U0001F4E6')} {item['item']}: {item['amount']}" for item in user_inventory])
-        response = f"\U0001F392 *Mochila de {username}:*\n\U0001F4B0 Puntos de Entrenador (TP):{str(user_tp)}\n\U0001F4E6 Objetos:\n{items_list}"
+        response = f"\U0001F392 *Mochila de {username}:*\n\U0001F4B0 Puntos de Entrenador (TP): {str(user_tp)}\n{items_list}"
         escape_markdown(response)
         msg = bot.send_message(group_id, response, parse_mode="Markdown", message_thread_id=topic_id)
         threading.Timer(30, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()  # Borrar el mensaje después de 30 segundos
@@ -900,11 +902,17 @@ def start_combat(message):
     try:
         if not check_active_hours():
             return
+        username = message.from_user.username
+        current_time = time.time()
+        if username in combat_cooldowns and (current_time - combat_cooldowns[username]) < combat_cooldown:
+            remaining_time = int(combat_cooldown - (current_time - combat_cooldowns[username]))
+            msg = bot.reply_to(message, f"\u23F3 Debes esperar {remaining_time} segundos antes de iniciar otro combate.")
+            threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
+            return
         if combat_manager.is_combat_active():
             msg = bot.reply_to(message, "\u26A0 Ya hay un combate en curso. Espera a que termine.")
             threading.Timer(5, lambda: bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)).start()
             return
-        username = message.from_user.username
         user_pokemon = userEvents.getRandomPokemonCaptured(username)
         if not user_pokemon:
             msg = bot.reply_to(message, "\u26A0 No tienes Pokémon para combatir.")
@@ -922,6 +930,7 @@ def start_combat(message):
         )
         # Registrar el combate en el CombatManager
         combat_manager.start_combat(username, user_pokemon, msg.message_id)
+        combat_cooldowns[username] = current_time
         # Temporizador para cancelar el combate en 2 minutos si no es aceptado
         threading.Timer(120, cancel_combat).start()
     except Exception as e:
