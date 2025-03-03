@@ -195,15 +195,15 @@ titles = [
 items = [
     {
         "name": "Baya",
-        "price": 100
+        "price": 50
     },
     {
         "name": "SuperBall",
-        "price": 500
+        "price": 200
     },
     {
         "name": "UltraBall",
-        "price": 1000
+        "price": 500
     },
     {
         "name": "MasterBall",
