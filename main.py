@@ -267,9 +267,9 @@ def throw_ball_handler(call, ball_type):
             if message_id in capture_timers:
                 capture_timers[call.message.message_id].cancel()
                 del capture_timers[call.message.message_id]
-                response = f"\U0001F3C6 ¡{username} capturó un {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']}!"
+                response = f"\U0001F3C6 ¡{escape_markdown(username)} capturó un {'\U0001F48E' if pokemon['isLegendary'] else ''}{pokemon['name']}{'\U0001F31F' if pokemon['isShiny'] else ''} {'\u2642' if pokemon['gender']=='Male' else '\u2640' if pokemon['gender']=='Female' else ''} Nv.{pokemon['level']}!"
                 bot.edit_message_text(
-                    escape_markdown(response),
+                    response,
                     call.message.chat.id,
                     call.message.message_id,
                     parse_mode="Markdown"
