@@ -434,14 +434,29 @@ def capture_pokemon_handler(call):
         if pokemon is None:
             bot.answer_callback_query(call.id, "Pokémon no encontrado.")
             return
+        user_inventory = userEvents.getItemsFromUser(username)
+        # save every item amount in differenet vars
+        cant_b = 0
+        cant_sb = 0
+        cant_ub = 0
+        cant_mb = 0
+        for item in userEvents.getItems():
+            if item["name"] == "Baya":
+                cant_b = item["amount"]
+            elif item["name"] == "SuperBall":
+                cant_sb = item["amount"]
+            elif item["name"] == "UltraBall":
+                cant_ub = item["amount"]
+            elif item["name"] == "MasterBall":
+                cant_mb = item["amount"]
         message_text = f"{username}, estás delante de {pokemon['name']}, ¿qué vas a hacer?"
         markup = InlineKeyboardMarkup()
         markup.add(InlineKeyboardButton("\U0001F534 ¡Lanzar Pokebola!", callback_data=f"throw_pokeball:{message_id}"))
         markup.add(InlineKeyboardButton("\U0001F4AA ¡Lanzar Pokebola muy fuerte!", callback_data=f"throw_strong_pokeball:{message_id}"))
-        markup.add(InlineKeyboardButton("\U0001F352 ¡Usar baya y lanzar Pokebola!", callback_data=f"use_furit_and_throw_pokeball:{message_id}"))
-        markup.add(InlineKeyboardButton("\U0001F535 ¡Lanzar Superbola!", callback_data=f"throw_superball:{message_id}"))
-        markup.add(InlineKeyboardButton("\U0001F7E1 ¡Lanzar Ultrabola!", callback_data=f"throw_ultraball:{message_id}"))
-        markup.add(InlineKeyboardButton("\U0001F7E3 ¡Lanzar BolaMaestra!", callback_data=f"throw_masterball:{message_id}"))
+        markup.add(InlineKeyboardButton(f"\U0001F352 ¡Usar baya y lanzar Pokebola! (Tienes: {str(cant_b)})", callback_data=f"use_furit_and_throw_pokeball:{message_id}"))
+        markup.add(InlineKeyboardButton(f"\U0001F535 ¡Lanzar Superbola! (Tienes: {str(cant_sb)})", callback_data=f"throw_superball:{message_id}"))
+        markup.add(InlineKeyboardButton(f"\U0001F7E1 ¡Lanzar Ultrabola! (Tienes: {str(cant_ub)})", callback_data=f"throw_ultraball:{message_id}"))
+        markup.add(InlineKeyboardButton(f"\U0001F7E3 ¡Lanzar BolaMaestra! (Tienes: {str(cant_mb)})", callback_data=f"throw_masterball:{message_id}"))
         bot.edit_message_text(message_text, call.message.chat.id, call.message.message_id, reply_markup=markup)
     except Exception as e:
         if "query is too old" in str(e):  # Handle expired callback queries gracefully
